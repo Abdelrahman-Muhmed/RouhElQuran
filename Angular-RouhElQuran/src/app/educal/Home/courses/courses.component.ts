@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CoursesService } from 'src/app/Services/courses.service';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
     standalone: false
 })
 export class CoursesComponent implements OnInit {
-
+  courses: any[] = [];
   courseData = [
     {
       id: 1,
@@ -136,11 +137,24 @@ export class CoursesComponent implements OnInit {
       color: "blue-2"
     }
   ]
-  constructor() { 
-    
+
+
+  constructor(private _coursesService: CoursesService) {
+
   }
 
   ngOnInit(): void {
+
+    this.getCourses();
   }
 
+  getCourses() {
+    this._coursesService.getAllCourses().subscribe({
+      next: (response: any) => {
+        this.courses = response;
+        console.log(this.courses);
+      }
+
+    });
+  }
 }

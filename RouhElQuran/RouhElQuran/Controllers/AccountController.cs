@@ -60,6 +60,7 @@ namespace RouhElQuran.Controllers
                     await userManager.AddToRoleAsync(user, register.UserRole ?? "Student");
                     if (result.Succeeded)
                     {
+
                         var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                         var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, Request.Scheme);
                         var emailBody = $"Please click the link below to confirm your email: <a>{confirmationLink}</a>";

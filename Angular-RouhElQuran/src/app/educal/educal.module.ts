@@ -1,3 +1,4 @@
+
 import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -75,6 +76,9 @@ import { ContactMainComponent } from './contact/contact-main/contact-main.compon
 import { ContactAreaComponent } from './contact/contact-area/contact-area.component';
 import { ContactInfoComponent } from './contact/contact-info/contact-info.component';
 import { BlogTwoComponent } from './home-two/blog-two/blog-two.component';
+import { ReactiveFormsModule } from '@angular/forms';
+//import {  HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 @NgModule({
@@ -145,18 +149,26 @@ import { BlogTwoComponent } from './home-two/blog-two/blog-two.component';
     SignInMainComponent,
     SignInAreaComponent,
     SignUpMainComponent,
-    SignUpAreaComponent,
     ErrorPageComponent,
     ContactMainComponent,
     ContactAreaComponent,
     ContactInfoComponent,
     BlogTwoComponent,
+    SignUpAreaComponent
   ],
   imports: [
+    //HttpClientModule,
     CommonModule,
     RouterModule,
     MatTabsModule,
     SwiperModule,
+    ReactiveFormsModule,
+
+
+  ],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi())
+
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

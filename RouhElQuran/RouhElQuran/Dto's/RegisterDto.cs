@@ -13,7 +13,7 @@ namespace RouhElQuran.Dto_s
         public string LastName { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 2, ErrorMessage = "Country must be exactly 2 characters.")]
+        //[StringLength(20, MinimumLength = 2, ErrorMessage = "Country must be exactly 2 characters.")]
         public string Country { get; set; }
 
         [Required]
@@ -21,9 +21,9 @@ namespace RouhElQuran.Dto_s
         public string Email { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 20 characters.")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,20}$",
-            ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
+        //[StringLength(20, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 20 characters.")]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,20}$",
+        //    ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
         public string Password { get; set; }
 
         [Required]
@@ -34,7 +34,7 @@ namespace RouhElQuran.Dto_s
         [Required]
         public string Language { get; set; }
 
-        [RegularExpression(@"^.*\.(jpg|JPG|png|PNG)$", ErrorMessage = "Please select a valid JPG or PNG file.")]
+        //[RegularExpression(@"^.*\.(jpg|JPG|png|PNG)$", ErrorMessage = "Please select a valid JPG or PNG file.")]
         public IFormFile? PersonalImage { get; set; }
     }
 }

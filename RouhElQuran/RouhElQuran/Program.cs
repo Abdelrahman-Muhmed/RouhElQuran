@@ -94,13 +94,13 @@ namespace RouhElQuran
             // Configure the HTTP request pipeline
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseCors("Policy");
             app.UseRouting();
 
             app.UseAuthentication(); // Place authentication before authorization
             app.UseAuthorization();
 
-            app.UseCors("Policy");
+        
 
             app.MapControllers();
 

@@ -1,4 +1,7 @@
 import {
+  core_default
+} from "./chunk-YV7E3QSO.js";
+import {
   AsyncPipe,
   CommonModule,
   NgClass,
@@ -9,7 +12,7 @@ import {
   NgSwitchDefault,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-QGCVOSWS.js";
+} from "./chunk-2ZEZ2FHC.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -60,10 +63,7 @@ import {
   ɵɵtemplate,
   ɵɵtemplateRefExtractor,
   ɵɵviewQuery
-} from "./chunk-3YCZKW6Q.js";
-import {
-  core_default
-} from "./chunk-YV7E3QSO.js";
+} from "./chunk-5RF26RJV.js";
 import "./chunk-WDMUDEB6.js";
 
 // node_modules/swiper/angular/fesm2015/swiper_angular.mjs
