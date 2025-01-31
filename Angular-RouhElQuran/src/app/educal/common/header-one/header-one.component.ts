@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit,Input } from '@angular/core';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
     selector: 'app-header-one',
@@ -7,6 +8,28 @@ import { Component, HostListener, OnInit,Input } from '@angular/core';
     standalone: false
 })
 export class HeaderOneComponent implements OnInit {
+
+  userName: any;
+  isLogin = false;
+  constructor(private _authService:AuthService) {}
+
+  async ngOnInit(): Promise<void> {
+    this._authService.authStatus.subscribe((status:boolean) => {
+      this.isLogin = status;
+      if(status == true) {
+        this.userName =
+        this._authService.UserData[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+        ];
+      }
+    });
+    if (localStorage.getItem('token') != null) {
+      //When SaveUserLoginData is called, it emits an event that NavBarComponent listens
+      // for, updating the UI in real-time without requiring a page reload.
+      await this._authService.SaveUserLoginData();
+    }
+  }
+
 
   @Input () header__white : string | undefined
 
@@ -88,12 +111,7 @@ export class HeaderOneComponent implements OnInit {
     this.showPagesDropdown = !this.showPagesDropdown
   }
 
-  constructor() {
 
-  }
-
-  ngOnInit(): void {
-
-  }
+ 
 
 }

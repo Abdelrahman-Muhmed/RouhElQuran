@@ -9,7 +9,7 @@
     <img class="flower" src="assets/img/icon/sign/flower.png" alt="" />
   </div>
   <div class="container">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2">
         <div class="section__title-wrapper text-center mb-55">
           <h2 class="section__title">
@@ -19,7 +19,7 @@
           <p>I'm a subhead that goes with a story.</p>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="row">
       <div class="col-xxl-6 offset-xxl-3 col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
         <div class="sign__wrapper white-bg">
@@ -110,9 +110,9 @@
                   <div *ngIf="registerForm.get('email')?.getError('required')" class="alert alert-danger mt-2 p-2">
                     <strong>Error:</strong> Email is Required
                   </div>
-                  <!-- <div *ngIf="registerForm.get('email')?.getError('email')" class="alert alert-warning mt-2 p-2">
+                  <div *ngIf="registerForm.get('email')?.getError('email')" class="alert alert-warning mt-2 p-2">
                     <strong>Warning:</strong> Email Not Valid
-                  </div> -->
+                  </div>
                 </div>
               </div>
               <!-- PassWord -->
@@ -152,7 +152,7 @@
               <div class="sign__input-wrapper mb-25">
                 <h5> Confirm Password</h5>
                 <div class="sign__input">
-                  <input type="password" formControlName="confirmPassword" placeholder="Re-Password" />
+                  <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" />
                   <i class="fal fa-lock"></i>
                 </div>
                 <div

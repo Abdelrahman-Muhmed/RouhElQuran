@@ -1,64 +1,107 @@
 <section class="signup__area po-rel-z1 pt-100 pb-145">
   <div class="sign__shape">
-     <img class="man-1" src="assets/img/icon/sign/man-1.png" alt="">
-     <img class="man-2" src="assets/img/icon/sign/man-2.png" alt="">
-     <img class="circle" src="assets/img/icon/sign/circle.png" alt="">
-     <img class="zigzag" src="assets/img/icon/sign/zigzag.png" alt="">
-     <img class="dot" src="assets/img/icon/sign/dot.png" alt="">
-     <img class="bg" src="assets/img/icon/sign/sign-up.png" alt="">
+    <img class="man-1" src="assets/img/icon/sign/man-1.png" alt="">
+    <img class="man-2" src="assets/img/icon/sign/man-2.png" alt="">
+    <img class="circle" src="assets/img/icon/sign/circle.png" alt="">
+    <img class="zigzag" src="assets/img/icon/sign/zigzag.png" alt="">
+    <img class="dot" src="assets/img/icon/sign/dot.png" alt="">
+    <img class="bg" src="assets/img/icon/sign/sign-up.png" alt="">
   </div>
   <div class="container">
-     <div class="row">
-        <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2">
-           <div class="section__title-wrapper text-center mb-55">
-              <h2 class="section__title">Sign in to <br>  recharge direct.</h2>
-              <p>it you don't have an account you can <a href="#">Register here!</a></p>
-           </div>
+    <div class="row">
+      <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2">
+        <div class="section__title-wrapper text-center mb-55">
+          <h2 class="section__title">Sign in to <br> recharge direct.</h2>
+          <p>it you don't have an account you can <a href="#">Register here!</a></p>
         </div>
-     </div>
-     <div class="row">
-        <div class="col-xxl-6 offset-xxl-3 col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
-           <div class="sign__wrapper white-bg">
-              <div class="sign__header mb-35">
-                 <div class="sign__in text-center">
-                    <a href="#" class="sign__social text-start mb-15"><i class="fab fa-facebook-f"></i>Sign in with Facebook</a>
-                    <p> <span>........</span> Or, <a [routerLink]="['/sign-in']">sign in</a> with your email<span> ........</span> </p>
-                 </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xxl-6 offset-xxl-3 col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
+        <div class="sign__wrapper white-bg">
+          <div class="sign__header mb-35">
+            <div class="sign__in text-center">
+              <a href="#" class="sign__social text-start mb-15"><i class="fab fa-facebook-f"></i>Sign in with
+                Facebook</a>
+              <p> <span>........</span> Or, <a [routerLink]="['/sign-in']">sign in</a> with your email<span>
+                  ........</span> </p>
+            </div>
+          </div>
+          <div class="sign__form">
+            <form [formGroup]="loginForm" class="form login-form" id="login-form" (ngSubmit)="LoginData()">
+              <!-- Email -->
+              <div class="sign__input-wrapper mb-25">
+                <h5>Work email</h5>
+                <div class="sign__input">
+                  <!-- <input type="email" formControlName="email" placeholder="e-mail address" /> -->
+                  <input type="email" formControlName="email" placeholder="e-mail address" ng-reflect-name="email"
+                    class="ng-untouched ng-pristine ng-invalid" autocomplete="username">
+
+                  <i class="fal fa-envelope"></i>
+                </div>
+                <div *ngIf="loginForm.get('email')?.errors && loginForm.get('email')?.touched">
+                  <div *ngIf="loginForm.get('email')?.getError('required')" class="alert alert-danger mt-2 p-2">
+                    <strong>Error:</strong> Email is Required
+                  </div>
+                  <div *ngIf="loginForm.get('email')?.getError('email')" class="alert alert-warning mt-2 p-2">
+                    <strong>Warning:</strong> Email Not Valid
+                  </div>
+                </div>
               </div>
-              <div class="sign__form">
-                 <form action="#">
-                    <div class="sign__input-wrapper mb-25">
-                       <h5>Work email</h5>
-                       <div class="sign__input">
-                          <input type="text" placeholder="e-mail address">
-                          <i class="fal fa-envelope"></i>
-                       </div>
-                    </div>
-                    <div class="sign__input-wrapper mb-10">
-                       <h5>Password</h5>
-                       <div class="sign__input">
-                          <input type="text" placeholder="Password">
-                          <i class="fal fa-lock"></i>
-                       </div>
-                    </div>
-                    <div class="sign__action d-sm-flex justify-content-between mb-30">
-                       <div class="sign__agree d-flex align-items-center">
-                          <input class="m-check-input" type="checkbox" id="m-agree">
-                          <label class="m-check-label" for="m-agree">Keep me signed in
-                             </label>
-                       </div>
-                       <div class="sign__forgot">
-                          <a href="#">Forgot your password?</a>
-                       </div>
-                    </div>
-                    <button class="e-btn  w-100"> <span></span> Sign In</button>
-                    <div class="sign__new text-center mt-20">
-                       <p>New to Educal? <a [routerLink]="['/sign-up']">Sign Up</a></p>
-                    </div>
-                 </form>
+
+              <!-- PassWord -->
+              <div class="sign__input-wrapper mb-25">
+                <h5>Password</h5>
+                <div class="sign__input">
+                  <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password" /> -->
+                  <input type="password" formControlName="password" placeholder="Password"
+                    class="form-control ng-dirty ng-valid ng-touched" ng-reflect-name="password"
+                    autocomplete="current-password">
+
+                  <i class="fal fa-lock"></i>
+                </div>
+                <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched">
+                  <div *ngIf="loginForm.get('password')?.getError('required')" class="alert alert-danger mt-2 p-2">
+                    <strong>Error:</strong> Password is Required
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.getError('lowercase')" class="alert alert-warning mt-2 p-2">
+                    <strong>Warning:</strong> Password must contain at least one lowercase letter
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.getError('uppercase')" class="alert alert-warning mt-2 p-2">
+                    <strong>Warning:</strong> Password must contain at least one uppercase letter
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.getError('number')" class="alert alert-warning mt-2 p-2">
+                    <strong>Warning:</strong> Password must contain at least one number
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.getError('special')" class="alert alert-warning mt-2 p-2">
+                    <strong>Warning:</strong> Password must contain at least one special character
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.getError('length')" class="alert alert-warning mt-2 p-2">
+                    <strong>Warning:</strong> Password must be between 6 and 20 characters long
+                  </div>
+                </div>
               </div>
-           </div>
+
+
+              <div class="sign__action d-sm-flex justify-content-between mb-30">
+                <div class="sign__agree d-flex align-items-center">
+                  <input class="m-check-input" type="checkbox" id="m-agree">
+                  <label class="m-check-label" for="m-agree">Keep me signed in
+                  </label>
+                </div>
+                <div class="sign__forgot">
+                  <a href="#">Forgot your password?</a>
+                </div>
+              </div>
+              <button type="submit" class="e-btn  w-100"> <span></span> Sign In<i *ngIf="isLoading"
+                  class="fas fa-spinner fa-spin"></i></button>
+              <div class="sign__new text-center mt-20">
+                <p>New to Educal? <a [routerLink]="['/sign-up']">Sign Up</a></p>
+              </div>
+            </form>
+          </div>
         </div>
-     </div>
+      </div>
+    </div>
   </div>
 </section>
