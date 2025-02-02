@@ -68,35 +68,40 @@
             <div class="main-menu" [class.main-menu-3]="header__white">
               <nav id="mobile-menu" class="d-none d-xl-block">
                 <ul>
-                  <li class="has-dropdown">
+                  <!-- <li class="has-dropdown">
 
                     <a [routerLink]="['/']">Home</a>
                     <ul class="submenu">
-                      <li><a [routerLink]="['/home']">Home Style 1</a></li>
-                      <li><a [routerLink]="['/home-two']">Home Style 2</a></li>
                       <li><a [routerLink]="['/home-three']">Home Style 3</a></li>
                     </ul>
-                  </li>
-                  <li class="has-dropdown">
+                  </li> -->
+                  <li><a [routerLink]="['/']">Home</a></li>
+
+                  <!-- <li class="has-dropdown">
                     <a [routerLink]="['/courses']">Courses</a>
-
-
                     <ul class="submenu">
                       <li><a [routerLink]="['/courses']">Courses</a></li>
                       <li><a [routerLink]="['/courses-list']">Course List</a></li>
                       <li><a [routerLink]="['/courses-sidebar']">Course sidebar</a></li>
                       <li><a [routerLink]="['/course-details']">Course Details</a></li>
                     </ul>
-                  </li>
-                  <li class="has-dropdown">
+                  </li> -->
+                  <li><a [routerLink]="['/courses-sidebar']">Courses</a></li>
+
+                  <!-- <li class="has-dropdown">
                     <a [routerLink]="['/blog']">Blog</a>
                     <ul class="submenu">
                       <li><a [routerLink]="['/blog']">Blog</a></li>
                       <li><a [routerLink]="['/blog-details']">Blog Details</a></li>
                     </ul>
-                  </li>
+                  </li> -->
+
+
+                  <li><a [routerLink]="['/blog']">Blog</a></li>
+
+
                   <li class="has-dropdown">
-                    <a [routerLink]="['/courses']">Pages</a>
+                    <a [routerLink]="['/courses']">Go To</a>
                     <ul class="submenu">
                       <li><a [routerLink]="['/about']">About</a></li>
                       <li><a [routerLink]="['/instructor']">Instructor</a></li>
@@ -105,20 +110,20 @@
                       <li><a [routerLink]="['/cart']">My Cart</a></li>
                       <li><a [routerLink]="['/wishlist']">My Wishlist</a></li>
                       <li><a [routerLink]="['/checkout']">checkout</a></li>
-                      <li><a [routerLink]="['/sign-in']">Sign In</a></li>
+                      <!-- <li><a [routerLink]="['/sign-in']">Sign In</a></li>
                       <li><a [routerLink]="['/sign-up']">Sign Up</a></li>
-                      <li><a [routerLink]="['/error']">Error</a></li>
+                      <li><a [routerLink]="['/error']">Error</a></li> -->
                     </ul>
                   </li>
                   <li><a [routerLink]="['/contact']">Contact</a></li>
-                  <a [routerLink]="['/courses']"> {{userName}}</a>
+                  <li><a [routerLink]="['/courses']"> {{userName}}</a></li>
                 </ul>
               </nav>
             </div>
             <div class="header__search p-relative ml-50 d-none d-md-block">
               <form action="#">
                 <input type="text" placeholder="Search...">
-                <button type="submit"><i class="fad fa-search"></i></button>
+                <button type="submit" title="Search"><i class="fad fa-search"></i></button>
               </form>
               <div class="header__cart" (click)="handleCartToggle()">
                 <a href="javascript:void(0);" class="cart-toggle-btn">
@@ -157,7 +162,7 @@
       <h4>Shopping cart</h4>
     </div>
     <div class="cartmini__close" (click)="handleCartClose()">
-      <button type="button" class="cartmini__close-btn">
+      <button type="button" class="cartmini__close-btn" title="Close">
         <i class="fal fa-times"></i></button>
     </div>
     <div class="cartmini__widget">
@@ -173,7 +178,7 @@
               <h5><a href="#">Strategy law and organization Foundation </a></h5>
               <div class="product-quantity mt-10 mb-10">
                 <span (click)="handleDecreaseCart('one')" class="cart-minus">-</span>
-                <input class="cart-input" type="text" value="{{count}}" />
+                <input class="cart-input" type="text" value="{{count}}" title="Quantity" placeholder="Enter quantity" />
                 <span (click)="handleAddCart('one')" class="cart-plus">+</span>
               </div>
               <div class="product__sm-price-wrapper">
@@ -192,7 +197,8 @@
               <h5><a href="#">Fundamentals of music theory Learn new</a></h5>
               <div class="product-quantity mt-10 mb-10">
                 <span (click)="handleDecreaseCart('two')" class="cart-minus">-</span>
-                <input class="cart-input" type="text" value="{{countTwo}}" />
+                <input class="cart-input" type="text" value="{{countTwo}}" title="Quantity"
+                  placeholder="Enter quantity" />
                 <span (click)="handleAddCart('two')" class="cart-plus">+</span>
               </div>
               <div class="product__sm-price-wrapper">
@@ -211,7 +217,8 @@
               <h5><a href="#">Strategy law and organization Foundation </a></h5>
               <div class="product-quantity mt-10 mb-10">
                 <span (click)="handleDecreaseCart('three')" class="cart-minus">-</span>
-                <input class="cart-input" type="text" value="{{countThree}}" />
+                <input class="cart-input" type="text" value="{{countThree}}" title="Quantity"
+                  placeholder="Enter quantity" />
                 <span (click)="handleAddCart('three')" class="cart-plus">+</span>
               </div>
               <div class="product__sm-price-wrapper">
@@ -259,7 +266,7 @@
       <div class="side-info-content sidebar-menu mm-menu">
 
         <ul>
-          <li class="menu-item-has-children has-droupdown" [class.active]="showHomeDropdown">
+          <!-- <li class="menu-item-has-children has-droupdown" [class.active]="showHomeDropdown">
             <a (click)="homeDropdown()">Home</a>
             <ul class="sub-menu" [class.active]="showHomeDropdown">
               <li>
@@ -272,8 +279,12 @@
                 <a [routerLink]="['/home-three']">Home Style 3</a>
               </li>
             </ul>
+          </li> -->
+          <li>
+            <a [routerLink]="['/']">Home</a>
           </li>
 
+          <!--
           <li class="menu-item-has-children has-droupdown" [class.active]="showCoursesDropdown">
             <a (click)="coursesDropdown()">Courses</a>
             <ul class="sub-menu" [class.active]="showCoursesDropdown">
@@ -290,19 +301,28 @@
                 <a [routerLink]="['/course-details']">Course Details</a>
               </li>
             </ul>
+          </li> -->
+
+
+          <li>
+            <a [routerLink]="['/courses-sidebar']">Course sidebar </a>
           </li>
 
-          <li class="menu-item-has-children has-droupdown" [class.active]="showBlogDropdown">
+          <!-- <li class="menu-item-has-children has-droupdown" [class.active]="showBlogDropdown">
 
             <a (click)="blogDropdown()">Blog</a>
             <ul class="sub-menu" [class.active]="showBlogDropdown">
               <li><a [routerLink]="['/blog']">Blog</a></li>
               <li><a [routerLink]="['/blog-details']">Blog Details</a></li>
             </ul>
-          </li>
+
+          </li> -->
+
+          <li><a [routerLink]="['/blog']">Blog</a></li>
+
 
           <li class="menu-item-has-children has-droupdown" [class.active]="showPagesDropdown">
-            <a (click)="pagesDropDown()">Pages</a>
+            <a (click)="pagesDropDown()">Go To</a>
             <ul class="sub-menu" [class.active]="showPagesDropdown">
               <li><a [routerLink]="['/about']">About</a></li>
               <li><a [routerLink]="['/instructor']">Instructor</a></li>
@@ -311,9 +331,9 @@
               <li><a [routerLink]="['/cart']">My Cart</a></li>
               <li><a [routerLink]="['/wishlist']">My Wishlist</a></li>
               <li><a [routerLink]="['/checkout']">checkout</a></li>
-              <li><a [routerLink]="['/sign-in']">Sign In</a></li>
+              <!-- <li><a [routerLink]="['/sign-in']">Sign In</a></li>
               <li><a [routerLink]="['/sign-up']">Sign Up</a></li>
-              <li><a [routerLink]="['/error']">Error</a></li>
+              <li><a [routerLink]="['/error']">Error</a></li> -->
             </ul>
           </li>
 
@@ -327,7 +347,7 @@
       <div class="sidebar__search p-relative mt-40 ">
         <form action="#">
           <input type="text" placeholder="Search...">
-          <button type="submit"><i class="fad fa-search"></i></button>
+          <button type="submit" title="Search"><i class="fad fa-search"></i></button>
         </form>
       </div>
       <div class="sidebar__cart mt-30">

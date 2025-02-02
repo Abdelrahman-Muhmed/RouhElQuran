@@ -4,27 +4,27 @@ import { RouterModule , Router} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SwiperModule } from 'swiper/angular';
-import { HomeComponent } from './Home/Home/home.component';
+// import { HomeComponent } from './Home/Home/home.component';
 import { HeaderOneComponent } from './common/header-one/header-one.component';
-import { HeroComponent } from './Home/hero/hero.component';
-import { CategoryComponent } from './Home/category/category.component';
-import { BannerAreaComponent } from './Home/banner-area/banner-area.component';
-import { CoursesComponent } from './Home/courses/courses.component';
-import { EventsComponent } from './Home/events/events.component';
-import { PricingComponent } from './Home/pricing/pricing.component';
-import { CtaComponent } from './Home/cta/cta.component';
+// import { HeroComponent } from './Home/hero/hero.component';
+// import { CategoryComponent } from './Home/category/category.component';
+// import { BannerAreaComponent } from './Home/banner-area/banner-area.component';
+// import { CoursesComponent } from './Home/courses/courses.component';
+// import { EventsComponent } from './Home/events/events.component';
+import { PricingComponent } from './home-three/pricing/pricing.component';
+// import { CtaComponent } from './Home/cta/cta.component';
 import { FooterComponent } from './common/footer/footer.component';
-import { HomeTwoComponent } from './home-two/home-two-main/home-two.component';
-import { HeaderTwoComponent } from './common/header-two/header-two.component';
-import { HeroAreaComponent } from './home-two/hero-area/hero-area.component';
-import { ServiceAreaComponent } from './home-two/service-area/service-area.component';
+// import { HomeTwoComponent } from './home-two/home-two-main/home-two.component';
+// import { HeaderTwoComponent } from './common/header-two/header-two.component';
+// import { HeroAreaComponent } from './home-two/hero-area/hero-area.component';
+// import { ServiceAreaComponent } from './home-two/service-area/service-area.component';
 import { AboutAreaComponent } from './common/about-area/about-area.component';
-import { WhyAreaComponent } from './home-two/why-area/why-area.component';
-import { WhatAreaComponent } from './home-two/what-area/what-area.component';
-import { CounterAreaComponent } from './home-two/counter-area/counter-area.component';
-import { TestimonialAreaComponent } from './home-two/testimonial-area/testimonial-area.component';
-import { CtaAreaComponent } from './home-two/cta-area/cta-area.component';
-import { FooterTwoComponent } from './home-two/footer-two/footer-two.component';
+// import { WhyAreaComponent } from './home-two/why-area/why-area.component';
+import { WhatAreaComponent } from './home-three/what-area/what-area.component';
+// import { CounterAreaComponent } from './home-two/counter-area/counter-area.component';
+//import { TestimonialAreaComponent } from './home-two/testimonial-area/testimonial-area.component';
+// import { CtaAreaComponent } from './home-two/cta-area/cta-area.component';
+// import { FooterTwoComponent } from './home-two/footer-two/footer-two.component';
 import { HomeThreeComponent } from './home-three/home-three-main/home-three.component';
 import { HeaderThreeComponent } from './home-three/header-three/header-three.component';
 import { HeroSliderComponent } from './home-three/hero-slider/hero-slider.component';
@@ -32,15 +32,15 @@ import { BrandAreaComponent } from './common/brand-area/brand-area.component';
 import { HomeThreeCoursesComponent } from './home-three/home-three-courses/home-three-courses.component';
 import { PopularTeachersComponent } from './home-three/popular-teachers/popular-teachers.component';
 import { HomeThreeCtaComponent } from './home-three/home-three-cta/home-three-cta.component';
-import { HomeThreeTestimonialComponent } from './home-three/home-three-testimonial/home-three-testimonial.component';
-import { CoursesPageComponent } from './courses/courses-page/courses-page.component';
+//import { HomeThreeTestimonialComponent } from './home-three/home-three-testimonial/home-three-testimonial.component';
+// import { CoursesPageComponent } from './courses/courses-page/courses-page.component';
 import { BreadcrumbComponent } from './common/breadcrumb/breadcrumb.component';
 import { CourseGridComponent } from './common/course-grid/course-grid.component';
 import { CourseListComponent } from './common/course-list/course-list.component';
-import { CoursesPageCoursesAreaComponent } from './courses/courses-page-courses-area/courses-page-courses-area.component';
+// import { CoursesPageCoursesAreaComponent } from './courses/courses-page-courses-area/courses-page-courses-area.component';
 import { PaginationComponent } from './common/pagination/pagination.component';
-import { CoursesListPageComponent } from './courses-list-page/courses-list-main/courses-list-page.component';
-import { CoursesListAreaComponent } from './courses-list-page/courses-list-area/courses-list-area.component';
+// import { CoursesListPageComponent } from './courses-list-page/courses-list-main/courses-list-page.component';
+// import { CoursesListAreaComponent } from './courses-list-page/courses-list-area/courses-list-area.component';
 import { CourseSidebarMainComponent } from './course-sidebar/course-sidebar-main/course-sidebar-main.component';
 import { CourseSidebarAreaComponent } from './course-sidebar/course-sidebar-area/course-sidebar-area.component';
 import { RelatedCourseComponent } from './common/related-course/related-course.component';
@@ -75,35 +75,37 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { ContactMainComponent } from './contact/contact-main/contact-main.component';
 import { ContactAreaComponent } from './contact/contact-area/contact-area.component';
 import { ContactInfoComponent } from './contact/contact-info/contact-info.component';
-import { BlogTwoComponent } from './home-two/blog-two/blog-two.component';
+// import { BlogTwoComponent } from './home-two/blog-two/blog-two.component';
 import { ReactiveFormsModule } from '@angular/forms';
 //import {  HttpClientModule } from '@angular/common/http';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { TestimonialAreaComponent } from './home-three/testimonial-area/testimonial-area.component';
+import { EventsComponent } from './home-three/events/events.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    // HomeComponent,
     HeaderOneComponent,
-    HeroComponent,
-    CategoryComponent,
-    BannerAreaComponent,
-    CoursesComponent,
-    EventsComponent,
+    // HeroComponent,
+    // CategoryComponent,
+    // BannerAreaComponent,
+    // CoursesComponent,
+     EventsComponent,
     PricingComponent,
-    CtaComponent,
+    // CtaComponent,
     FooterComponent,
-    HomeTwoComponent,
-    HeaderTwoComponent,
-    HeroAreaComponent,
-    ServiceAreaComponent,
+    // HomeTwoComponent,
+    // HeaderTwoComponent,
+    // HeroAreaComponent,
+    // ServiceAreaComponent,
     AboutAreaComponent,
-    WhyAreaComponent,
+    // WhyAreaComponent,
     WhatAreaComponent,
-    CounterAreaComponent,
+    // CounterAreaComponent,
     TestimonialAreaComponent,
-    CtaAreaComponent,
-    FooterTwoComponent,
+    // CtaAreaComponent,
+    // FooterTwoComponent,
     HomeThreeComponent,
     HeaderThreeComponent,
     HeroSliderComponent,
@@ -111,15 +113,15 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
     HomeThreeCoursesComponent,
     PopularTeachersComponent,
     HomeThreeCtaComponent,
-    HomeThreeTestimonialComponent,
-    CoursesPageComponent,
+    // HomeThreeTestimonialComponent,
+    // CoursesPageComponent,
     BreadcrumbComponent,
     CourseGridComponent,
     CourseListComponent,
-    CoursesPageCoursesAreaComponent,
+    // CoursesPageCoursesAreaComponent,
     PaginationComponent,
-    CoursesListPageComponent,
-    CoursesListAreaComponent,
+    // CoursesListPageComponent,
+    // CoursesListAreaComponent,
     CourseSidebarMainComponent,
     CourseSidebarAreaComponent,
     RelatedCourseComponent,
@@ -153,7 +155,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
     ContactMainComponent,
     ContactAreaComponent,
     ContactInfoComponent,
-    BlogTwoComponent,
+    // BlogTwoComponent,
     SignUpAreaComponent
   ],
   imports: [

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './educal/Home/Home/home.component';
-import { HomeTwoComponent } from './educal/home-two/home-two-main/home-two.component';
+// import { HomeComponent } from './educal/Home/Home/home.component';
+// import { HomeTwoComponent } from './educal/home-two/home-two-main/home-two.component';
 import { HomeThreeComponent } from './educal/home-three/home-three-main/home-three.component';
-import { CoursesPageComponent } from './educal/courses/courses-page/courses-page.component';
-import { CoursesListPageComponent } from './educal/courses-list-page/courses-list-main/courses-list-page.component';
+// import { CoursesPageComponent } from './educal/courses/courses-page/courses-page.component';
+// import { CoursesListPageComponent } from './educal/courses-list-page/courses-list-main/courses-list-page.component';
 import { CourseSidebarMainComponent } from './educal/course-sidebar/course-sidebar-main/course-sidebar-main.component';
 import { CourseDetailsComponent } from './educal/course-details/course-details-main/course-details.component';
 import { BlogComponent } from './educal/blog/blog-main/blog.component';
@@ -24,24 +24,24 @@ import { ContactMainComponent } from './educal/contact/contact-main/contact-main
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  {
-    path: 'home-two',
-    component: HomeTwoComponent
-  },
+   { path: '', component: HomeThreeComponent },
+   //{ path: 'home', component: HomeComponent },
+  // {
+  //   path: 'home-two',
+  //   component: HomeTwoComponent
+  // },
   {
     path: 'home-three',
     component: HomeThreeComponent
   },
-  {
-    path: 'courses',
-    component: CoursesPageComponent
-  },
-  {
-    path: 'courses-list',
-    component: CoursesListPageComponent
-  },
+  // {
+  //   path: 'courses',
+  //   component: CoursesPageComponent
+  // },
+  // {
+  //   path: 'courses-list',
+  //   component: CoursesListPageComponent
+  // },
   {
     path: 'courses-sidebar',
     component: CourseSidebarMainComponent
