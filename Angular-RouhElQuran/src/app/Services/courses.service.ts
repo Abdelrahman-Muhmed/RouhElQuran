@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class CoursesService {
 
 
-  constructor(private  _HttpClient : HttpClient) { }
+  constructor(private _HttpClient: HttpClient) { }
 
   getAllCourses() {
     return this._HttpClient.get('/api/Courses/GetAll');

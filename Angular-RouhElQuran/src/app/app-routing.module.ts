@@ -47,7 +47,7 @@ const routes: Routes = [
     component: CourseSidebarMainComponent
   },
   {
-    path: 'course-details',
+    path: 'course-details/:id',
     component: CourseDetailsComponent
   },
   {

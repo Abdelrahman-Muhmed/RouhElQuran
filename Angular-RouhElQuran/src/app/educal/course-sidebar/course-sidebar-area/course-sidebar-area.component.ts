@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CoursesService } from 'src/app/Services/courses.service';
 
 @Component({
     selector: 'app-course-sidebar-area',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CourseSidebarAreaComponent implements OnInit {
 
-  courseData = [
+  courseDatas = [
     {
       id: 1,
       courseImage: "assets/img/course/course-1.jpg",
@@ -94,9 +95,22 @@ export class CourseSidebarAreaComponent implements OnInit {
     }
   ]
 
-  constructor() { }
+  courseData: any = [];
+  constructor(private CourseService: CoursesService) { }
 
   ngOnInit(): void {
+    this.GetCourses()
   }
 
+GetCourses() {
+  this.CourseService.getAllCourses().subscribe({
+    next: (response) => {  
+      this.courseData = response;
+      console.log(this.courseData);
+    },
+    error: (err) => {
+      console.error("Error fetching courses:", err);
+    }
+  });
+}
 }

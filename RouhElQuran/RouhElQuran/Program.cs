@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository.DataSeeding;
 using Repository.Models;
 using Repository.Repos;
 using RouhElQuran.AccountService;
@@ -14,12 +15,13 @@ using RouhElQuran.PaymentService;
 using RouhElQuran.SendEmail;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RouhElQuran
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +63,7 @@ namespace RouhElQuran
 
             #endregion Add services to the container
 
+            #region AuthConfig
             //I Add Here This Options For AddAuthentication For Return UnAuthorize 401
             builder.Services.AddAuthentication(options =>
             {
@@ -82,7 +85,11 @@ namespace RouhElQuran
                    };
                });
 
+            #endregion
+
+
             var app = builder.Build();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -91,33 +98,33 @@ namespace RouhElQuran
 
             #region Middlewares
 
-            // Configure the HTTP request pipeline
+            // Security & Global Configurations
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCors("Policy");
-            app.UseRouting();
+            app.UseDefaultFiles();
 
-            app.UseAuthentication(); // Place authentication before authorization
+            app.UseCors("Policy");
+
+            // Routing & Authentication/Authorization
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
-        
-
+            // Map Endpoints
             app.MapControllers();
 
-            app.UseDefaultFiles();
-            //app.Use(async (context,next) =>
-            //{
-            //    await next();
-            //    if (context.Response.StatusCode == 404)
-            //    {
-            //        context.Request.Path = "/index.html";
-            //        await next();
-            //    }
-            //});
-            app.UseStaticFiles();
-            app.Run();
 
-            #endregion Middlewares
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                await DataSeeder.SeedRoles(services);
+            }
+
+            // Start the app
+            await app.RunAsync();
+
+            #endregion
+
         }
     }
 }
