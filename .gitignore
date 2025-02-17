@@ -400,14 +400,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp
-Herfitk/Herfitk/appsettings.json
-front-end/Herfitk/src/app/environments/environment.ts
-front-end/Herfitk/src/app/environments/environment.ts
-/Herfitk/Herfitk_Dashboard/appsettings.json
-/front-end/Herfitk/src/app/environments/environment.ts
-/front-end/Herfitk/src/app/environments/environment.ts
-/RouhElQuran/RouhElQuran/appsettings.json
-/RouhElQuran/RouhElQuran/appsettings.json
+
 
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.

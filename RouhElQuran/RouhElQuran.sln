@@ -5,9 +5,11 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RouhElQuran", "RouhElQuran\RouhElQuran.csproj", "{7837E178-9EF4-41FD-80D4-1D62E2A55E7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{986C66C4-AC59-4420-8B28-E3B007E668E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{986C66C4-AC59-4420-8B28-E3B007E668E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{8174BB5D-5057-472B-AA3A-7E9BEA3AB808}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{8174BB5D-5057-472B-AA3A-7E9BEA3AB808}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RouhElQuran-Dashboard", "RouhElQuran-Dashboard\RouhElQuran-Dashboard.csproj", "{6496DF14-FA62-470E-96D3-B05E539A8414}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{8174BB5D-5057-472B-AA3A-7E9BEA3AB808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8174BB5D-5057-472B-AA3A-7E9BEA3AB808}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8174BB5D-5057-472B-AA3A-7E9BEA3AB808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6496DF14-FA62-470E-96D3-B05E539A8414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6496DF14-FA62-470E-96D3-B05E539A8414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6496DF14-FA62-470E-96D3-B05E539A8414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6496DF14-FA62-470E-96D3-B05E539A8414}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
