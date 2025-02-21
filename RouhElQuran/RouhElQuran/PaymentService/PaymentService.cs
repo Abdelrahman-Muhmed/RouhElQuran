@@ -6,7 +6,7 @@ using Stripe.Checkout;
 using Stripe.Climate;
 using System.Numerics;
 
-namespace RouhElQuran.PaymentService
+namespace RouhElQuran.PaymentServices
 {
     public class PaymentService : IPaymentService
     {

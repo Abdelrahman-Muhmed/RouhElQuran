@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core;
 using Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -28,6 +29,12 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<IdentityRole<int>>().HasData(
+            new IdentityRole<int> { Id = 1, Name = RolesNames.Admin, NormalizedName = RolesNames.Admin.ToUpper() },
+            new IdentityRole<int> { Id = 2, Name = RolesNames.Student, NormalizedName = RolesNames.Student.ToUpper() }
+        );
+
 
         modelBuilder.Entity<Attendence>(entity =>
         {
