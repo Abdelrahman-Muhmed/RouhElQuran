@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{8174BB5D-5057-472B-AA3A-7E9BEA3AB808}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RouhElQuran-Dashboard", "RouhElQuran-Dashboard\RouhElQuran-Dashboard.csproj", "{6496DF14-FA62-470E-96D3-B05E539A8414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RouhElQuran-Dashboard", "RouhElQuran-Dashboard\RouhElQuran-Dashboard.csproj", "{6496DF14-FA62-470E-96D3-B05E539A8414}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{D8B3AA64-1CE0-4616-B764-E62FC27EB3BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6496DF14-FA62-470E-96D3-B05E539A8414}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6496DF14-FA62-470E-96D3-B05E539A8414}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6496DF14-FA62-470E-96D3-B05E539A8414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B3AA64-1CE0-4616-B764-E62FC27EB3BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B3AA64-1CE0-4616-B764-E62FC27EB3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B3AA64-1CE0-4616-B764-E62FC27EB3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B3AA64-1CE0-4616-B764-E62FC27EB3BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

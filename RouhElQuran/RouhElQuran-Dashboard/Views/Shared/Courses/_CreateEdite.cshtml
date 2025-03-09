@@ -1,0 +1,114 @@
+﻿@model RouhElQuran.Dto_s.CourseDto
+
+<!-- #region Form For Add And Update -->
+<div class="modal fade" id="staticBackdrop4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<!-- Form to add a new course -->
+				<form method="post" action="/Courses/CreateEdite">
+					<!-- Details-->
+
+					<div class="col-12">
+						<h6 class="text-start">1. Course Details</h6>
+						<hr class="mt-0">
+					</div>
+
+					<div class="row mb-3">
+						<div class="col-md-6 form-control-validation fv-plugins-icon-container">
+							<label class="form-label d-block text-start" for="CrsName">Name</label>
+							<input asp-for="CrsName" type="text" id="CrsNameId" class="form-control" placeholder="Enter course name">
+							<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+						</div>
+						<div class="col-md-6 form-control-validation fv-plugins-icon-container">
+							<label class="form-label d-block text-start" for="formValidationDob">Teacher</label>
+							<input type="text" class="form-control" name="formValidationDob" id="formValidationDob" placeholder="Enter teacher name">
+							<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-12 form-control-validation fv-plugins-icon-container">
+							<label class="form-label d-block text-start" for="formValidationName">Description</label>
+							<textarea type="text" id="formValidationName" class="form-control" placeholder="Description" name="formValidationName"></textarea>
+							<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+						</div>
+
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-6 form-control-validation fv-plugins-icon-container">
+							<label class="form-label d-block text-start" for="formValidationName">Course Time</label>
+							<input asp-for="CoursesTime" type="text" id="CoursesTimeId" class="form-control" placeholder="Enter Course Time">
+							<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+						</div>
+						<div class="col-md-6 form-control-validation fv-plugins-icon-container">
+							<label class="form-label d-block text-start" for="formValidationDob">Session Time</label>
+							<input asp-for="SessionTime" type="time" class="form-control" id="SessionTimeId" placeholder="Enter Session Time">
+							<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-12 form-control-validation fv-plugins-icon-container">
+							<label class="form-label d-block text-start" for="formValidationName">Specialty</label>
+							<input asp-for="Specialty" type="text" id="SpecialtyId" class="form-control" placeholder="Specialty" ></input>
+							<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+						</div>
+
+					</div>
+
+					<!-- Choose Your Plan -->
+					<div class="col-12">
+						<h6 class="text-start">2. Choose Your Plan</h6>
+						<hr class="mt-0">
+					</div>
+					<div class="row gy-3 mt-0">
+						<div class="col-xl-3 col-md-5 col-sm-6 col-12 form-control-validation fv-plugins-icon-container">
+							<div class="form-check custom-option custom-option-icon checked">
+								<label class="form-check-label custom-option-content" for="basicPlanMain1">
+									<span class="custom-option-body">
+										<i class="icon-base bx bx-rocket"></i>
+										<span class="custom-option-title"> Starter </span>
+										<small> Get 5gb of space and 1 team member.</small>
+									</span>
+									<input name="formValidationPlan" class="form-check-input" type="checkbox" value="" id="basicPlanMain1" checked="">
+								</label>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-5 col-sm-6 col-12 form-control-validation">
+							<div class="form-check custom-option custom-option-icon">
+								<label class="form-check-label custom-option-content" for="basicPlanMain2">
+									<span class="custom-option-body">
+										<i class="icon-base bx bx-user"></i>
+										<span class="custom-option-title"> Personal </span>
+										<small> Get 15gb of space and 5 team member. </small>
+									</span>
+									<input name="formValidationPlan" class="form-check-input" type="checkbox" value="" id="basicPlanMain2">
+								</label>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-5 col-sm-6 col-12 form-control-validation">
+							<div class="form-check custom-option custom-option-icon">
+								<label class="form-check-label custom-option-content" for="basicPlanMain3">
+									<span class="custom-option-body">
+										<i class="icon-base bx bx-crown"></i>
+										<span class="custom-option-title"> Premium </span>
+										<small> Get 25gb of space and 15 members. </small>
+									</span>
+									<input name="formValidationPlan" class="form-check-input" type="checkbox" value="" id="basicPlanMain3">
+								</label>
+							</div>
+						</div>
+
+						<div class="col-12 form-control-validation">
+							<button type="submit" name="submitButton" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+					<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- #endregion Form For Add And Update -->

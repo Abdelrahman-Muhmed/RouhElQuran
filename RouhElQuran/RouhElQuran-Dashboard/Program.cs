@@ -1,10 +1,32 @@
+using Core.IRepo;
+using Microsoft.EntityFrameworkCore;
+using Repository.Models;
+using Repository.Repos;
+using RouhElQuran.AutoMapper;
+using RouhElQuran.IServices.CoursesService;
+using Service.Services.CourcesService;
+using Stripe;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+// Register Repositories & Services
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICoursesService, CoursesServic>();
+// Build configuration
+var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Database Context
+builder.Services.AddDbContext<RouhElQuranContext>(options =>
+	options.UseSqlServer(configuration.GetConnectionString("Connection")));
+
+
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingClasses));
 
 var app = builder.Build();
 

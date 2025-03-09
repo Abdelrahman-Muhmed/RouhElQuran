@@ -2,22 +2,23 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.VisualStudio.Web.CodeGeneration.Design;
 using Repository.Models;
 using Repository.Repos;
 using RouhElQuran.AccountService;
+using RouhElQuran.IServices.CoursesService;
 using RouhElQuran.PaymentServices;
 using RouhElQuran.SendEmail;
+using Service.Services.CourcesService;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+
 
 namespace RouhElQuran.Serivces
 {
 
-    public static class ServiceExtensions
+	public static class ServiceExtensions
     {
         public static void AddAppServices(this IServiceCollection services, IConfiguration configuration)
         {
@@ -27,9 +28,11 @@ namespace RouhElQuran.Serivces
             services.AddScoped<IFreeClassRepository, FreeClassRepository>();
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IPaymentService, PaymentService>();
+			services.AddScoped<ICoursesService, CoursesServic>();
 
-            // Database Context
-            services.AddDbContext<RouhElQuranContext>(options =>
+
+			// Database Context
+			services.AddDbContext<RouhElQuranContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Connection")));
 
             // Identity & Authentication

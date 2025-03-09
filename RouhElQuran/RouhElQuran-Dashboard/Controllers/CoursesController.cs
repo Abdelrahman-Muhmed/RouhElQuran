@@ -1,0 +1,73 @@
+﻿using AutoMapper;
+using Core.IRepo;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Repository.Models;
+using RouhElQuran.AutoMapper;
+using RouhElQuran.Dto_s;
+using RouhElQuran.IServices.CoursesService;
+
+namespace RouhElQuran_Dashboard.Controllers
+{
+	public class CoursesController : Controller
+	{
+		
+		private readonly ICoursesService _coursesService;
+		public CoursesController(ICoursesService coursesService)
+		{
+			_coursesService = coursesService;
+		}
+		public IActionResult Index() => View();
+
+		[HttpGet("GetAllDash")]
+		public async Task<IActionResult> GetAllDash()
+		{
+			var Result = await _coursesService.GetAllCourse();
+			return View(Result);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CreateEdite(CourseDto coursedto)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if(coursedto.Id != null)
+						await _coursesService.CreateCource(coursedto);
+					else
+						await _coursesService.updateCourse(coursedto);
+
+					return RedirectToAction(nameof(GetAllDash));
+				}
+				catch
+				{
+					return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Adding");
+				}
+			}
+			return BadRequest("Invalid Data");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var Result = _coursesService.DeleteCourse(id);
+
+					if (Result is null)
+						return NotFound("Not Found This Course");
+
+					return RedirectToAction(nameof(GetAllDash));
+				}
+				catch
+				{
+					return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Deleting");
+				}
+			}
+			return BadRequest("Invalid Data");
+		}
+	}
+}

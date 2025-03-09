@@ -12,7 +12,9 @@ public partial class Course
 
     public string? Specialty { get; set; }
 
-    public string? CrsName { get; set; }
+	public string? Description { get; set; }
+
+	public string? CrsName { get; set; }
 
     public int? CoursesTime { get; set; }
 

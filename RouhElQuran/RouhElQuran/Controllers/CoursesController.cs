@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 using RouhElQuran.Dto_s;
+using RouhElQuran.IServices.CoursesService;
+
 
 namespace RouhElQuran.Controllers
 {
@@ -11,44 +13,38 @@ namespace RouhElQuran.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly ICourseRepository CourseRepository;
-        private readonly IMapper mapper;
+        private readonly ICoursesService _coursesService;
 
-        public CoursesController(ICourseRepository Repository, IMapper _mapper)
+		public CoursesController(ICoursesService coursesService)
         {
-            CourseRepository = Repository;
-            mapper = _mapper;
-        }
+		   _coursesService = coursesService;
+
+		}
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var Getall = await CourseRepository.GetAllAsync();
-            var Result = mapper.Map<List<CourseDto>>(Getall);
-
+           var Result = await _coursesService.GetAllCourse();
             return Ok(Result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var getCourse = await CourseRepository.GetCourseWithPlansByIDAsync(id);
-            if (getCourse is null)
+            var Result = await _coursesService.GetCourseById(id);
+            if (Result is null)
                 return NotFound($" Course With ID '{id}' Not Fount ");
-
-            var Result = mapper.Map<CourseDto>(getCourse);
-            return Ok(Result);
+			return Ok(Result);
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCourse(CourseDto coursedto)
+        public async Task<IActionResult> Create(CourseDto coursedto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Course course = mapper.Map<Course>(coursedto);
-                    await CourseRepository.AddAsync(course);
+                    await _coursesService.CreateCource(coursedto);
                     return Created();
                 }
                 catch
@@ -66,9 +62,8 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-                    Course course = mapper.Map<Course>(coursedto);
-                    await CourseRepository.UpdateAsync(course);
-                    return Ok("Update SuccessFully");
+					await _coursesService.updateCourse(coursedto);
+					return Ok("Update SuccessFully");
                 }
                 catch
                 {
@@ -85,8 +80,9 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-                    var delete = await CourseRepository.DeleteAsync(id);
-                    if (delete is null)
+                    var Result = _coursesService.DeleteCourse(id);
+
+					if (Result is null)
                         return NotFound("Not Found This Course");
 
                     return Ok("Deleted SuccessFully");

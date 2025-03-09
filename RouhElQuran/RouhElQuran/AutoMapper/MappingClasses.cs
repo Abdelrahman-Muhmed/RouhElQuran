@@ -1,7 +1,8 @@
-﻿using AutoMapper;
+﻿using RouhElQuran.AutoMapper;
 using Core.Models;
 using Repository.Models;
 using RouhElQuran.Dto_s;
+using AutoMapper;
 
 namespace RouhElQuran.AutoMapper
 {
