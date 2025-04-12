@@ -17,11 +17,26 @@ namespace Service.Services.CourcesService
 	{
         private readonly ICourseRepository _courseRepository;
 		private readonly IMapper _mapper;
+
 		public CoursesServic(ICourseRepository courseRepository, IMapper mapper)
-        {
+		{
 			_courseRepository = courseRepository;
 			_mapper = mapper;
 
+		}
+		public async Task<CourseDto> GetCourseById(int? id)
+		{
+			var getCourse = await _courseRepository.GetCourseWithPlansByIDAsync(id);
+			var Result = _mapper.Map<CourseDto>(getCourse);
+			return Result;
+		}
+
+		public async Task<IEnumerable<CourseDto>> GetAllCourse()
+		{
+			var Getall = await _courseRepository.GetAllAsync();
+			var Result = _mapper.Map<IEnumerable<CourseDto>>(Getall);
+
+			return Result;
 		}
 
 		public async Task<Course> CreateCource(CourseDto courseDto)
@@ -31,22 +46,9 @@ namespace Service.Services.CourcesService
 			return Result;
 		}
 
-
-		public async Task<CourseDto> GetCourseById(int id)
-		{
-			var getCourse = await _courseRepository.GetCourseWithPlansByIDAsync(id);
-			var Result = _mapper.Map<CourseDto>(getCourse);
-			return Result;
-		}
-		public async Task<IEnumerable<CourseDto>> GetAllCourse()
-		{
-			var Getall = await _courseRepository.GetAllAsync();
-			var Result = _mapper.Map<IEnumerable<CourseDto>>(Getall);
-
-			return Result;
-		}
 		public async Task<Course> updateCourse(CourseDto courseDto)
 		{
+		
 			var course = _mapper.Map<Course>(courseDto);
 			var Result = await _courseRepository.UpdateAsync(course);
 			return Result;

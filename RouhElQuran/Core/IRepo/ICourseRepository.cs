@@ -9,6 +9,7 @@ namespace Core.IRepo
 {
     public interface ICourseRepository : IGenericrepo<Course>
     {
-        public Task<Course> GetCourseWithPlansByIDAsync(int id);
-    }
+        public Task<Course> GetCourseWithPlansByIDAsync(int? id);
+
+	}
 }

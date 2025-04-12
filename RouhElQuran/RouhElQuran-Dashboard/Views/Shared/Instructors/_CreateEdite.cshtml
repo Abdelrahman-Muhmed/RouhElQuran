@@ -1,58 +1,53 @@
-﻿@model RouhElQuran.Dto_s.CourseDto
-@{
-	string CreateTitle = "Add New Course";
-	string UpdateTitle = "Update Course";
-}
-<!-- #region Form For Add And Update -->
-
-<h3>@(Model.Id == null ? CreateTitle : UpdateTitle)</h3>
+﻿
+@model RouhElQuran.Dto_s.InstructorDto;
 
 <!-- Form to add a new course -->
-<form id="CreateEditFormId">
+<form id="InstructorCreateEditFormId">
 	<!-- Details-->
-	<input type="number" asp-for="Id" hidden="hidden" id="crsId"></input>
-
+	<input type="number" asp-for="InstructorId" hidden="hidden" id="insId"></input>
 	<div class="col-12">
-		<h6 class="text-start">1. Course Details</h6>
+		<h6 class="text-start">1. Instructor Details</h6>
 		<hr class="mt-0">
 	</div>
 
 	<div class="row mb-3">
 		<div class="col-md-6 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="CrsName">Name</label>
-			<input asp-for="CrsName" type="text" id="CrsNameId" class="form-control" placeholder="Enter course name">
+			<label class="form-label d-block text-start" for="CurrentCourse">Course name</label>
+			<input type="text" id="InsCrsNameId" asp-for="CurrentCourse" class="form-control" placeholder="Enter Course name">
 			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
 		</div>
 		<div class="col-md-6 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="formValidationDob">Teacher</label>
-			<input type="text" class="form-control" name="formValidationDob" id="formValidationDob" placeholder="Enter teacher name">
+			<label class="form-label d-block text-start" for="Salary">Salary</label>
+			<input type="number" class="form-control" asp-for="Salary" name="Salary" id="SalaryId" placeholder="Enter teacher Salary">
 			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
 		</div>
 	</div>
 	<div class="row mb-3">
 		<div class="col-md-12 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="formValidationName">Description</label>
-			<textarea type="text" id="formValidationName" class="form-control" placeholder="Description" name="formValidationName"></textarea>
+			<label class="form-label d-block text-start" for="Certificate">Certificate</label>
+			<textarea type="text" id="CertificateId" asp-for="Certificate" class="form-control" placeholder="Enter Certificate" name="Certificate"></textarea>
 			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
 		</div>
 
 	</div>
 	<div class="row mb-3">
 		<div class="col-md-6 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="formValidationName">Course Time</label>
-			<input asp-for="CoursesTime" type="text" id="CoursesTimeId" class="form-control" placeholder="Enter Course Time">
+			<label class="form-label d-block text-start" for="TimeWork">Time Work</label>
+			<input type="text" id="TimeWorkId" class="form-control" asp-for="TimeWork" placeholder="Enter Time Work">
 			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
 		</div>
 		<div class="col-md-6 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="formValidationDob">Session Time</label>
-			<input asp-for="SessionTime" type="time" class="form-control" id="SessionTimeId" placeholder="Enter Session Time">
+			<label class="form-label d-block text-start" for="DaysWork">Dayes Work</label>
+			<input type="text" class="form-control" id="DaysWorkId" asp-for="DaysWork" placeholder="Enter DaysWork">
 			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
 		</div>
 	</div>
 	<div class="row mb-3">
 		<div class="col-md-12 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="formValidationName">Specialty</label>
-			<input asp-for="Specialty" type="text" id="SpecialtyId" class="form-control" placeholder="Specialty"></input>
+			<label class="form-label d-block text-start" for="InsName">Users</label>
+			<select class="form-control rounded-3" asp-for="InsUser_Id" asp-items="@(ViewData["AllUser"] as SelectList)">
+				<option value="">-- Select Category --</option>
+			</select>
 			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
 		</div>
 
@@ -106,6 +101,6 @@
 </form>
 
 <div class="col-12 form-control-validation">
-	<button type="button" name="submitButton" onclick="submit('/Courses/CreateEdit', 'CreateEditFormId')" class="btn btn-primary">Submit</button>
+	<button type="button" name="submitButton" onclick="submit('/Instructor/CreateEdit', 'InstructorCreateEditFormId')" class="btn btn-primary">Submit</button>
 </div>
 <!-- #endregion Form For Add And Update -->

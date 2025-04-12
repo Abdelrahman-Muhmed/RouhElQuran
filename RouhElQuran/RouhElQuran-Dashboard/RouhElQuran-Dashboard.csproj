@@ -8,6 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\AcademyCrud.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\AcademyCrud.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\AcademyCrud.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\RouhElQuran\RouhElQuran.csproj" />
   </ItemGroup>

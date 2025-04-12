@@ -17,26 +17,43 @@ namespace RouhElQuran_Dashboard.Controllers
 		{
 			_coursesService = coursesService;
 		}
+
 		public IActionResult Index() => View();
+
 
 		[HttpGet("GetAllDash")]
 		public async Task<IActionResult> GetAllDash()
 		{
 			var Result = await _coursesService.GetAllCourse();
-			return View(Result);
+			if (Result != null)
+				return View(Result);
+			else
+				return BadRequest();
+		}
+
+		//For get dialog to create or edit
+		[HttpGet]
+		public async Task<IActionResult> CreateEdit(int? id)
+		{
+			var course = await _coursesService.GetCourseById(id);
+		  	course = id == null ? new CourseDto() : course;
+
+			return PartialView("Courses/_CreateEdite", course);
+
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateEdite(CourseDto coursedto)
+		public async Task<IActionResult> CreateEdit(CourseDto coursedto)
 		{
 			if (ModelState.IsValid)
 			{
 				try
 				{
 					if(coursedto.Id != null)
-						await _coursesService.CreateCource(coursedto);
-					else
 						await _coursesService.updateCourse(coursedto);
+					else
+						await _coursesService.CreateCource(coursedto);
+
 
 					return RedirectToAction(nameof(GetAllDash));
 				}
@@ -51,11 +68,11 @@ namespace RouhElQuran_Dashboard.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Delete(int id)
 		{
-			if (ModelState.IsValid)
+			if (id != null)
 			{
 				try
 				{
-					var Result = _coursesService.DeleteCourse(id);
+					var Result = await _coursesService.DeleteCourse(id);
 
 					if (Result is null)
 						return NotFound("Not Found This Course");

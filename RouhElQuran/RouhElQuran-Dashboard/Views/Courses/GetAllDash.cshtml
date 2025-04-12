@@ -26,7 +26,8 @@
 										</span>
 									</button>
 								</div>
-								<button class="btn btn-secondary create-new btn-primary" tabindex="0" aria-controls="DataTables_Table_0" data-bs-toggle="modal" data-bs-target="#staticBackdrop4" type="button">
+								@* data-bs-target="#CourseCreateEditForm" aria-controls="DataTables_Table_0" data-bs-toggle="modal"*@
+								<button class="btn btn-secondary create-new btn-primary" onclick="Get('Courses/CreateEdit/', 'modalContent','CourseCreateEditModalId')" tabindex="0" type="button">
 									<span>
 										<i class="bx bx-plus bx-sm me-sm-2">
 
@@ -37,8 +38,19 @@
 									</span>
 								</button>
 							</div>
-							<!-- Form to add a new course -->
-							@await Html.PartialAsync("Courses/_CreateEdite", new RouhElQuran.Dto_s.CourseDto())
+							<!-- Form to CreateEdit course using EndPoint To return PartialView -->
+							@* @await Html.PartialAsync("Courses/_CreateEdite", new RouhElQuran.Dto_s.CourseDto()) *@
+							<div class="modal fade" id="CourseCreateEditModalId" tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog modal-xl">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Course</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body" id="modalContent"></div>
+									</div>
+								</div>
+							</div>
 
 						</div>
 					</div>
@@ -123,16 +135,16 @@
 												<li><a href="javascript:;" class="dropdown-item">Details</a></li>
 												<li><a href="javascript:;" class="dropdown-item">Archive</a></li>
 												<li>
-													<form action="@Url.Action("Delete", "Courses", new { id = item.Id })" method="post" style="display:inline;">
-														<button type="submit" class="dropdown-item text-danger delete-record">
-															Delete
-														</button>
-													</form>
+													<a href="javascript:void(0);" onclick="deleteRow('/Courses/Delete/@item.Id')" class="dropdown-item text-danger delete-record">
+														Delete
+													</a>
 												</li>
+
 
 											</ul>
 										</div>
-										<a href="javascript:;" class="btn btn-icon item-edit">
+										@* data-bs-target="#CourseCreateEditForm" *@
+										<a class="btn btn-icon item-edit" onclick="Get('Courses/CreateEdit/@item.Id', 'modalContent','CourseCreateEditModalId')" tabindex="0">
 											<i class="bx bx-edit bx-md"></i>
 										</a>
 									</td>

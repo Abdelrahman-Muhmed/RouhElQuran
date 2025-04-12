@@ -1,4 +1,5 @@
 ﻿using Core.IRepo;
+using Core.IServices.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using RouhElQuran.IServices.CoursesService;
 using RouhElQuran.PaymentServices;
 using RouhElQuran.SendEmail;
 using Service.Services.CourcesService;
+using Service.Services.UserService;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -30,6 +32,7 @@ namespace RouhElQuran.Serivces
             services.AddScoped<IPaymentService, PaymentService>();
 			services.AddScoped<ICoursesService, CoursesServic>();
 
+			services.AddScoped(typeof(IUserService<,>), typeof(UserService<,>));
 
 			// Database Context
 			services.AddDbContext<RouhElQuranContext>(options =>

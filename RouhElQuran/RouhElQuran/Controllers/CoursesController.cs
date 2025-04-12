@@ -13,25 +13,25 @@ namespace RouhElQuran.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly ICoursesService _coursesService;
+        private readonly ICoursesService _CoursesService;
 
-		public CoursesController(ICoursesService coursesService)
+		public CoursesController(ICoursesService CoursesService)
         {
-		   _coursesService = coursesService;
+		   _CoursesService = CoursesService;
 
 		}
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-           var Result = await _coursesService.GetAllCourse();
+           var Result = await _CoursesService.GetAllCourse();
             return Ok(Result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var Result = await _coursesService.GetCourseById(id);
+            var Result = await _CoursesService.GetCourseById(id);
             if (Result is null)
                 return NotFound($" Course With ID '{id}' Not Fount ");
 			return Ok(Result);
@@ -44,7 +44,7 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-                    await _coursesService.CreateCource(coursedto);
+                    await _CoursesService.CreateCource(coursedto);
                     return Created();
                 }
                 catch
@@ -62,7 +62,7 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-					await _coursesService.updateCourse(coursedto);
+					await _CoursesService.updateCourse(coursedto);
 					return Ok("Update SuccessFully");
                 }
                 catch
@@ -80,7 +80,7 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-                    var Result = _coursesService.DeleteCourse(id);
+                    var Result = _CoursesService.DeleteCourse(id);
 
 					if (Result is null)
                         return NotFound("Not Found This Course");

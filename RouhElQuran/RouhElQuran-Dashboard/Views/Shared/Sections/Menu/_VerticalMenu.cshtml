@@ -39,12 +39,12 @@
 					</a>
 				</li>
 				<li class='menu-item@(currentPage == "/Courses" ? " active" : "")'>
-					<a asp-controller="Courses" asp-action="Index" target="_blank" class="menu-link">
+					<a href="/Courses/Index" target="_blank" class="menu-link">
 						<div>Courses Home</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto text-uppercase">Pro</div>
 					</a>
 				</li>
 				<li class='menu-item@(currentPage == "/Instructor/InstructorHome" ? " active" : "")'>
-					<a asp-controller="Instructor" asp-action="InstructorHome" target="_blank" class="menu-link">
+					<a href="/Instructor/Index" target="_blank" class="menu-link">
 						<div>Instructor Home</div><div class="badge bg-label-primary fs-tiny rounded-pill ms-auto text-uppercase">Pro</div>
 					</a>
 				</li>
@@ -63,7 +63,7 @@
 			</a>
 			<ul class="menu-sub">
 				<li class='menu-item@(currentPage == "/Courses" ? " active" : "")'>
-					<a asp-controller="Courses" asp-action="Index" class="menu-link">
+					<a href="/Courses/Index" class="menu-link">
 						<div>Courses Home</div>
 					</a>
 				</li>
@@ -81,20 +81,20 @@
 		</li>
 
 		<!-- Instructor Pages  -->
-		<li class='menu-item@(currentPage.StartsWith("/Instructor/InstructorHome") ? " active open" : "")'>
+		<li class='menu-item@(currentPage.StartsWith("/Instructor") ? " active open" : "")'>
 			<a href="javascript:void(0);" class="menu-link menu-toggle">
 				<i class="menu-icon tf-icons bx bx-chalkboard"></i>
 				<div>Instructor</div>
 			</a>
 			<ul class="menu-sub">
-				<li class='menu-item@(currentPage == "/Instructor/InstructorHome" ? " active" : "")'>
-					<a asp-controller="Academy" asp-action="AcademyHome" class="menu-link">
+				<li class='menu-item@(currentPage == "/Instructor" ? " active" : "")'>
+					<a  href="/Instructor/Index" class="menu-link">
 						<div>Instructor Home</div>
 					</a>
 				</li>
-				<li class='menu-item@(currentPage == "/Instructor/Index" ? " active" : "")'>
-					<a asp-controller="Pages" asp-action="AccountSettingsNotifications" class="menu-link">
-						<div>My All Courses</div>
+				<li class='menu-item@(currentPage == "/Instructor/InstructorHome" ? " active" : "")'>
+					<a asp-controller="Instructor" asp-action="InstructorHome" class="menu-link">
+						<div>All Instructor</div>
 					</a>
 				</li>
 				<li class='menu-item@(currentPage == "/Pages/AccountSettingsConnections" ? " active" : "")'>
