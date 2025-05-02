@@ -1,7 +1,7 @@
 ﻿using RouhElQuran.AutoMapper;
 using Core.Models;
 using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using AutoMapper;
 
 namespace RouhElQuran.AutoMapper
@@ -14,7 +14,7 @@ namespace RouhElQuran.AutoMapper
             ////CreateMap<CoursePlan, CoursePlanDto>().ReverseMap();
             CreateMap<Course, CourseDto>()
             .ForMember(dest => dest.Course_Plan, opt => opt.MapFrom(src => src.CoursePlans))
-            .ReverseMap();
+			.ReverseMap();
 
             CreateMap<CoursePlan, CoursePlanDto>().ReverseMap();
             ///

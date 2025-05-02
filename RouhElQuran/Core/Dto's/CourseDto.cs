@@ -1,6 +1,7 @@
-﻿using Core.Models;
+﻿using Core.HelperModel;
+using Core.Models;
 
-namespace RouhElQuran.Dto_s
+namespace Core.Dto_s
 {
     public class CourseDto
     {
@@ -14,6 +15,9 @@ namespace RouhElQuran.Dto_s
 
         public int? CoursesTime { get; set; }
 
+        public FileUpload? FileUpload { get; set; }
         public List<CoursePlanDto>? Course_Plan { get; set; } = new List<CoursePlanDto>();
+
+        
     }
 }

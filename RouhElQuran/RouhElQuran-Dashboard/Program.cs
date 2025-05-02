@@ -1,5 +1,6 @@
 using Core.IRepo;
 using Core.IServices.UserService;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
@@ -12,6 +13,11 @@ using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Build configuration
+var configuration = builder.Configuration;
+// Database Context
+builder.Services.AddDbContext<RouhElQuranContext>(options =>
+	options.UseSqlServer(configuration.GetConnectionString("Connection")));
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // Register Repositories & Services
@@ -29,15 +35,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options => options.Sign
 		.AddDefaultTokenProviders();
 
 
-// Build configuration
-var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Database Context
-builder.Services.AddDbContext<RouhElQuranContext>(options =>
-	options.UseSqlServer(configuration.GetConnectionString("Connection")));
+
 
 
 // AutoMapper
@@ -45,6 +47,12 @@ builder.Services.AddAutoMapper(typeof(MappingClasses));
 
 var app = builder.Build();
 
+app.Use(async (context, next) =>
+{
+	context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 2L * 1024 * 1024 * 1024; // 2 GB
+	context.Request.EnableBuffering();
+	await next();
+});
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

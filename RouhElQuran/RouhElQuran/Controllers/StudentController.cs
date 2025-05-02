@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Writers;
 using NuGet.Protocol.Core.Types;
 using Org.BouncyCastle.Utilities;
 using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 
 namespace RouhElQuran.Controllers
 {

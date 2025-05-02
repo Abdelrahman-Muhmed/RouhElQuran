@@ -1,4 +1,6 @@
-﻿namespace RouhElQuran.SendEmail;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Core.IServices;
 
 public class EmailData
 {

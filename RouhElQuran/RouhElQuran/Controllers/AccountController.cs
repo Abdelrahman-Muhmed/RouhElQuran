@@ -1,10 +1,11 @@
 ﻿using Core.IRepo;
+using Core.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 using RouhElQuran.AccountService;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using RouhElQuran.SendEmail;
 
 namespace RouhElQuran.Controllers

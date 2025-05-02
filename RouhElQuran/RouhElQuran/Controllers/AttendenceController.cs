@@ -3,7 +3,7 @@ using Core.IRepo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 
 namespace RouhElQuran.Controllers
 {

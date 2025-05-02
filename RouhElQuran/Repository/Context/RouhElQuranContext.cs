@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core;
+using Core.HelperModel;
 using Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -25,15 +26,16 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
     public virtual DbSet<freeClass> FreeClasses { get; set; }
     public virtual DbSet<CoursePlan> CoursePlans { get; set; }
     public virtual DbSet<UserPayments> UserPayments { get; set; }
+	public virtual DbSet<Files> Files { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<IdentityRole<int>>().HasData(
-            new IdentityRole<int> { Id = 1, Name = RolesNames.Admin, NormalizedName = RolesNames.Admin.ToUpper() },
-            new IdentityRole<int> { Id = 2, Name = RolesNames.Student, NormalizedName = RolesNames.Student.ToUpper() }
-        );
+        //modelBuilder.Entity<IdentityRole<int>>().HasData(
+        //    new IdentityRole<int> { Id = 1, Name = RolesNames.Admin, NormalizedName = RolesNames.Admin.ToUpper() },
+        //    new IdentityRole<int> { Id = 2, Name = RolesNames.Student, NormalizedName = RolesNames.Student.ToUpper() }
+        //);
 
 
         modelBuilder.Entity<Attendence>(entity =>
@@ -221,5 +223,20 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
                 .HasForeignKey(ic => ic.Course_Id)
                 .OnDelete(DeleteBehavior.Cascade); // Adjust deletion behavior as needed
         });
-    }
+
+		modelBuilder.Entity<Files>(entity =>
+		{
+			entity.HasOne(f => f.AppUser)
+				.WithMany(u => u.files)  
+				.HasForeignKey(f => f.AppUserId) 
+				.OnDelete(DeleteBehavior.Cascade); 
+		});
+		modelBuilder.Entity<Files>(entity =>
+		{
+			entity.HasOne(f => f.Course) 
+				.WithMany(c => c.files)  
+				.HasForeignKey(f => f.CourseId) 
+				.OnDelete(DeleteBehavior.Cascade); 
+		});
+	}
 }

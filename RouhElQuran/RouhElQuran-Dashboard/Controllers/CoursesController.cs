@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 using RouhElQuran.AutoMapper;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
 
 namespace RouhElQuran_Dashboard.Controllers
@@ -13,10 +13,11 @@ namespace RouhElQuran_Dashboard.Controllers
 	{
 		
 		private readonly ICoursesService _coursesService;
-		public CoursesController(ICoursesService coursesService)
+     
+        public CoursesController(ICoursesService coursesService , IConfiguration configuration)
 		{
 			_coursesService = coursesService;
-		}
+        }
 
 		public IActionResult Index() => View();
 
@@ -38,7 +39,7 @@ namespace RouhElQuran_Dashboard.Controllers
 			var course = await _coursesService.GetCourseById(id);
 		  	course = id == null ? new CourseDto() : course;
 
-			return PartialView("Courses/_CreateEdite", course);
+            return PartialView("Courses/_CreateEdite", course);
 
 		}
 
@@ -49,10 +50,10 @@ namespace RouhElQuran_Dashboard.Controllers
 			{
 				try
 				{
-					if(coursedto.Id != null)
-						await _coursesService.updateCourse(coursedto);
+					if (coursedto.Id == null)
+						await _coursesService.CreateCource(coursedto, Request);
 					else
-						await _coursesService.CreateCource(coursedto);
+						await _coursesService.updateCourse(coursedto);
 
 
 					return RedirectToAction(nameof(GetAllDash));

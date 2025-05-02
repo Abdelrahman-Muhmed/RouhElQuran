@@ -66,6 +66,7 @@ deleteRow = (url) => {
             type: 'POST',
             success: function () {
                 console.log("Course deleted successfully");
+                location.reload();  
              
             },
             error: function (err) {

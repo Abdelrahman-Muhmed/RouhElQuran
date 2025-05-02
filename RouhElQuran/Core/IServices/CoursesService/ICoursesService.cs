@@ -1,5 +1,6 @@
 ﻿using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
+using Microsoft.AspNetCore.Http;
 
 namespace RouhElQuran.IServices.CoursesService
 {
@@ -7,7 +8,7 @@ namespace RouhElQuran.IServices.CoursesService
 	{
 		public Task<IEnumerable<CourseDto>> GetAllCourse();
 		public Task<CourseDto> GetCourseById(int? id);
-		public Task<Course> CreateCource(CourseDto courseDto);
+		public Task<Course> CreateCource(CourseDto courseDto, HttpRequest request);
 		public Task<Course> updateCourse(CourseDto courseDto);
 
 		public Task<Course> DeleteCourse(int id);

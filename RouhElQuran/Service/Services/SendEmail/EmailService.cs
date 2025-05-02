@@ -3,18 +3,20 @@ using RouhElQuran.SendEmail;
 using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Repository.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Azure;
 using System.Security.Cryptography;
+using Core.IServices;
+using Microsoft.Extensions.Configuration;
+using System.Net.Mail;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using RefreshToken = Core.IServices.RefreshToken;
 
 public class EmailService : IEmailService
 {

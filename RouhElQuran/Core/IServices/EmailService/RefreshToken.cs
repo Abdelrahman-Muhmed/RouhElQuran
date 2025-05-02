@@ -1,4 +1,4 @@
-﻿namespace RouhElQuran.SendEmail
+﻿namespace Core.IServices
 {
     public class RefreshToken
     {

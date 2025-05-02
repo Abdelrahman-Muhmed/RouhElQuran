@@ -23,4 +23,6 @@ public partial class Course
     public virtual ICollection<Exam> Exams { get; set; } = new List<Exam>();
     public virtual ICollection<Student_Course> Std_Course { get; set; } = new List<Student_Course>();
     public virtual ICollection<Ins_Course> Ins_Courses { get; set; } = new List<Ins_Course>();
+	public virtual ICollection<Files> files { get; set; } = new List<Files>();
+
 }

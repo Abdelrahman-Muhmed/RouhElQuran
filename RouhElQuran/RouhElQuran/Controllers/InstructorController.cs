@@ -4,7 +4,7 @@ using Core.IServices.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 
 namespace RouhElQuran.Controllers
 {

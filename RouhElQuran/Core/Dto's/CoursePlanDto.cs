@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RouhElQuran.Dto_s
+namespace Core.Dto_s
 {
     public class CoursePlanDto
     {

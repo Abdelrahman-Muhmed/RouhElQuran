@@ -1,7 +1,7 @@
 ﻿using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 
-namespace RouhElQuran.SendEmail
+namespace Core.IServices
 {
     public interface IEmailService
     {

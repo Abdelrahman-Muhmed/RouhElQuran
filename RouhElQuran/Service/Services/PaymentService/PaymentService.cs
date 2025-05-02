@@ -1,6 +1,6 @@
 ﻿using Core.IRepo;
+using Core.IServices.PaymentService;
 using Core.Models;
-using Core.orderStatus;
 using Microsoft.Extensions.Configuration;
 using Stripe;
 using Stripe.Checkout;

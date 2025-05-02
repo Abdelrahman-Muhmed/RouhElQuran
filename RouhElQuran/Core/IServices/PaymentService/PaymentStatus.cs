@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Core.orderStatus
+namespace Core.IServices.PaymentService
 {
     public enum PaymentStatus
     {

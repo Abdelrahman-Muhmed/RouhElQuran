@@ -3,7 +3,7 @@ using Core.IRepo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
 
 
@@ -38,13 +38,13 @@ namespace RouhElQuran.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Create(CourseDto coursedto)
+        public async Task<IActionResult> Create(CourseDto coursedto, HttpRequest request)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _CoursesService.CreateCource(coursedto);
+                    await _CoursesService.CreateCource(coursedto , request);
                     return Created();
                 }
                 catch

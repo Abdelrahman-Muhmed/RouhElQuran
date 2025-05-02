@@ -1,5 +1,5 @@
 ﻿using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using System;
 using System.Collections.Generic;
 using System.Linq;

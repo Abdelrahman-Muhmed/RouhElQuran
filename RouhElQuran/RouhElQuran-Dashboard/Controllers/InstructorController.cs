@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
 using Service.Services.CourcesService;
 using Service.Services.UserService;

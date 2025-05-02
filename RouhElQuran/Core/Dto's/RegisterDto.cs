@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace RouhElQuran.Dto_s
+namespace Core.Dto_s
 {
     public class RegisterDto
     {

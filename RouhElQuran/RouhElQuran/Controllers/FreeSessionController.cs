@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using RouhElQuran.Dto_s;
+using Core.Dto_s;
 using System.Security.Claims;
 
 namespace RouhElQuran.Controllers
