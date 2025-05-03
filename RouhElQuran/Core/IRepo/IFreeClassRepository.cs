@@ -10,7 +10,7 @@ namespace Core.IRepo
 {
     public interface IFreeClassRepository : IGenericrepo<freeClass>
     {
-        public Task<Course> GetCourseByID(int id);
+        public Task<Course?> GetCourseByID(int id);
 
         public Task<bool> CheckUserAndCourse(int UserId, int CourseID);
     }

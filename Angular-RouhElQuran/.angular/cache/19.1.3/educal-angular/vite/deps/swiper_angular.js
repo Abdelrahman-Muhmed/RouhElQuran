@@ -1,7 +1,4 @@
 import {
-  core_default
-} from "./chunk-YV7E3QSO.js";
-import {
   AsyncPipe,
   CommonModule,
   NgClass,
@@ -64,6 +61,9 @@ import {
   ɵɵtemplateRefExtractor,
   ɵɵviewQuery
 } from "./chunk-5RF26RJV.js";
+import {
+  core_default
+} from "./chunk-YV7E3QSO.js";
 import "./chunk-WDMUDEB6.js";
 
 // node_modules/swiper/angular/fesm2015/swiper_angular.mjs

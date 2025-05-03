@@ -3,8 +3,6 @@ using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
-using Core.Dto_s;
 using System.Security.Claims;
 
 namespace RouhElQuran.Controllers
@@ -21,39 +19,50 @@ namespace RouhElQuran.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> BookSession(int CourseID)
         {
             if (ModelState.IsValid)
             {
-                var ifCourseExceite = FreeClassRepo.GetCourseByID(CourseID);
+                var ifCourseExceite = await FreeClassRepo.GetCourseByID(CourseID);
                 if (ifCourseExceite is null)
                     return NotFound($"Course WithID {CourseID} Not Found");
 
-                freeClass freeSession = new freeClass
+                if (int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int AppUserId))
                 {
-                    AppUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    //AppUserId = 2,
-                    courseId = CourseID,
-                };
+                    freeClass freeSession = new freeClass
+                    {
+                        AppUserId = AppUserId,
+                        courseId = CourseID,
+                    };
 
-                var Result = await FreeClassRepo.AddAsync(freeSession);
+                    await FreeClassRepo.AddAsync(freeSession);
+                    return Ok("Session Booked SuccessFully");
+                }
+                else
+                {
+                    return BadRequest("Invalid user ID.");
+                }
 
-                return Ok("Session Booked SuccessFully");
+
             }
             return BadRequest();
         }
 
         [HttpGet]
-        [Authorize]
-        public async Task<bool> CheckIsTakeSession(int CourseID)
+        //[Authorize]
+        public async Task<IActionResult> CheckIsTakeSession(int CourseID)
         {
-            var AppUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            //var AppUserId = 2;
+            if (int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int AppUserId))
+            {
+                var result = await FreeClassRepo.CheckUserAndCourse(AppUserId, CourseID);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Invalid user ID.");
+            }
 
-            var result = await FreeClassRepo.CheckUserAndCourse(AppUserId, CourseID);
-
-            return result;
         }
     }
 }

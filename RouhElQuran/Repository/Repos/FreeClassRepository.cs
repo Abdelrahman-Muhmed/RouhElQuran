@@ -24,7 +24,7 @@ namespace Repository.Repos
             return result;
         }
 
-        public async Task<Course> GetCourseByID(int id)
+        public async Task<Course?> GetCourseByID(int id)
           => await dbContext.Courses.FirstOrDefaultAsync(c => c.Id == id);
     }
 }
