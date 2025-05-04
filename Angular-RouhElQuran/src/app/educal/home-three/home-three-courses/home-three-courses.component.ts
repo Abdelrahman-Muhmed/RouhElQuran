@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CoursesService } from 'src/app/Services/courses.service';
 
 @Component({
     selector: 'app-home-three-courses',
@@ -8,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeThreeCoursesComponent implements OnInit {
 
-  constructor() { }
+  cursesData : any = [];
+  constructor(private _CursesService : CoursesService) { }
 
   ngOnInit(): void {
+    this.GetCourses();
   }
+ 
+  GetCourses() {
+    this._CursesService.getAllCourses().subscribe({
+      next: (response) => {  
+        this.cursesData = response;
 
+      },
+      error: (err) => {
+        console.error("Error fetching courses:", err);
+      }
+    });
+  }
 }

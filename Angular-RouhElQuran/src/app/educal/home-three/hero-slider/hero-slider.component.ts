@@ -14,33 +14,34 @@ export class HeroSliderComponent implements OnInit {
   sliderNavData = [
     {
       id: 1,
-      img: 'assets/img/slider/nav/slider-nav-4.jpg',
-      title: "6 Courses",
-      subtitle: "Programming Languages",
+      img: 'assets/img/slider/nav/quran-recitation.jpg',
+      title: "10 Courses",
+      subtitle: "Quran Recitation",
       bgColor: "orange-bg",
     },
     {
       id: 2,
-      img: 'assets/img/slider/nav/slider-nav-1.jpg',
-      title: "4 Courses",
-      subtitle: "Idea Discussion",
+      img: 'assets/img/slider/nav/hadith-studies.jpg',
+      title: "6 Courses",
+      subtitle: "Hadith Studies",
       bgColor: "blue-bg",
     },
     {
       id: 3,
-      img: 'assets/img/slider/nav/slider-nav-2.jpg',
-      title: "8 Courses",
-      subtitle: "Web Development",
+      img: 'assets/img/slider/nav/arabic-language.jpg',
+      title: "12 Courses",
+      subtitle: "Arabic Language",
       bgColor: "pink-bg",
     },
     {
       id: 4,
-      img: 'assets/img/slider/nav/slider-nav-3.jpg',
-      title: "9 Courses",
-      subtitle: "System Administration",
+      img: 'assets/img/slider/nav/islamic-history.jpg',
+      title: "8 Courses",
+      subtitle: "Islamic History",
       bgColor: "green-bg",
     },
-  ]
+  ];
+  
 
   constructor() { }
 

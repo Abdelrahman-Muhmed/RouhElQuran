@@ -81,6 +81,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestimonialAreaComponent } from './home-three/testimonial-area/testimonial-area.component';
 import { EventsComponent } from './home-three/events/events.component';
+import { WhatsappbtnComponent } from './whatsappbtn/whatsappbtn.component';
 
 
 @NgModule({
@@ -156,7 +157,8 @@ import { EventsComponent } from './home-three/events/events.component';
     ContactAreaComponent,
     ContactInfoComponent,
     // BlogTwoComponent,
-    SignUpAreaComponent
+    SignUpAreaComponent,
+    WhatsappbtnComponent
   ],
   imports: [
     //HttpClientModule,
