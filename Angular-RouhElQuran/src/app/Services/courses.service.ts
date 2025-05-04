@@ -13,4 +13,10 @@ export class CoursesService {
   getAllCourses() {
     return this._HttpClient.get('/api/Courses/GetAll');
   }
+
+  bookFreeCourse(courseId: number)
+  {
+    const url = `/api/FreeSession?CourseID=${courseId}`;
+    return this._HttpClient.post(url, null);
+  }
 }
