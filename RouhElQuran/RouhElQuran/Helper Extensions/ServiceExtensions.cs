@@ -1,5 +1,6 @@
 ﻿using Core.IRepo;
 using Core.IServices;
+using Core.IServices.InstructorCoursesService;
 using Core.IServices.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,7 @@ using RouhElQuran.IServices.CoursesService;
 using RouhElQuran.PaymentServices;
 using RouhElQuran.SendEmail;
 using Service.Services.CourcesService;
+using Service.Services.InstructorCoursesService;
 using Service.Services.UserService;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -29,9 +31,11 @@ namespace RouhElQuran.Serivces
             services.AddScoped(typeof(IGenericrepo<>), typeof(Genericrepo<>));
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IFreeClassRepository, FreeClassRepository>();
-            services.AddScoped<IAuthServices, AuthServices>();
+			services.AddScoped<IInstructorCoursesReository, InstructorCoursesReository>();
+			services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IPaymentService, PaymentService>();
 			services.AddScoped<ICoursesService, CoursesServic>();
+            services.AddScoped<IInstructorCoursesService, InstructorCoursesService>();
 
 			services.AddScoped(typeof(IUserService<,>), typeof(UserService<,>));
 

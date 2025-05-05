@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CoursesService } from 'src/app/Services/courses.service';
+import { InstructorCoursesServiceService } from 'src/app/Services/Instructor-Courses-Servic/instructor-courses.service.service';
 
 @Component({
     selector: 'app-home-three-courses',
@@ -9,18 +10,21 @@ import { CoursesService } from 'src/app/Services/courses.service';
 })
 export class HomeThreeCoursesComponent implements OnInit {
 
-  cursesData : any = [];
-  constructor(private _CursesService : CoursesService) { }
+  coursesData : any = [];
+  constructor(private _InstructorCoursesService : InstructorCoursesServiceService) { }
 
   ngOnInit(): void {
+    debugger;
+    console.log(this.coursesData)
     this.GetCourses();
   }
- 
-  GetCourses() {
-    this._CursesService.getAllCourses().subscribe({
-      next: (response) => {  
-        this.cursesData = response;
 
+  GetCourses() {
+    debugger;
+    this._InstructorCoursesService.getAllInstructorCourses().subscribe({
+      next: (response) => {
+        this.coursesData = response;
+            console.log("Courses data:", this.coursesData);
       },
       error: (err) => {
         console.error("Error fetching courses:", err);

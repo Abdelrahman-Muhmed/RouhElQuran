@@ -1,4 +1,5 @@
 ﻿using Core.IRepo;
+using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using System;

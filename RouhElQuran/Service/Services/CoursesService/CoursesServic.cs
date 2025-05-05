@@ -52,6 +52,7 @@ namespace Service.Services.CourcesService
 
 			return Result;
 		}
+	
 
 		public async Task<Course> CreateCource(CourseDto courseDto, HttpRequest request)
 		{

@@ -16,7 +16,15 @@ namespace RouhElQuran.AutoMapper
             .ForMember(dest => dest.Course_Plan, opt => opt.MapFrom(src => src.CoursePlans))
 			.ReverseMap();
 
-            CreateMap<CoursePlan, CoursePlanDto>().ReverseMap();
+            CreateMap<Ins_Course, InstructorCoursesDto>()
+                .ForMember(e => e.instructorDtos, a => a.MapFrom(e => e.Instructor))
+                .ForMember(e => e.courseDtos, a => a.MapFrom(e => e.Course))
+                .ReverseMap();
+
+
+
+
+			CreateMap<CoursePlan, CoursePlanDto>().ReverseMap();
             ///
             CreateMap<Instructor, InstructorDto>()
                 .ForMember(e => e.InsName, a => a.MapFrom(e => e.User_id.FirstName + " " + e.User_id.LastName)).ReverseMap();

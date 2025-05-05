@@ -8,15 +8,15 @@
           <div class="header__left d-flex">
             <div class="logo">
               <a [routerLink]="['/']">
-                <img *ngIf="header__white && !headerSticky else elseImg" src="assets/img/logo/logo-2.png" alt="logo" />
+                <img *ngIf="header__white && !headerSticky else elseImg" src="assets/img/logo/image.png" alt="logo" />
 
                 <ng-template #elseImg>
-                  <img src="assets/img/logo/logo.png" alt="logo">
+                  <img src="assets/img/logo/image.png" alt="logo">
                 </ng-template>
               </a>
             </div>
 
-            <div class="header__category d-none d-lg-block">
+            <!-- <div class="header__category d-none d-lg-block">
               <nav>
                 <ul>
                   <li>
@@ -60,7 +60,7 @@
                 </ul>
               </nav>
 
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-xxl-9 col-xl-9 col-lg-8 col-md-10 col-sm-8 col-6">
@@ -86,7 +86,7 @@
                       <li><a [routerLink]="['/course-details']">Course Details</a></li>
                     </ul>
                   </li> -->
-                  <li><a [routerLink]="['/courses-sidebar']">Courses</a></li>
+                  <!-- <li><a [routerLink]="['/courses-sidebar']">Courses</a></li> -->
 
                   <!-- <li class="has-dropdown">
                     <a [routerLink]="['/blog']">Blog</a>
@@ -96,20 +96,20 @@
                     </ul>
                   </li> -->
 
-
-                  <li><a [routerLink]="['/blog']">Blog</a></li>
+                  <!-- 
+                  <li><a [routerLink]="['/blog']">Blog</a></li> -->
 
 
                   <li class="has-dropdown">
                     <a [routerLink]="['/courses']">Go To</a>
                     <ul class="submenu">
                       <li><a [routerLink]="['/about']">About</a></li>
-                      <li><a [routerLink]="['/instructor']">Instructor</a></li>
+                      <!-- <li><a [routerLink]="['/instructor']">Instructor</a></li>
                       <li><a [routerLink]="['/instructor-details']">Instructor Details</a></li>
                       <li><a [routerLink]="['/event-details']">Event Details</a></li>
                       <li><a [routerLink]="['/cart']">My Cart</a></li>
                       <li><a [routerLink]="['/wishlist']">My Wishlist</a></li>
-                      <li><a [routerLink]="['/checkout']">checkout</a></li>
+                      <li><a [routerLink]="['/checkout']">checkout</a></li> -->
                       <!-- <li><a [routerLink]="['/sign-in']">Sign In</a></li>
                       <li><a [routerLink]="['/sign-up']">Sign Up</a></li>
                       <li><a [routerLink]="['/error']">Error</a></li> -->
@@ -120,7 +120,7 @@
                 </ul>
               </nav>
             </div>
-            <div class="header__search p-relative ml-50 d-none d-md-block">
+            <!-- <div class="header__search p-relative ml-50 d-none d-md-block">
               <form action="#">
                 <input type="text" placeholder="Search...">
                 <button type="submit" title="Search"><i class="fad fa-search"></i></button>
@@ -137,10 +137,10 @@
                   <span class="cart-item">2</span>
                 </a>
               </div>
-            </div>
-            <div class="header__btn ml-20 d-none d-sm-block">
+            </div> -->
+            <!-- <div class="header__btn ml-20 d-none d-sm-block">
               <a [routerLink]="['/contact']" class="e-btn">Try for free</a>
-            </div>
+            </div> -->
             <div class="sidebar__menu d-xl-none">
               <div (click)="handleSidebar()" class="sidebar-toggle-btn ml-30" id="sidebar-toggle">
                 <span class="line"></span>

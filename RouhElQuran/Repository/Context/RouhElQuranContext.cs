@@ -27,6 +27,7 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
     public virtual DbSet<CoursePlan> CoursePlans { get; set; }
     public virtual DbSet<UserPayments> UserPayments { get; set; }
 	public virtual DbSet<Files> Files { get; set; }
+	public virtual DbSet<InstructorSpecialty> InstructorSpecialty { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -238,5 +239,14 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
 				.HasForeignKey(f => f.CourseId) 
 				.OnDelete(DeleteBehavior.Cascade); 
 		});
+
+		modelBuilder.Entity<InstructorSpecialty>(entity =>
+		{
+			entity.HasOne(f => f.Instructor)
+				.WithMany(c => c.InstructorSpecialty)
+				.HasForeignKey(f => f.InstructorId)
+				.OnDelete(DeleteBehavior.Cascade);
+		});
+
 	}
 }

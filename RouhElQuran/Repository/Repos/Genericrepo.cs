@@ -44,9 +44,10 @@ namespace Repository.Repos
         {
             if (typeof(TEntity) == typeof(Instructor))
                 return (IEnumerable<TEntity>)await context.Set<Instructor>().Include(e => e.User_id).ToListAsync();
+            var r = await context.Set<TEntity>().ToListAsync();
+            return r;
 
-            return await context.Set<TEntity>().ToListAsync();
-        }
+		}
 
         public async Task<TEntity> GetByIdAsync(int id)
         {

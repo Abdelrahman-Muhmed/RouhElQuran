@@ -70,13 +70,13 @@ loginForm: FormGroup = new FormGroup({
         next: async (data) => {
           this.ResponseMssage = data; 
           console.log(this.ResponseMssage)
-          localStorage.setItem('token', this.ResponseMssage.token)
           await this._authService.SaveUserLoginData();
-          this._router.navigate(['/home']);
+          this._router.navigate(['/']);
           this.isLoading = false; 
         },
         error: (err) => {
           this.ResponseMssage = err.message; 
+
           this.isLoading = false; 
         }
        });

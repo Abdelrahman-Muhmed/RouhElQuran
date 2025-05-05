@@ -22,48 +22,40 @@
     </div>
 
     <div class="row">
-      <div *ngIf="cursesData.length > 0; else noData">
-        <div *ngFor="let course of cursesData" class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
-          <div class="course__item course__item-2 white-bg mb-30 transition-3">
-            <div class="course__thumb fix w-img">
-              <a [routerLink]="['/course-details']">
-                <img src="assets/img/course/home-3/course-1.jpg" class="mh-50" alt="">
-              </a>
-            </div>
-            <div class="course__content-2">
-              <h3 class="course__title-2"><a [routerLink]="['/course-details']">{{course.CrsName}}</a></h3>
-              <p>{{course.Description}}</p>
-              <div class="course__bottom d-sm-flex justify-content-between align-items-center">
-                <div class="course__teacher-2 d-flex align-items-center">
-                  <div class="course__teacher-thumb-2 mr-20">
-                    <img src="assets/img/course/teacher/home-3/teacher-1.jpg" alt="">
-                    <div class="course__teacher-rating">
-                      <i class="icon_star"></i>
-                    </div>
-                  </div>
-                  <div class="course__teacher-info">
-                    <h6><a [routerLink]="['/instructor-details']">Dr.Ahmed</a></h6>
-                    <span>{{course.Specialty}}</span>
+      <div *ngFor="let course of coursesData" class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
+        <div class="course__item course__item-2 white-bg mb-30 transition-3">
+          <div class="course__thumb fix w-img">
+            <a [routerLink]="['/course-details']">
+              <img src="assets/img/course/home-3/course-1.jpg" class="mh-50" alt="">
+            </a>
+          </div>
+          <div class="course__content-2">
+            <h3 class="course__title-2"><a [routerLink]="['/course-details']"> {{course.courseDtos.crsName}}</a></h3>
+            <p>{{course.courseDtos.description}}</p>
+            <div class="course__bottom d-sm-flex justify-content-between align-items-center">
+              <div class="course__teacher-2 d-flex align-items-center">
+                <div class="course__teacher-thumb-2 mr-20">
+                  <img src="assets/img/course/teacher/home-3/teacher-1.jpg" alt="">
+                  <div class="course__teacher-rating">
+                    <i class="icon_star"></i>
                   </div>
                 </div>
-                <div class="course__meta">
-                  <div class="course__lesson">
-                    <span><i class="far fa-book-alt"></i>{{course.CoursesTime}}Lesson</span>
-                  </div>
+                <div class="course__teacher-info">
+                  <h6><a [routerLink]="['/instructor-details']">{{course.instructorDtos.insName}}Ahmed Omer</a></h6>
+                  <span>{{course.courseDtos.Specialty}}</span>
+                </div>
+              </div>
+              <div class="course__meta">
+                <div class="course__lesson">
+                  <span><i class="far fa-book-alt"></i>{{course.courseDtos.coursesTime}} Lesson</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
-    <ng-template #noData>
-      <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
-        <div class="alert alert-danger text-center" role="alert">
-          <p>No courses available at the moment.</p>
-        </div>
-      </div>
-    </ng-template>
+
   </div>
+
 </section>

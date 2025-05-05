@@ -13,17 +13,13 @@ namespace RouhElQuran.Controllers
     public class InstructorController : ControllerBase
     {
 
-        private readonly IUserService<InstructorDto,Instructor> _userService;
+        private readonly IUserService<Instructor , InstructorDto> _userService;
 
 
-        public InstructorController( IUserService<InstructorDto, Instructor> userService)
-        {
- 
-            _userService = userService;
+        public InstructorController(IUserService<Instructor, InstructorDto> userService)
+          =>  _userService = userService;
 
-		}
-
-        [HttpGet("All")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _userService.GetAllUser();

@@ -12,8 +12,9 @@ namespace Core.Dto_s
         public string? Specialty { get; set; }
 
         public string? CrsName { get; set; }
+        public string? Description { get; set; }
 
-        public int? CoursesTime { get; set; }
+		public int? CoursesTime { get; set; }
 
         public FileUpload? FileUpload { get; set; }
         public List<CoursePlanDto>? Course_Plan { get; set; } = new List<CoursePlanDto>();

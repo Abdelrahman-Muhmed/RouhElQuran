@@ -7,8 +7,8 @@
           <div class="header__left d-flex">
             <div class="logo">
               <a [routerLink]="['/']">
-                <!-- <img class="logo-white w-75" src="assets/img/logo/logo.png" alt="logo"> -->
-                <!-- <img class="logo-black w-75" src="assets/img/logo/logo.jpg" alt="logo"> -->
+                <img class="logo-white w-100" src="assets/img/logo/image.png" alt="logo">
+                <img class="logo-black w-100" src="assets/img/logo/image.png" alt="logo">
               </a>
             </div>
           </div>
@@ -40,9 +40,9 @@
                   </ul>
                 </li> -->
 
-                <li>
+                <!-- <li>
                   <a [routerLink]="['/courses-sidebar']">Courses</a>
-                </li>
+                </li> -->
 
                 <!-- <li class="has-dropdown">
                   <a [routerLink]="['/blog']">Blog</a>
@@ -52,20 +52,20 @@
                   </ul>
                 </li> -->
 
-                <li>
+                <!-- <li>
                   <a [routerLink]="['/blog']">Blog</a>
-                </li>
+                </li> -->
 
                 <li class="has-dropdown">
                   <a [routerLink]="['/courses']">Go To</a>
                   <ul class="submenu">
                     <li><a [routerLink]="['/about']">About</a></li>
-                    <li><a [routerLink]="['/instructor']">Instructor</a></li>
+                    <!-- <li><a [routerLink]="['/instructor']">Instructor</a></li>
                     <li><a [routerLink]="['/instructor-details']">Instructor Details</a></li>
                     <li><a [routerLink]="['/event-details']">Event Details</a></li>
                     <li><a [routerLink]="['/cart']">My Cart</a></li>
                     <li><a [routerLink]="['/wishlist']">My Wishlist</a></li>
-                    <li><a [routerLink]="['/checkout']">checkout</a></li>
+                    <li><a [routerLink]="['/checkout']">checkout</a></li> -->
                     <!-- <li><a [routerLink]="['/sign-in']">Sign In</a></li>
                     <li><a [routerLink]="['/sign-up']">Sign Up</a></li>
                     <li><a [routerLink]="['/error']">Error</a></li> -->
@@ -78,7 +78,7 @@
         </div>
         <div class="col-xxl-5 col-xl-5 col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="header__right d-flex justify-content-end align-items-center">
-            <div class="header__search-2" (click)="handleSearch()">
+            <!-- <div class="header__search-2" (click)="handleSearch()">
               <svg class="search-toggle" viewBox="0 0 584.4 584.4">
                 <g>
                   <g>
@@ -89,18 +89,21 @@
                   </g>
                 </g>
               </svg>
-            </div>
-            <div class="header__btn header__btn-2 ml-30 d-none d-sm-block">
+            </div> -->
+
+            <div *ngIf="isLogin == false" class="header__btn header__btn-2 ml-30 d-none d-sm-block">
               <a [routerLink]="['/sign-up']" class="e-btn">Sign up</a>
             </div>
-            <div class="sidebar__menu d-xl-none">
+            <li><a class="header__btn header__btn-2 ml-30 d-none d-sm-block" [routerLink]="['/courses']">
+                {{userName}}</a></li>
+            <!-- <div class="sidebar__menu d-xl-none">
               <div (click)="handleSidebar()" class="sidebar-toggle-btn sidebar-toggle-btn-white ml-30"
                 id="sidebar-toggle">
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -110,7 +113,7 @@
 
 
 <!-- search area start -->
-<div [class.search-opened]="searchBar" class="header__search-3 white-bg transition-3">
+<!-- <div [class.search-opened]="searchBar" class="header__search-3 white-bg transition-3">
   <div class="container">
     <div class="row">
       <div class="col-xl-12">
@@ -142,7 +145,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- search area end -->
 
 <!-- sidebar area start -->
@@ -214,20 +217,20 @@
             </ul>
           </li> -->
 
-          <li>
+          <!-- <li>
             <a [routerLink]="['/blog']">Blog</a>
-          </li>
+          </li> -->
 
           <li class="menu-item-has-children has-droupdown" [class.active]="showPagesDropdown">
             <a (click)="pagesDropDown()">Go To</a>
             <ul class="sub-menu" [class.active]="showPagesDropdown">
               <li><a [routerLink]="['/about']">About</a></li>
-              <li><a [routerLink]="['/instructor']">Instructor</a></li>
+              <!-- <li><a [routerLink]="['/instructor']">Instructor</a></li>
               <li><a [routerLink]="['/instructor-details']">Instructor Details</a></li>
               <li><a [routerLink]="['/event-details']">Event Details</a></li>
               <li><a [routerLink]="['/cart']">My Cart</a></li>
               <li><a [routerLink]="['/wishlist']">My Wishlist</a></li>
-              <li><a [routerLink]="['/checkout']">checkout</a></li>
+              <li><a [routerLink]="['/checkout']">checkout</a></li> -->
               <!-- <li><a [routerLink]="['/sign-in']">Sign In</a></li>
               <li><a [routerLink]="['/sign-up']">Sign Up</a></li>
               <li><a [routerLink]="['/error']">Error</a></li> -->

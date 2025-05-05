@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
     selector: 'app-header-three',
@@ -7,6 +8,29 @@ import { Component, HostListener, OnInit } from '@angular/core';
     standalone: false
 })
 export class HeaderThreeComponent implements OnInit {
+
+  userName: any;
+  isLogin = false;
+
+  constructor(private _authService:AuthService) {}
+
+  async ngOnInit(): Promise<void> {
+    this._authService.authStatus.subscribe((status:boolean) => {
+      this.isLogin = status;
+      if(status == true) {
+        this.userName =
+        this._authService.UserData[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+        ];
+      }
+    
+    });
+    if (localStorage.getItem('token') != null) {
+      //When SaveUserLoginData is called, it emits an event that NavBarComponent listens
+      // for, updating the UI in real-time without requiring a page reload.
+      await this._authService.SaveUserLoginData();
+    }
+  }
 
   headerSticky : boolean = false;
   searchBar : boolean = false;
@@ -64,9 +88,5 @@ export class HeaderThreeComponent implements OnInit {
   }
 
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
