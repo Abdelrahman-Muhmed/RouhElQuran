@@ -19,11 +19,11 @@ namespace RouhElQuran
 
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
-            {
+            //if (app.Environment.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            //}
 
             // Security & Global Configurations
             app.UseHttpsRedirection();
