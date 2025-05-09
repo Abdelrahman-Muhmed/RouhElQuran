@@ -23,9 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist/educal-angular"
-            },
+            "outputPath": "dist/educal-angular", 
             "index": "src/index.html",
             "polyfills": [
               "src/polyfills.ts"
@@ -35,11 +33,11 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-                {
+              {
                 "glob": "_redirects",
                 "input": "src",
                 "output": "/"
-                }
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -83,16 +81,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "educal-angular:build:production"
-
             },
             "development": {
               "buildTarget": "educal-angular:build:development"
-              
             }
           },
           "defaultConfiguration": "development",
