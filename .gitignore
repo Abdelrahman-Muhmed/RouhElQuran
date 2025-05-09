@@ -442,4 +442,4 @@ testem.log
 Thumbs.db
 
 # Do NOT ignore dist directory
-!dist/
+!dist
