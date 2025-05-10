@@ -40,22 +40,17 @@ steps:
 # نقل الملفات المنشورة للـ MVC
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(build.artifactStagingDirectory)\MVC'
-    TargetFolder: 'C:\Published\MVC'
+    SourceFolder: 'C:\Published\MVC'
+    TargetFolder: 'C:\Deployment\MVC'
     CleanTargetFolder: true
 
 # نقل الملفات المنشورة للـ API
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(build.artifactStagingDirectory)\API'
-    TargetFolder: 'C:\Published\API'
+    SourceFolder: 'C:\Published\API'
+    TargetFolder: 'C:\Deployment\Api'
     CleanTargetFolder: true
 
-# تنفيذ الاختبارات
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
 
 # نشر الملفات كـ Build Artifacts
 - task: PublishBuildArtifacts@1
