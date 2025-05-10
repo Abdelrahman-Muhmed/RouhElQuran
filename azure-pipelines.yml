@@ -35,15 +35,15 @@ steps:
 # خطوة نقل الملفات المنشورة إلى المسارات المحددة
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(build.artifactStagingDirectory)\WebApp'  # المسار الخاص بالملفات المنشورة
+    SourceFolder: '$(Build.ArtifactStagingDirectory)\MVC'  # تحديث المسار الخاص بالملفات المنشورة لـ MVC
     TargetFolder: 'C:\Published\MVC'  # مسار الفولدر الذي ستضع فيه ملفات الـ MVC
-    cleanTargetFolder: true  # سيقوم بحذف أي ملفات قديمة قبل النسخ
+    CleanTargetFolder: true  # سيقوم بحذف أي ملفات قديمة قبل النسخ
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(build.artifactStagingDirectory)\API'  # المسار الخاص بالملفات المنشورة
+    SourceFolder: '$(Build.ArtifactStagingDirectory)\API'  # تحديث المسار الخاص بالملفات المنشورة لـ API
     TargetFolder: 'C:\Published\API'  # مسار الفولدر الذي ستضع فيه ملفات الـ API
-    cleanTargetFolder: true  # سيقوم بحذف أي ملفات قديمة قبل النسخ
+    CleanTargetFolder: true  # سيقوم بحذف أي ملفات قديمة قبل النسخ
 
 - task: VSTest@2
   inputs:
