@@ -10,16 +10,21 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+# تثبيت .NET SDK
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '8.0.x'
+
+# تثبيت أداة NuGet
 - task: NuGetToolInstaller@1
 
+# استعادة الحزم باستخدام NuGet
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
 
+# بناء المشروع باستخدام Visual Studio
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -27,30 +32,33 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+# بناء ونشر المشاريع باستخدام ملف CombinedPublish.msbuild
 - script: |
-    msbuild CombinedPublish.msbuild /t:PublishAll
+    msbuild C:\Users\Bodi\source\repos\RouhElQuran\RouhElQuran\CombinedPublish.msbuild /t:PublishAll
   displayName: 'Build and Publish Projects'
 
-# خطوة نقل الملفات المنشورة إلى المسارات المحددة
+# نقل الملفات المنشورة للـ MVC
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)\MVC'  # تحديث المسار الخاص بالملفات المنشورة لـ MVC
-    TargetFolder: 'C:\Published\MVC'  # مسار الفولدر الذي ستضع فيه ملفات الـ MVC
-    CleanTargetFolder: true  # سيقوم بحذف أي ملفات قديمة قبل النسخ
+    SourceFolder: '$(build.artifactStagingDirectory)\MVC'
+    TargetFolder: 'C:\Published\MVC'
+    CleanTargetFolder: true
 
+# نقل الملفات المنشورة للـ API
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)\API'  # تحديث المسار الخاص بالملفات المنشورة لـ API
-    TargetFolder: 'C:\Published\API'  # مسار الفولدر الذي ستضع فيه ملفات الـ API
-    CleanTargetFolder: true  # سيقوم بحذف أي ملفات قديمة قبل النسخ
+    SourceFolder: '$(build.artifactStagingDirectory)\API'
+    TargetFolder: 'C:\Published\API'
+    CleanTargetFolder: true
 
+# تنفيذ الاختبارات
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# نشر الملفات كـ Build Artifacts للاستخدام لاحقًا
+# نشر الملفات كـ Build Artifacts
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'C:\Published'  # المسار الذي يحتوي على الملفات المنشورة
+    PathtoPublish: 'C:\Published'
     ArtifactName: 'PublishedApps'
