@@ -1,0 +1,13 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="PublishAll">
+    <!--  publish API -->
+    <MSBuild Projects="C:\Users\Bodi\source\repos\RouhElQuran\RouhElQuran\Repository\Repository.csproj"
+             Targets="Publish"
+             Properties="Configuration=Release;PublishDir=C:\Published\API\" />
+
+    <!-- publish MVC -->
+    <MSBuild Projects="C:\Users\Bodi\source\repos\RouhElQuran\RouhElQuran\RouhElQuran-Dashboard\RouhElQuran-Dashboard.csproj"
+             Targets="Publish"
+             Properties="Configuration=Release;PublishDir=C:\Published\MVC\" />
+  </Target>
+</Project>

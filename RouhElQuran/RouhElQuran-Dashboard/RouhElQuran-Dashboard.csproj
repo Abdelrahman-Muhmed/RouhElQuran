@@ -24,4 +24,8 @@
     <ProjectReference Include="..\RouhElQuran\RouhElQuran.csproj" />
   </ItemGroup>
 
+<ItemGroup>
+  <None Remove="appsettings.json" />
+</ItemGroup>
+
 </Project>
