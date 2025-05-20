@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RouhElQuran.Serivces;
@@ -9,38 +10,53 @@ namespace RouhElQuran
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+          
 
-            // Add Controllers
-            builder.Services.AddControllers();
+			var builder = WebApplication.CreateBuilder(args);
 
-            // Register Services (Moved to ServiceExtensions.cs)
-            builder.Services.AddAppServices(builder.Configuration);
+			// Register Services
+			builder.Services.AddAppServices(builder.Configuration);
 
-            var app = builder.Build();
+			// Add MVC and API Controllers
+			builder.Services.AddControllersWithViews(); // MVC Controllers
+			builder.Services.AddControllers();          // API Controllers
 
-            //if (app.Environment.IsDevelopment())
-            //{
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            //}
+			// Configure Request Limits (e.g., for File Uploads)
+			builder.Services.Configure<FormOptions>(options =>
+			{
+				options.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024; // 2 GB
+			});
 
-            // Security & Global Configurations
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseDefaultFiles();
-            app.UseCors("Policy");
+			// Build Application
+			var app = builder.Build();
 
-            // Routing & Authentication/Authorization
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+			// Middleware for File Uploads
+			app.Use(async (context, next) =>
+			{
+				context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 2L * 1024 * 1024 * 1024; // 2 GB
+				context.Request.EnableBuffering();
+				await next();
+			});
 
-            // Map Endpoints
-            app.MapControllers();
+			// Configure Middleware
+			app.UseHttpsRedirection();
+			app.UseStaticFiles();
+			app.UseRouting();
+			app.UseAuthentication();
+			app.UseAuthorization();
+			//app.UseCors("Policy");
 
-            // Run the application
-            await app.RunAsync();
-        }
+			// Enable Swagger (For API documentation)
+		
+				app.UseSwagger();
+				app.UseSwaggerUI();
+
+			// MVC Routing
+			app.MapControllerRoute(
+				name: "default",
+				pattern: "{controller=Home}/{action=Index}/{id?}");
+			// Run Application
+			app.Run();
+		}
     }
 }

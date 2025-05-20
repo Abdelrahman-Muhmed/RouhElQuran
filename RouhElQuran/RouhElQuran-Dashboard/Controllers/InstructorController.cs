@@ -6,8 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
-using Service.Services.CourcesService;
-using Service.Services.UserService;
+
 
 namespace RouhElQuran_Dashboard.Controllers
 {

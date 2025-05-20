@@ -3,6 +3,7 @@ using Core.IServices;
 using Core.IServices.InstructorCoursesService;
 using Core.IServices.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Repository.Models;
 using Repository.Repos;
 using RouhElQuran.AccountService;
+using RouhElQuran.AutoMapper;
 using RouhElQuran.IServices.CoursesService;
 using RouhElQuran.PaymentServices;
 using RouhElQuran.SendEmail;
@@ -27,8 +29,9 @@ namespace RouhElQuran.Serivces
     {
         public static void AddAppServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // Register Repositories & Services
-            services.AddScoped(typeof(IGenericrepo<>), typeof(Genericrepo<>));
+
+			// Register Repositories & Services
+			services.AddScoped(typeof(IGenericrepo<>), typeof(Genericrepo<>));
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IFreeClassRepository, FreeClassRepository>();
 			services.AddScoped<IInstructorCoursesReository, InstructorCoursesReository>();
@@ -89,6 +92,18 @@ namespace RouhElQuran.Serivces
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-        }
+
+
+            //-----------------------------------------------MVC 
+            //For upload file 
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+			//// AutoMapper
+			//services.AddAutoMapper(typeof(MappingClasses));
+
+			
+
+
+		}
     }
 }

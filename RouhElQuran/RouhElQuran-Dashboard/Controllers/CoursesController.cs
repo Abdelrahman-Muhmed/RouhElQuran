@@ -1,9 +1,8 @@
-﻿using AutoMapper;
+﻿
 using Core.IRepo;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using RouhElQuran.AutoMapper;
 using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
 

@@ -5,27 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>RouhElQuran_Dashboard</RootNamespace>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\js\AcademyCrud.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\js\AcademyCrud.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\js\AcademyCrud.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\RouhElQuran\RouhElQuran.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<None Remove="appsettings.json" />
-	</ItemGroup>
 
 </Project>
