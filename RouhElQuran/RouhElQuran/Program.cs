@@ -41,10 +41,11 @@ namespace RouhElQuran
 			// Configure Middleware
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
+			app.UseCors("Policy");
 			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();
-			//app.UseCors("Policy");
+		
 
 			// Enable Swagger (For API documentation)
 		
