@@ -11,14 +11,11 @@ using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
 using Repository.Models;
 using Service.Helper.FileUploadHelper;
-using System.Web.WebPages.Html;
 using Core.HelperModel;
 using Core.Models;
-using System.Web.Mvc;
 using Microsoft.AspNetCore.Http;
 using Stripe.Forwarding;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Mvc;
 namespace Service.Services.CourcesService
 {
 	public class CoursesServic : ICoursesService
