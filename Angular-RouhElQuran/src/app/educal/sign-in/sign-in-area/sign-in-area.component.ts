@@ -23,11 +23,11 @@ loginForm: FormGroup = new FormGroup({
   ngOnInit(): void {
     this.loginForm.get('password')?.valueChanges.subscribe(() => {
       this.validatePassword();
-    }) 
+    })
   }
 
 
-  //Custome Validation 
+  //Custome Validation
   validatePassword(): void {
     const passwordControl = this.loginForm.get('password');
     const value = passwordControl?.value;
@@ -62,26 +62,28 @@ loginForm: FormGroup = new FormGroup({
   }
 
 
-  //Login 
-  LoginData() {
+  //Login
+   LoginData() {
     this.isLoading = true;
     if(this.loginForm.valid) {
       this._authService.Login(this.loginForm.value).subscribe({
         next: async (data) => {
-          this.ResponseMssage = data; 
-          console.log(this.ResponseMssage)
+          this.ResponseMssage = data;
+          localStorage.setItem('token', this.ResponseMssage.token)
           await this._authService.SaveUserLoginData();
           this._router.navigate(['/']);
-          this.isLoading = false; 
+          this.isLoading = false;
         },
         error: (err) => {
-          this.ResponseMssage = err.message; 
-
-          this.isLoading = false; 
+          this.ResponseMssage = err.message;
+          this.isLoading = false;
         }
        });
     }
    this.loginForm.markAllAsTouched();
   }
+
+
+
 
 }

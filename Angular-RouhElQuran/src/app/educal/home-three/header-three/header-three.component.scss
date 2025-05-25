@@ -1,0 +1,14 @@
+.header__btn-2:hover {
+  background-color: #007bff !important; /* Change background to Bootstrap's primary color */
+  color: white !important; /* Change text color to white */
+  text-decoration: none !important; /* Ensure no underline appears */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a more prominent shadow on hover */
+}
+.header__btn-2 {
+  background-color: #f8f9fa !important; /* Set a light background color */
+  color: #007bff !important; /* Set text color to Bootstrap's primary color */
+  border: 1px solid #007bff !important; /* Add a border with the same color */
+  padding: 10px 20px !important; /* Add padding for better appearance */
+  border-radius: 5px !important; /* Slightly rounded corners */
+  transition: all 0.3s ease-in-out !important; /* Smooth transition for hover effects */
+}

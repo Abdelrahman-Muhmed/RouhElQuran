@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://abdelrahman18-001-site1.mtempurl.com",
+    "target": "https://localhost:7249",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

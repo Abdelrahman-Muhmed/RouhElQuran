@@ -1,7 +1,7 @@
 <header>
   <div id="header-sticky"
     [ngClass]="headerSticky ? 'header__area header__transparent header__padding-2 sticky' : 'header__area header__transparent header__padding-2' ">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row align-items-center">
         <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="header__left d-flex">
@@ -72,6 +72,7 @@
                   </ul>
                 </li>
                 <li><a [routerLink]="['/contact']">Contact</a></li>
+
               </ul>
             </nav>
           </div>
@@ -91,19 +92,28 @@
               </svg>
             </div> -->
 
-            <div *ngIf="isLogin == false" class="header__btn header__btn-2 ml-30 d-none d-sm-block">
+            <div *ngIf="isLogin == false" class="btn header__btn ml-30 d-none d-sm-block">
               <a [routerLink]="['/sign-up']" class="e-btn">Sign up</a>
             </div>
-            <li><a class="header__btn header__btn-2 ml-30 d-none d-sm-block" [routerLink]="['/courses']">
-                {{userName}}</a></li>
-            <!-- <div class="sidebar__menu d-xl-none">
+            <li *ngIf="isLogin" class="d-none d-sm-inline ml-sm-3 mt-2 mt-sm-0 text-center">
+              <a class="header__btn header__btn-2 text-dark fw-bold text-decoration-none px-3 py-2 rounded-pill shadow-sm gradient-border"
+                [routerLink]="['/courses']">
+                Welcome! {{userName}}
+              </a>
+            </li>
+            <div *ngIf="isLogin" class="btn header__btn ml-30 d-none d-sm-block">
+              <button (click)="logOut()" class="btn btn-danger">Sign Out</button>
+            </div>
+
+
+            <div class="sidebar__menu d-xl-none">
               <div (click)="handleSidebar()" class="sidebar-toggle-btn sidebar-toggle-btn-white ml-30"
                 id="sidebar-toggle">
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -161,6 +171,7 @@
       <div class="logo mb-40">
         <a [routerLink]="['/']">
           <!-- <img src="../../assets/img/logo/logo.png" alt="logo"> -->
+          <img class="logo-black w-100" src="assets/img/logo/rouh-elquran.png" alt="logo">
         </a>
       </div>
 
@@ -204,9 +215,9 @@
           </li> -->
 
 
-          <li>
+          <!-- <li>
             <a [routerLink]="['/courses-sidebar']">Courses</a>
-          </li>
+          </li> -->
 
           <!-- <li class="menu-item-has-children has-droupdown" [class.active]="showBlogDropdown">
 
@@ -240,17 +251,32 @@
           <li>
             <a [routerLink]="['/contact']" class="border-0">Contact</a>
           </li>
-
+          <li>
+            <div *ngIf="isLogin == false" class="btn header__btn ml-30 w-100 d-block text-center px-2 py-2"
+              style="max-width: 300px; margin: 0 auto;">
+              <a [routerLink]="['/sign-up']" class="e-btn w-100" style="padding: 10px 0; font-size: 1.1rem;">Sign up</a>
+            </div>
+          </li>
+          <li *ngIf="isLogin" class="w-100 d-block text-center my-2">
+            <a class="header__btn header__btn-2 text-dark fw-bold text-decoration-none px-3 py-2 rounded-pill shadow-sm gradient-border w-100"
+              [routerLink]="['/courses']" style="max-width:300px; margin:0 auto;">
+              Welcome! {{userName}}
+            </a>
+          </li>
+          <li *ngIf="isLogin" class="w-100 d-block text-center my-2">
+            <button (click)="logOut()" class="btn btn-danger w-100" style="max-width:300px; margin:0 auto;">Sign
+              Out</button>
+          </li>
         </ul>
       </div>
 
-      <div class="sidebar__search p-relative mt-40 ">
+      <!-- <div class="sidebar__search p-relative mt-40 ">
         <form action="#">
           <input type="text" placeholder="Search...">
           <button type="submit" title="Search"><i class="fad fa-search"></i></button>
         </form>
-      </div>
-      <div class="sidebar__cart mt-30">
+      </div> -->
+      <!-- <div class="sidebar__cart mt-30">
         <a href="#">
           <div class="header__cart-icon">
             <svg viewBox="0 0 24 24">
@@ -261,7 +287,7 @@
           </div>
           <span class="cart-item">3</span>
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

@@ -14,13 +14,11 @@ export class HomeThreeCoursesComponent implements OnInit {
   constructor(private _InstructorCoursesService : InstructorCoursesServiceService) { }
 
   ngOnInit(): void {
-    debugger;
-    console.log(this.coursesData)
+
     this.GetCourses();
   }
 
   GetCourses() {
-    debugger;
     this._InstructorCoursesService.getAllInstructorCourses().subscribe({
       next: (response) => {
         this.coursesData = response;

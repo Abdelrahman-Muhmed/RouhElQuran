@@ -26,10 +26,10 @@ export class SignUpAreaComponent implements OnInit {
     confirmPassword: new FormControl(null, [Validators.required]),
     phoneNumber: new FormControl(null, [Validators.required]),
     language: new FormControl(null, [Validators.required]),
-    personalImage: new FormControl(null),
+    UserRole: new FormControl(null),
   } );
 
-
+  // personalImage: new FormControl(null),
 
   ngOnInit(): void {
     this.registerForm.get('password')?.valueChanges.subscribe(() => {
@@ -86,13 +86,10 @@ confirmPassword(){
 
 }
 
-//Register 
+//Register
   RegisterData() {
     if (this.registerForm.valid) {
       this.isLoading = true;
-      // console.log(this.registerForm.value);
-
-      // debugger;
       this._authService.RegisterAccount(this.registerForm.value).subscribe({
         next: (data) => {
           this.ResponseMssage = data.message;

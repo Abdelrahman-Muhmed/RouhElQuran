@@ -15,18 +15,18 @@ export class AuthService {
 
    private apiUrl = environment.apiBaseUrl;
   //Register
-  RegisterAccount(registerForm: any):Observable<any>{
+  RegisterAccount(registerForm: object):Observable<any>{
+    console.log(registerForm);
 
-    return this._HttpClient.get(`${this.apiUrl}/api/Account/Register`, {params: registerForm});
-
-  // return this._HttpClient.post(`${this.BaseUrl}Account/Register`,{registerForm});
-  // return this._HttpClient.post('/api/Account/Register', registerForm);
+     //return this._HttpClient.post(`${this.apiUrl}/api/Account/Register`, {params: registerForm});
+       return this._HttpClient.post('/api/Account/Register', registerForm);
+    //return this._HttpClient.post(`${this.apiUrl}Account/Register`,{registerForm});
+   // return this._HttpClient.post(`${this.apiUrl}/api/Account/Register`, registerForm);
   }
 //Login
-  Login(loginForm:any):Observable<any>{
-    return this._HttpClient.get(`${this.apiUrl}/api/Account/Login`, {params: loginForm});
-
-    // return this._HttpClient.post('/api/Account/Login',loginForm );
+  Login(loginForm:object):Observable<any>{
+   // return this._HttpClient.post(`${this.apiUrl}/api/Account/Login`, {params: loginForm});
+    return this._HttpClient.post('/api/Account/Login',loginForm );
 
   }
 
@@ -37,6 +37,11 @@ export class AuthService {
       this.authStatus.emit(true);
     }
   }
+
+  async RemoveUserlogoutData() {
+  localStorage.removeItem('token'); 
+  this.authStatus.emit(false); 
+}
 }
 
 

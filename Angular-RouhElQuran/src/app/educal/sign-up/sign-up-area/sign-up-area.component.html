@@ -174,7 +174,7 @@
                 <h5>Phone Number</h5>
                 <div class="sign__input">
                   <input type="phone" formControlName="phoneNumber" placeholder="phone Number" />
-                  <i class="fal fa-envelope"></i>
+                  <i class="fal fa-phone"></i>
                 </div>
                 <div *ngIf="registerForm.get('phoneNumber')?.errors && registerForm.get('phoneNumber')?.touched">
                   <div *ngIf="registerForm.get('phoneNumber')?.getError('required')"
@@ -188,7 +188,7 @@
                 <h5>Language</h5>
                 <div class="sign__input">
                   <input type="language" formControlName="language" placeholder="Language" />
-                  <i class="fal fa-envelope"></i>
+                  <i class="fal fa-globe"></i>
                 </div>
                 <div *ngIf="registerForm.get('language')?.errors && registerForm.get('language')?.touched">
                   <div *ngIf="registerForm.get('language')?.getError('required')" class="alert alert-danger mt-2 p-2">

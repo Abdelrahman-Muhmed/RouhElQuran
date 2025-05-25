@@ -8,10 +8,11 @@
           <div class="header__left d-flex">
             <div class="logo">
               <a [routerLink]="['/']">
-                <img *ngIf="header__white && !headerSticky else elseImg" src="assets/img/logo/image.png" alt="logo" />
+                <!-- <img *ngIf="header__white && !headerSticky else elseImg" src="../../ assets/img/logo/rouh-elquran.png"
+                  alt="logo" /> -->
 
                 <ng-template #elseImg>
-                  <img src="assets/img/logo/image.png" alt="logo">
+                  <!-- <img class="logo-white w-100" src="../../ assets/img/logo/rouh-elquran.png" alt="logo"> -->
                 </ng-template>
               </a>
             </div>
@@ -156,7 +157,7 @@
 </header>
 
 <!-- cart mini area start -->
-<div class="cartmini__area">
+<!-- <div class="cartmini__area">
   <div class="cartmini__wrapper" [class.opened]="showCart">
     <div class="cartmini__title">
       <h4>Shopping cart</h4>
@@ -171,7 +172,7 @@
           <li>
             <div class="cartmini__thumb">
               <a href="#">
-                <img src="assets/img/course/sm/cart-1.jpg" alt="">
+                <img src="../../ assets/img/logo/rouh-elquran.png" alt="">
               </a>
             </div>
             <div class="cartmini__content">
@@ -190,7 +191,7 @@
           <li>
             <div class="cartmini__thumb">
               <a href="#">
-                <img src="assets/img/course/sm/cart-2.jpg" alt="">
+                <img src="../../ assets/img/logo/rouh-elquran.png" alt="">
               </a>
             </div>
             <div class="cartmini__content">
@@ -210,7 +211,7 @@
           <li>
             <div class="cartmini__thumb">
               <a href="#">
-                <img src="assets/img/course/sm/cart-3.jpg" alt="">
+                <img src="../../ assets/img/logo/rouh-elquran.png" alt="">
               </a>
             </div>
             <div class="cartmini__content">
@@ -241,7 +242,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div (click)="handleCartClose()" [class.opened]="showCart" class="body-overlay"></div>
 <!-- cart mini area end -->
@@ -259,7 +260,8 @@
     <div class="sidebar__content">
       <div class="logo mb-40">
         <a [routerLink]="['/']">
-          <img src="../../assets/img/logo/logo.png" alt="logo">
+
+          <!-- <img src="/src/assets/img/logo/rouh-elquran.png" alt="logo"> -->
         </a>
       </div>
 
@@ -304,9 +306,9 @@
           </li> -->
 
 
-          <li>
+          <!-- <li>
             <a [routerLink]="['/courses-sidebar']">Course sidebar </a>
-          </li>
+          </li> -->
 
           <!-- <li class="menu-item-has-children has-droupdown" [class.active]="showBlogDropdown">
 
@@ -318,19 +320,19 @@
 
           </li> -->
 
-          <li><a [routerLink]="['/blog']">Blog</a></li>
+          <!-- <li><a [routerLink]="['/blog']">Blog</a></li> -->
 
 
           <li class="menu-item-has-children has-droupdown" [class.active]="showPagesDropdown">
             <a (click)="pagesDropDown()">Go To</a>
             <ul class="sub-menu" [class.active]="showPagesDropdown">
               <li><a [routerLink]="['/about']">About</a></li>
-              <li><a [routerLink]="['/instructor']">Instructor</a></li>
+              <!-- <li><a [routerLink]="['/instructor']">Instructor</a></li>
               <li><a [routerLink]="['/instructor-details']">Instructor Details</a></li>
               <li><a [routerLink]="['/event-details']">Event Details</a></li>
               <li><a [routerLink]="['/cart']">My Cart</a></li>
               <li><a [routerLink]="['/wishlist']">My Wishlist</a></li>
-              <li><a [routerLink]="['/checkout']">checkout</a></li>
+              <li><a [routerLink]="['/checkout']">checkout</a></li> -->
               <!-- <li><a [routerLink]="['/sign-in']">Sign In</a></li>
               <li><a [routerLink]="['/sign-up']">Sign Up</a></li>
               <li><a [routerLink]="['/error']">Error</a></li> -->
@@ -344,7 +346,7 @@
         </ul>
       </div>
 
-      <div class="sidebar__search p-relative mt-40 ">
+      <!-- <div class="sidebar__search p-relative mt-40 ">
         <form action="#">
           <input type="text" placeholder="Search...">
           <button type="submit" title="Search"><i class="fad fa-search"></i></button>
@@ -361,7 +363,7 @@
           </div>
           <span class="cart-item">3</span>
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

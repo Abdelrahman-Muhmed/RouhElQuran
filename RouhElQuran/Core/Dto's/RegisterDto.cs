@@ -21,13 +21,15 @@ namespace Core.Dto_s
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        //[StringLength(20, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 20 characters.")]
-        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,20}$",
-        //    ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
-        public string Password { get; set; }
+		//[StringLength(20, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 20 characters.")]
+		//[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,20}$",
+		//    ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
+		[Required]
+		public string Password { get; set; }
 
-        [Required]
+		public string? confirmPassword { get; set; }
+
+		[Required]
         public string PhoneNumber { get; set; }
 
         public string? UserRole { get; set; }
@@ -36,6 +38,6 @@ namespace Core.Dto_s
         public string Language { get; set; }
 
         //[RegularExpression(@"^.*\.(jpg|JPG|png|PNG)$", ErrorMessage = "Please select a valid JPG or PNG file.")]
-        public IFormFile? PersonalImage { get; set; }
+        //public IFormFile? PersonalImage { get; set; }
     }
 }

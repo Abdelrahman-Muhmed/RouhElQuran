@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class HeaderThreeComponent implements OnInit {
   userName: any;
   isLogin = false;
 
-  constructor(private _authService:AuthService) {}
+
+  constructor(private _authService:AuthService, private _router: Router) {}
 
   async ngOnInit(): Promise<void> {
     this._authService.authStatus.subscribe((status:boolean) => {
@@ -88,5 +90,11 @@ export class HeaderThreeComponent implements OnInit {
   }
 
 
-
+//Logout 
+logOut() {
+  this._authService.RemoveUserlogoutData().then(() => {
+    this._router.navigate(['/']).then(() => {
+    });
+  });
+}
 }

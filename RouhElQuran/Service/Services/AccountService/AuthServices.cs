@@ -32,8 +32,8 @@ namespace RouhElQuran.AccountService
                 return "Email Not Confirmed";
 
             var userAfterCheck = await signInManager.CheckPasswordSignInAsync(emailCheck, user.Password, false);
-            //if (!userAfterCheck.Succeeded)
-            //    return "Email Or Password Incorrect";
+            if (!userAfterCheck.Succeeded)
+                return "Email Or Password Incorrect";
 
             return new UserDto()
             {
