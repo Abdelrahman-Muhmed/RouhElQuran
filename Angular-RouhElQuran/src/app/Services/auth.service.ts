@@ -19,14 +19,16 @@ export class AuthService {
     console.log(registerForm);
 
      //return this._HttpClient.post(`${this.apiUrl}/api/Account/Register`, {params: registerForm});
-       return this._HttpClient.post('/api/Account/Register', registerForm);
+      //  return this._HttpClient.post('/api/Account/Register', registerForm);
+       return this._HttpClient.post(`${this.apiUrl}/api/Account/Register`, registerForm);
     //return this._HttpClient.post(`${this.apiUrl}Account/Register`,{registerForm});
    // return this._HttpClient.post(`${this.apiUrl}/api/Account/Register`, registerForm);
   }
 //Login
   Login(loginForm:object):Observable<any>{
    // return this._HttpClient.post(`${this.apiUrl}/api/Account/Login`, {params: loginForm});
-    return this._HttpClient.post('/api/Account/Login',loginForm );
+       return this._HttpClient.post(`${this.apiUrl}/api/Account/Login`, loginForm);
+
 
   }
 
@@ -39,8 +41,8 @@ export class AuthService {
   }
 
   async RemoveUserlogoutData() {
-  localStorage.removeItem('token'); 
-  this.authStatus.emit(false); 
+  localStorage.removeItem('token');
+  this.authStatus.emit(false);
 }
 }
 
