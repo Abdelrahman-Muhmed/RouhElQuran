@@ -1,0 +1,66 @@
+<!-- emailconfirm.component.html -->
+<section class="signup__area po-rel-z1 pt-100 pb-145">
+  <div class="sign__shape">
+    <div class="man-1 floating-icon">
+      <i class="fas fa-user-check"></i>
+    </div>
+    <div class="man-2 floating-icon">
+      <i class="fas fa-envelope-open"></i>
+    </div>
+    <div class="circle floating-icon">
+      <i class="fas fa-check"></i>
+    </div>
+    <div class="zigzag floating-icon">
+      <i class="fas fa-paper-plane"></i>
+    </div>
+    <div class="dot floating-icon">
+      <i class="fas fa-star"></i>
+    </div>
+    <div class="email-bg floating-icon">
+      <i class="fas fa-mail-bulk"></i>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2">
+        <div class="section__title-wrapper text-center mb-55">
+          <h2 class="section__title">Almost There!</h2>
+          <p class="section__subtitle">Just one more step to complete your registration</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xxl-6 offset-xxl-3 col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
+        <div class="sign__wrapper white-bg">
+          <div class="confirmation__content">
+            <div class="confirmation__icon">
+              <i class="fas fa-envelope-circle-check"></i>
+            </div>
+
+            <h2 class="confirmation__title">Confirm Your Email</h2>
+
+            <div class="confirmation__text">
+              <p>Registration successful! 🎉</p>
+              <p>We've sent a confirmation link to<br>
+                <span class="confirmation__email">{{ email }}</span>
+              </p>
+              <p>Please check your email and click the confirmation link to activate your account.</p>
+            </div>
+
+            <a [href]="emailProviderUrl" target="_blank" class="e-btn">
+              <i class=" fas fa-external-link-alt me-2"></i>
+              Go to your email inbox
+            </a>
+
+            <div class="confirmation__footer">
+              <p>Didn't receive the email? <a href="#" (click)="resendEmail()">Resend confirmation</a></p>
+              <p>Need help? <a href="#" (click)="contactSupport()">Contact support</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../../../Services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormControlOptions, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +14,7 @@ import { FormControl, FormControlOptions, FormGroup, Validators } from '@angular
 })
 export class SignUpAreaComponent implements OnInit {
 
-  constructor(private _authService: AuthService) { }
+  constructor(private _authService: AuthService , private Router: Router) { }
   isLoading = false;
   ResponseMssage: any;
 
@@ -92,8 +93,9 @@ confirmPassword(){
       this.isLoading = true;
       this._authService.RegisterAccount(this.registerForm.value).subscribe({
         next: (data) => {
-          this.ResponseMssage = data.message;
           this.isLoading = false;
+          this.Router.navigate(['/email-confirm'] , { queryParams: { email: this.registerForm.value.email } });
+         // this.ResponseMssage = data.message;  
         },
         error: (err) => {
           this.ResponseMssage = err.error;

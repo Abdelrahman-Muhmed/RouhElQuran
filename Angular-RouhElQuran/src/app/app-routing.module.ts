@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // import { HomeComponent } from './educal/Home/Home/home.component';
 // import { HomeTwoComponent } from './educal/home-two/home-two-main/home-two.component';
@@ -20,6 +20,7 @@ import { SignInMainComponent } from './educal/sign-in/sign-in-main/sign-in-main.
 import { SignUpMainComponent } from './educal/sign-up/sign-up-main/sign-up-main.component';
 import { ErrorPageComponent } from './educal/error-page/error-page.component';
 import { ContactMainComponent } from './educal/contact/contact-main/contact-main.component';
+import { EmailconfirmComponent } from './educal/emailconfirm/emailconfirm.component';
 
 
 
@@ -93,6 +94,10 @@ const routes: Routes = [
   {
     path: 'sign-up',
     component: SignUpMainComponent
+  },
+  {
+   path: 'email-confirm',
+      component:EmailconfirmComponent
   },
   {
     path: 'error',
