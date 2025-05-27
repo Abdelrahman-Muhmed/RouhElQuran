@@ -1,7 +1,7 @@
 <header>
   <div id="header-sticky"
     [ngClass]="headerSticky ? 'header__area header__transparent header__padding-2 sticky' : 'header__area header__transparent header__padding-2' ">
-    <div class="container-fluid">
+    <div class="custom-container">
       <div class="row align-items-center">
         <div class="col-xxl-2 col-xl-2 col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="header__left d-flex">
@@ -57,7 +57,7 @@
                 </li> -->
 
                 <li class="has-dropdown">
-                  <a [routerLink]="['/courses']">Go To</a>
+                  <a [routerLink]="['/']">Go To</a>
                   <ul class="submenu">
                     <li><a [routerLink]="['/about']">About</a></li>
                     <!-- <li><a [routerLink]="['/instructor']">Instructor</a></li>

@@ -43,7 +43,7 @@ public class EmailService : IEmailService
 
         mail.To.Add(MailboxAddress.Parse(email.To));
         var builder = new BodyBuilder();
-        builder.TextBody = email.Body;
+        builder.HtmlBody = email.Body;
         mail.Body = builder.ToMessageBody();
         mail.From.Add(new MailboxAddress(_emailSettings.DisplayName, _emailSettings.Email));
 
