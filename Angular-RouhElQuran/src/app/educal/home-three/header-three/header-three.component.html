@@ -251,15 +251,19 @@
           <li>
             <a [routerLink]="['/contact']" class="border-0">Contact</a>
           </li>
-          <li>
+          <!-- <li>
             <div *ngIf="isLogin == false" class="btn header__btn ml-30 w-100 d-block text-center px-2 py-2"
               style="max-width: 300px; margin: 0 auto;">
               <a [routerLink]="['/sign-up']" class="e-btn w-100" style="padding: 10px 0; font-size: 1.1rem;">Sign up</a>
             </div>
+          </li> -->
+          <li *ngIf="isLogin == false" class="w-100 d-block text-center my-2">
+            <a [routerLink]="['/sign-up']" class="e-btn w-100" style="max-width:300px; margin:0 auto;">Sign
+              Out</a>
           </li>
           <li *ngIf="isLogin" class="w-100 d-block text-center my-2">
             <a class="header__btn header__btn-2 text-dark fw-bold text-decoration-none px-3 py-2 rounded-pill shadow-sm gradient-border w-100"
-              [routerLink]="['/courses']" style="max-width:300px; margin:0 auto;">
+              [routerLink]="['/']" style="max-width:300px; margin:0 auto;">
               Welcome! {{userName}}
             </a>
           </li>
