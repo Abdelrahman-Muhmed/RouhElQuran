@@ -14,7 +14,13 @@ $(document).ready(function () {
                 success(res) {
                     $("#" + formContent).html(res);
                     $("#" + formId).modal('show');
-
+                        // Reinitialize MultiSelect for dynamically added content
+                document.querySelectorAll('[data-multi-select]').forEach((select) => {
+                    if (!select.dataset.initialized) {
+                        new MultiSelect(select);
+                        select.dataset.initialized = true;
+                    }
+                });
                 },
                 erorr() {
                     console.log("somthing error happen");
@@ -31,7 +37,7 @@ $(document).ready(function () {
     submit = (url, formId) => {
         try {
 
-            var form = document.getElementById(formId); // Use the native DOM element
+            var form = document.getElementById(formId); 
             if (!form) {
                 console.error("Form not found!");
                 return;
@@ -57,6 +63,10 @@ $(document).ready(function () {
     }
 
 
+
+
+
+
 })
 
 deleteRow = (url) => {
@@ -78,3 +88,4 @@ deleteRow = (url) => {
         console.log("Something went wrong: " + ex);
     }
 }
+

@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 using RouhElQuran.AccountService;
 using Core.Dto_s;
-using RouhElQuran.SendEmail;
-using Microsoft.AspNetCore.Http;
 
 namespace RouhElQuran.Controllers
 {
@@ -273,7 +271,6 @@ namespace RouhElQuran.Controllers
 
 			return BadRequest("Email confirmation failed.");
 		}
-
 
 		//Login
 		[HttpPost("Login")]

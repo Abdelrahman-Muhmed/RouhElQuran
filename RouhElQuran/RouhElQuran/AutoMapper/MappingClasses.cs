@@ -1,4 +1,4 @@
-﻿using RouhElQuran.AutoMapper;
+﻿
 using Core.Models;
 using Repository.Models;
 using Core.Dto_s;
@@ -16,11 +16,32 @@ namespace RouhElQuran.AutoMapper
             .ForMember(dest => dest.Course_Plan, opt => opt.MapFrom(src => src.CoursePlans))
 			.ReverseMap();
 
-            CreateMap<Ins_Course, InstructorCoursesDto>()
-                .ForMember(e => e.instructorDtos, a => a.MapFrom(e => e.Instructor))
-                .ForMember(e => e.courseDtos, a => a.MapFrom(e => e.Course))
-                .ReverseMap();
+			//CreateMap<InstructorCoursesDto, Ins_Course>()
+			//        .ForMember(e => e.Ins_Id, a => a.MapFrom(e => e.insId))
+			//        .ForMember(e => e.Course_Id, a => a.MapFrom(e => e.crsId))
+			//        .ForMember(e => e.Instructor, a => a.MapFrom(e => e.instructorDtos))
+			//        .ForMember(e => e.Course, a => a.MapFrom(e => e.courseDtos));
 
+			//CreateMap<InstructorCoursesDto, Ins_Course>()
+			//          .ForMember(dest => dest.Ins_Id, opt => opt.MapFrom(src => src.insId))
+			//          .ForMember(dest => dest.Course_Id, opt => opt.Ignore()) // Handle this separately in LINQ
+			//          .ForMember(dest => dest.Id, opt => opt.Ignore())
+			//          .ForMember(dest => dest.Instructor, opt => opt.Ignore())
+			//          .ForMember(dest => dest.Course, opt => opt.Ignore());
+
+			CreateMap<InstructorCoursesDto, List<Ins_Course>>()
+				.AfterMap((src, dest) =>
+				{
+					dest.AddRange(
+						src.crsIds
+							.Where(courseId => courseId.HasValue) 
+							.Select(courseId => new Ins_Course
+							{
+								Ins_Id = src.insId.Value, 
+								Course_Id = courseId.Value 
+							})
+					);
+				});
 
 
 

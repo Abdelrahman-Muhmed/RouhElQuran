@@ -1,4 +1,5 @@
 ﻿using Core.Dto_s;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Core.IServices.InstructorCoursesService
 	public interface IInstructorCoursesService
 	{
 		public Task <IEnumerable<InstructorCoursesDto>> GetInstructorCoursesAsync();
+		public Task<IEnumerable<Ins_Course>> CreateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto);
 	
 	}
 }

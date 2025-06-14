@@ -35,6 +35,12 @@
     <Content Update="wwwroot\js\AcademyCrud.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+	  <Content Update="wwwroot\lib\corui\coreui.bundle.min.js">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="wwwroot\lib\corui\coreui.min.css">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
   </ItemGroup>
 
 </Project>

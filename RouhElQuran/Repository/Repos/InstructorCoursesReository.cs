@@ -14,7 +14,7 @@ namespace Repository.Repos
 	public class InstructorCoursesReository : Genericrepo<Ins_Course>, IInstructorCoursesReository
 	{
 		private readonly RouhElQuranContext _dbcontext;
-        public InstructorCoursesReository(RouhElQuranContext dbcontext) : base (dbcontext)
+		public InstructorCoursesReository(RouhElQuranContext dbcontext) : base(dbcontext)
 		 => _dbcontext = dbcontext;
 
 
@@ -23,6 +23,16 @@ namespace Repository.Repos
 			var result = await _dbcontext.Ins_Crs.Include(e => e.Instructor).Include(e => e.Course).ToListAsync();
 			return result;
 		}
+
+		public async Task<IEnumerable<Ins_Course>> createInstructorCours(List<Ins_Course> insCourses)
+		{
+
+			await _dbcontext.Ins_Crs.AddRangeAsync(insCourses);
+			await _dbcontext.SaveChangesAsync();
+
+			return insCourses;
+		}
+
 	}
 
 }

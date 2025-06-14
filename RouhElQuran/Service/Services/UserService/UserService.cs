@@ -45,8 +45,9 @@ namespace Service.Services.UserService
 		public async Task<TDto> CreateUser(TDto instructorDto)
 		{
 			var mapData = _mapper.Map<TEntity>(instructorDto);
-			await _userRepository.AddAsync(mapData);
-			return instructorDto;
+			var resultEntity = await _userRepository.AddAsync(mapData);
+			var resultDto = _mapper.Map<TDto>(resultEntity);
+			return resultDto;
 
 		}
 

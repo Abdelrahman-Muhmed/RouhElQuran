@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-<environment include="Development">
+@* <environment include="Development"> *@
   <!-- Fonts & Flag icons -->
   <link rel="stylesheet" href="~/vendor/fonts/boxicons.css" />
 
@@ -17,11 +17,16 @@
   <!-- Pages CSS -->
   <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css" />
 
+<!-- cor Ui CSS for multiple select -->
+
+
+
   <!-- Application stylesheets -->
   <link rel="stylesheet" href="~/css/site.css" />
-</environment>
 
-<environment exclude="Development">
+@* </environment> *@
+
+@* <environment exclude="Development"> *@
   <!-- Fonts & Flag icons -->
   <link rel="stylesheet" href="~/vendor/fonts/boxicons.css" asp-append-version="true" />
 
@@ -37,5 +42,5 @@
   <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css" asp-append-version="true" />
 
   <!-- Application stylesheets -->
-  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-</environment>
+  @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+@* </environment> *@

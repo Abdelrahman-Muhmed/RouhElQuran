@@ -23,9 +23,9 @@ namespace Repository.Repos
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
-            await context.AddAsync(entity);
+           var result = await context.AddAsync(entity);
             await context.SaveChangesAsync();
-            return entity;
+            return result.Entity;
         }
 
         public async Task<TEntity> DeleteAsync(int id)
@@ -43,7 +43,7 @@ namespace Repository.Repos
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             if (typeof(TEntity) == typeof(Instructor))
-                return (IEnumerable<TEntity>)await context.Set<Instructor>().Include(e => e.User_id).ToListAsync();
+                return (IEnumerable<TEntity>)await context.Set<Instructor>().Include(e => e.User_id).Where(x => x.User_id.EmailConfirmed == true).ToListAsync();
             var r = await context.Set<TEntity>().ToListAsync();
             return r;
 
