@@ -1,336 +1,471 @@
 ﻿@model Core.Dto_s.InstructorDto;
 
-<style>
-	body {
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-		background-color: #f8f9fa;
-		padding: 20px;
-		margin: 0;
-	}
+  <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 0;
+        }
 
-	.container {
-		max-width: 800px;
-		margin: 0 auto;
-		background: white;
-		padding: 30px;
-		border-radius: 8px;
-		box-shadow: 0 0 10px rgba(0,0,0,0.1);
-	}
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
 
-	.form-label {
-		font-weight: 600;
-		color: #495057;
-		margin-bottom: 8px;
-		display: block;
-	}
+        /* Header Styling - Dark Blue */
+        .form-header {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
 
-	/* Multi-Select Styling */
-	.multi-select {
-		position: relative;
-		width: 100%;
-		font-size: 14px;
-	}
+        .form-header h1 {
+            color: white;
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.8rem;
+        }
 
-	.multi-select-header {
-		min-height: 38px;
-		padding: 6px 40px 6px 12px;
-		border: 1px solid #d1d7dc;
-		border-radius: 6px;
-		background: white;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 4px;
-		position: relative;
-		transition: all 0.15s ease-in-out;
-	}
+        .form-header p {
+            color: #f0f8ff;
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
 
-		.multi-select-header:hover {
-			border-color: #86b7fe;
-		}
+        .form-header i {
+            color: #f0f8ff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
 
-		.multi-select-header.multi-select-header-active {
-			border-color: #86b7fe;
-			box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-		}
+        .form-content {
+            padding: 30px;
+        }
 
-		.multi-select-header::after {
-			content: '';
-			position: absolute;
-			right: 12px;
-			top: 50%;
-			transform: translateY(-50%);
-			width: 0;
-			height: 0;
-			border-left: 4px solid transparent;
-			border-right: 4px solid transparent;
-			border-top: 4px solid #6c757d;
-			transition: transform 0.15s ease-in-out;
-		}
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block;
+        }
 
-		.multi-select-header.multi-select-header-active::after {
-			transform: translateY(-50%) rotate(180deg);
-		}
+        /* Multi-Select Styling */
+        .multi-select {
+            position: relative;
+            width: 100%;
+            font-size: 14px;
+        }
 
-	.multi-select-header-placeholder {
-		color: #6c757d;
-		font-size: 14px;
-	}
+        .multi-select-header {
+            min-height: 38px;
+            padding: 6px 40px 6px 12px;
+            border: 1px solid #d1d7dc;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            position: relative;
+            transition: all 0.15s ease-in-out;
+        }
 
-	.multi-select-header-option {
-		background: #0d6efd;
-		color: white;
-		padding: 2px 8px;
-		border-radius: 4px;
-		font-size: 12px;
-		display: inline-flex;
-		align-items: center;
-		gap: 4px;
-		position: relative;
-	}
+            .multi-select-header:hover {
+                border-color: #86b7fe;
+            }
 
-		.multi-select-header-option::after {
-			content: '×';
-			cursor: pointer;
-			font-size: 14px;
-			font-weight: bold;
-			opacity: 0.7;
-		}
+            .multi-select-header.multi-select-header-active {
+                border-color: #86b7fe;
+                box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            }
 
-			.multi-select-header-option::after:hover {
-				opacity: 1;
-			}
+            .multi-select-header::after {
+                content: '';
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0;
+                height: 0;
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-top: 4px solid #6c757d;
+                transition: transform 0.15s ease-in-out;
+            }
 
-	.multi-select-header-max {
-		color: #6c757d;
-		font-size: 12px;
-		margin-left: auto;
-	}
+            .multi-select-header.multi-select-header-active::after {
+                transform: translateY(-50%) rotate(180deg);
+            }
 
-	.multi-select-options {
-		position: absolute;
-		top: 100%;
-		left: 0;
-		right: 0;
-		background: white;
-		border: 1px solid #d1d7dc;
-		border-top: none;
-		border-radius: 0 0 6px 6px;
-		max-height: 300px;
-		overflow-y: auto;
-		z-index: 1000;
-		display: none;
-	}
+        .multi-select-header-placeholder {
+            color: #6c757d;
+            font-size: 14px;
+        }
 
-	.multi-select-header-active + .multi-select-options {
-		display: block;
-		box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-	}
+        .multi-select-header-option {
+            background: #0d6efd;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+        }
 
-	.multi-select-search {
-		width: 100%;
-		padding: 8px 12px;
-		border: none;
-		border-bottom: 1px solid #e9ecef;
-		outline: none;
-		font-size: 14px;
-	}
+            .multi-select-header-option::after {
+                content: '×';
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: bold;
+                opacity: 0.7;
+            }
 
-		.multi-select-search:focus {
-			background-color: #f8f9fa;
-		}
+                .multi-select-header-option::after:hover {
+                    opacity: 1;
+                }
 
-	.multi-select-all,
-	.multi-select-option {
-		padding: 8px 12px;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		transition: background-color 0.15s ease-in-out;
-		border-bottom: 1px solid #f8f9fa;
-	}
+        .multi-select-header-max {
+            color: #6c757d;
+            font-size: 12px;
+            margin-left: auto;
+        }
 
-		.multi-select-all:hover,
-		.multi-select-option:hover {
-			background-color: #f8f9fa;
-		}
+        .multi-select-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #d1d7dc;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
 
-		.multi-select-all.multi-select-selected,
-		.multi-select-option.multi-select-selected {
-			background-color: #e7f3ff;
-			color: #0d6efd;
-		}
+        .multi-select-header-active + .multi-select-options {
+            display: block;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
 
-	.multi-select-option-radio {
-		width: 16px;
-		height: 16px;
-		border: 2px solid #d1d7dc;
-		border-radius: 3px;
-		position: relative;
-		flex-shrink: 0;
-	}
+        .multi-select-search {
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            border-bottom: 1px solid #e9ecef;
+            outline: none;
+            font-size: 14px;
+        }
 
-	.multi-select-selected .multi-select-option-radio {
-		background-color: #0d6efd;
-		border-color: #0d6efd;
-	}
+            .multi-select-search:focus {
+                background-color: #f8f9fa;
+            }
 
-		.multi-select-selected .multi-select-option-radio::after {
-			content: '✓';
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color: white;
-			font-size: 10px;
-			font-weight: bold;
-		}
+        .multi-select-all,
+        .multi-select-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.15s ease-in-out;
+            border-bottom: 1px solid #f8f9fa;
+        }
 
-	.multi-select-option-text {
-		flex: 1;
-		font-size: 14px;
-	}
+            .multi-select-all:hover,
+            .multi-select-option:hover {
+                background-color: #f8f9fa;
+            }
 
-	/* Category styling */
-	.category-header {
-		padding: 8px 12px;
-		background-color: #e9ecef;
-		color: #495057;
-		font-weight: 600;
-		font-size: 12px;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		border-bottom: 1px solid #d1d7dc;
-	}
+            .multi-select-all.multi-select-selected,
+            .multi-select-option.multi-select-selected {
+                background-color: #e7f3ff;
+                color: #0d6efd;
+            }
 
-	.category-option {
-		padding-left: 24px;
-	}
+        .multi-select-option-radio {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #d1d7dc;
+            border-radius: 3px;
+            position: relative;
+            flex-shrink: 0;
+        }
 
-</style>
-<form id="InstructorCreateEditFormId">
-	<!-- Details-->
-	<input type="number" asp-for="InstructorId" hidden="hidden" id="insId"></input>
-	<div class="col-12">
-		<h6 class="text-start">1. Instructor Details</h6>
-		<hr class="mt-0">
-	</div>
+        .multi-select-selected .multi-select-option-radio {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
 
-	<div class="row mb-3">
-		<div class="col-md-12 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="CurrentCourse">Corse Name</label>
-			<select data-multi-select id="CoursesMultiSelectID" multiple="multiple" class="form-control rounded-3" asp-for="CourseId" asp-items="@(ViewData["AllCourses"] as SelectList)">
-			</select>
-			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-		</div>
+            .multi-select-selected .multi-select-option-radio::after {
+                content: '✓';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 10px;
+                font-weight: bold;
+            }
 
-	</div>
+        .multi-select-option-text {
+            flex: 1;
+            font-size: 14px;
+        }
 
-	@* <div class="row mb-3">
-	<div class="col-md-12 form-control-validation fv-plugins-icon-container">
-	<label class="form-label d-block text-start" for="CurrentCourses">Course names</label>
-	<select class="form-select"
-	asp-for="CurrentCourse"
-	asp-items="@(ViewData["AllCourses"] as SelectList)"
-	multiple
-	data-coreui-toggle="multi-select"
-	data-coreui-search="true"
-	data-coreui-select-all="true"
-	data-coreui-selection-type="tags">
-	</select>
-	<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-	</div>
-	</div> *@
+        /* Category styling */
+        .category-header {
+            padding: 8px 12px;
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #d1d7dc;
+        }
 
-	<div class="row mb-3">
-		
-		<div class="col-md-6 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="Salary">Salary</label>
-			<input type="number" class="form-control" asp-for="Salary" name="Salary" id="SalaryId" placeholder="Enter teacher Salary">
-			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col-md-12 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="Certificate">Certificate</label>
-			<textarea type="text" id="CertificateId" asp-for="Certificate" class="form-control" placeholder="Enter Certificate" name="Certificate"></textarea>
-			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-		</div>
+        .category-option {
+            padding-left: 24px;
+        }
 
-	</div>
-	<div class="row mb-3">
-		<div class="col-md-6 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="TimeWork">Time Work</label>
-			<input type="text" id="TimeWorkId" class="form-control" asp-for="TimeWork" placeholder="Enter Time Work">
-			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-		</div>
-		<div class="col-md-6 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="DaysWork">Dayes Work</label>
-			<input type="text" class="form-control" id="DaysWorkId" asp-for="DaysWork" placeholder="Enter DaysWork">
-			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col-md-12 form-control-validation fv-plugins-icon-container">
-			<label class="form-label d-block text-start" for="InsName">Users</label>
-			<select class="form-control rounded-3" asp-for="InsUser_Id" asp-items="@(ViewData["AllUser"] as SelectList)">
-				<option value="">-- Select Category --</option>
-			</select>
-			<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-		</div>
+        /* Form Styling */
+        .form-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+        }
 
+        .section-title {
+            color: #495057;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+        }
 
-	</div>
+        .section-title i {
+            margin-right: 0.5rem;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
 
-	<!-- Choose Your Plan -->
-	<div class="col-12">
-		<h6 class="text-start">2. Choose Your Plan</h6>
-		<hr class="mt-0">
-	</div>
-	<div class="row gy-3 mt-0">
-		<div class="col-xl-3 col-md-5 col-sm-6 col-12 form-control-validation fv-plugins-icon-container">
-			<div class="form-check custom-option custom-option-icon checked">
-				<label class="form-check-label custom-option-content" for="basicPlanMain1">
-					<span class="custom-option-body">
-						<i class="icon-base bx bx-rocket"></i>
-						<span class="custom-option-title"> Starter </span>
-						<small> Get 5gb of space and 1 team member.</small>
-					</span>
-					<input name="formValidationPlan" class="form-check-input" type="checkbox" value="" id="basicPlanMain1" checked="">
-				</label>
-			</div>
-		</div>
-		<div class="col-xl-3 col-md-5 col-sm-6 col-12 form-control-validation">
-			<div class="form-check custom-option custom-option-icon">
-				<label class="form-check-label custom-option-content" for="basicPlanMain2">
-					<span class="custom-option-body">
-						<i class="icon-base bx bx-user"></i>
-						<span class="custom-option-title"> Personal </span>
-						<small> Get 15gb of space and 5 team member. </small>
-					</span>
-					<input name="formValidationPlan" class="form-check-input" type="checkbox" value="" id="basicPlanMain2">
-				</label>
-			</div>
-		</div>
-		<div class="col-xl-3 col-md-5 col-sm-6 col-12 form-control-validation">
-			<div class="form-check custom-option custom-option-icon">
-				<label class="form-check-label custom-option-content" for="basicPlanMain3">
-					<span class="custom-option-body">
-						<i class="icon-base bx bx-crown"></i>
-						<span class="custom-option-title"> Premium </span>
-						<small> Get 25gb of space and 15 members. </small>
-					</span>
-					<input name="formValidationPlan" class="form-check-input" type="checkbox" value="" id="basicPlanMain3">
-				</label>
-			</div>
-		</div>
+        .form-label {
+            font-weight: 600;
+            color: #495057 !important;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
 
-	</div>
-	<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+            color: #495057;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+            background-color: #ffffff;
+            color: #495057;
+        }
+
+        .form-control::placeholder {
+            color: #8e9aaf;
+            font-style: italic;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #dc3545;
+            font-weight: 500;
+        }
+
+        .form-control-validation {
+            position: relative;
+        }
+
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .input-group-text {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #e9ecef;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Multi-select styling */
+        .select2-container--default .select2-selection--multiple {
+            border: 2px solid #e9ecef;
+            border-radius: 0.5rem;
+            min-height: 48px;
+            background-color: #ffffff;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+        }
+
+        /* Form text improvements */
+        h6 {
+            color: #495057 !important;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        hr {
+            border-color: #667eea;
+            border-width: 2px;
+            opacity: 1;
+        }
+
+        /* Enhanced visibility for form elements */
+        .text-start {
+            color: #495057 !important;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 0.25rem 0.5rem rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+            transform: translateY(-1px);
+        }
+    </style>
+<form id="InstructorCreateEditFormId" class="form-section">
+    <!-- Details-->
+    <input type="number" asp-for="InstructorId" hidden="hidden" id="insId" />
+    
+    <div class="col-12">
+        <h6 class="text-start section-title">
+            <i class="bx bx-user-detail"></i>
+            1. Instructor Details
+        </h6>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-md-12 form-control-validation fv-plugins-icon-container">
+            <label class="form-label d-block text-start required-field" for="CurrentCourse">Course Name</label>
+            <select data-multi-select id="CoursesMultiSelectID" multiple="multiple" class="form-control rounded-3" asp-for="CourseId" asp-items="@(ViewData["AllCourses"] as SelectList)">
+            </select>
+            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-md-6 form-control-validation fv-plugins-icon-container">
+            <label class="form-label d-block text-start required-field" for="Salary">Salary</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bx bx-dollar"></i>
+                </span>
+                <input type="number" class="form-control" asp-for="Salary" name="Salary" id="SalaryId" placeholder="Enter instructor salary">
+            </div>
+            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+        
+        <div class="col-md-6 form-control-validation fv-plugins-icon-container">
+            <label class="form-label d-block text-start required-field" for="InsName">Users</label>
+            <select class="form-control rounded-3" asp-for="InsUser_Id" asp-items="@(ViewData["AllUser"] as SelectList)">
+                <option value="">-- Select User --</option>
+            </select>
+            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-md-12 form-control-validation fv-plugins-icon-container">
+            <label class="form-label d-block text-start required-field" for="Certificate">Certificate</label>
+            <textarea id="CertificateId" asp-for="Certificate" class="form-control" placeholder="Enter certificates and qualifications" name="Certificate"></textarea>
+            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-md-6 form-control-validation fv-plugins-icon-container">
+            <label class="form-label d-block text-start required-field" for="TimeWork">Time Work</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bx bx-time"></i>
+                </span>
+                <input type="text" id="TimeWorkId" class="form-control" asp-for="TimeWork" placeholder="e.g., 8:00 AM - 4:00 PM">
+            </div>
+            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+        
+        <div class="col-md-6 form-control-validation fv-plugins-icon-container">
+            <label class="form-label d-block text-start required-field" for="DaysWork">Days Work</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bx bx-calendar"></i>
+                </span>
+                <input type="text" class="form-control" id="DaysWorkId" asp-for="DaysWork" placeholder="e.g., Monday - Friday">
+            </div>
+            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+    </div>
+    
+    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
 </form>
-
 <div class="col-12 form-control-validation">
 	<button type="button" name="submitButton" onclick="submit('/Instructor/CreateEdit', 'InstructorCreateEditFormId')" class="btn btn-primary">Submit</button>
 </div>

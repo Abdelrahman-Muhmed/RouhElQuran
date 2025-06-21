@@ -33,8 +33,6 @@ namespace RouhElQuran_Dashboard.Controllers
 		public async Task<IActionResult> InstructorHome()
 		{
 			var Result = await _useresService.GetAllUser();
-
-
 			return View(Result);
 		}
 

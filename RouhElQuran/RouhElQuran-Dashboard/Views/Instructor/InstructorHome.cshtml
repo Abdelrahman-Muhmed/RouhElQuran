@@ -4,494 +4,123 @@
 	ViewData["Title"] = "Dashboard - Instructor Management";
 }
 
+ <style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-<div class="row">
-	<div class="col-md-12 col-lg-12 col-xl-12 order-0 mb-6">
-		
-		<div class="card p-4">
-			<div class="card-datatable">
-				<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-					<div class="card-header flex-column flex-md-row pb-0">
-						<div class="head-label text-center">
-							<h5 class="card-title mb-0">
-								Instructor  Management
-							</h5>
-						</div>
-						<div class="dt-action-buttons text-end pt-6 pt-md-0">
-							<div class="dt-buttons btn-group flex-wrap mb-3">
-								<div class="btn-group">
-									<button class="btn btn-secondary btn buttons-collection dropdown-toggle btn-label-primary me-4" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false">
-										<span>
-											<i class="bx bx-export bx-sm me-sm-2"></i>
-											<span class="d-none d-sm-inline-block">Export</span>
-										</span>
-									</button>
-								</div>
-								@* data-bs-target="#CourseCreateEditForm" aria-controls="DataTables_Table_0" data-bs-toggle="modal"*@
-								<button class="btn btn-secondary create-new btn-primary" onclick="Get('/Instructor/CreateEdit/', 'instructormodalContent','instructorCreateEditModalId')" tabindex="0" type="button">
-									<span>
-										<i class="bx bx-plus bx-sm me-sm-2">
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-radius: 0.5rem;
+    }
 
-										</i>
-										<span class="d-none d-sm-inline-block">
-											Add New Record
-										</span>
-									</span>
-								</button>
-							</div>
-							<!-- Form to CreateEdit course using EndPoint To return PartialView -->
-							@* @await Html.PartialAsync("Courses/_CreateEdite", new RouhElQuran.Dto_s.CourseDto()) *@
-							<div class="modal fade" id="instructorCreateEditModalId" tabindex="-1" aria-hidden="true">
-								<div class="modal-dialog modal-xl">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title">Course</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body" id="instructormodalContent"></div>
-									</div>
-								</div>
-							</div>
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #1976d2 100%);
+        color: white;
+        border-radius: 0.5rem 0.5rem 0 0 !important;
+        border: none;
+        border-bottom: 2px solid #1565c0;
+    }
 
-						</div>
-					</div>
-				</div>
+        .card-header .card-title {
+            color: white;
+            font-weight: 600;
+        }
 
+        .card-header i {
+            color: #f0f8ff;
+        }
 
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+    }
 
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-1px);
+        }
 
-				<div class="card p-3">
-					<div class="card-header border-bottom">
-						<h5 class="card-title mb-0">Search Filters</h5>
-						<div class="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
-							<div class="col-md-4 user_role"><select id="UserRole" class="form-select text-capitalize"><option value="">Select Role</option><option value="Admin">Admin</option><option value="Author">Author</option><option value="Editor">Editor</option><option value="Maintainer">Maintainer</option><option value="Subscriber">Subscriber</option></select></div>
-							<div class="col-md-4 user_plan"><select id="UserPlan" class="form-select text-capitalize"><option value="">Select Plan</option><option value="Basic">Basic</option><option value="Company">Company</option><option value="Enterprise">Enterprise</option><option value="Team">Team</option></select></div>
-							<div class="col-md-4 user_status"><select id="FilterTransaction" class="form-select text-capitalize"><option value="">Select Status</option><option value="Pending" class="text-capitalize">Pending</option><option value="Active" class="text-capitalize">Active</option><option value="Inactive" class="text-capitalize">Inactive</option></select></div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12 col-md-12 d-flex justify-content-center justify-content-md-start  mb-3 mt-n6 mt-md-0">
-							<div id="DataTables_Table_0_filter" class="dataTables_filter">
-								<label>
-									Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0">
-								</label>
-							</div>
-						</div>
-					</div>
-					<iv class="card-datatable">
-						<div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
-							<div class="d-md-flex justify-content-between align-items-center dt-layout-full table-responsive">
-								<table class="datatables-users table border-top dataTable dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 100%;">
-									<colgroup><col data-dt-column="1" style="width: 58.3438px;"><col data-dt-column="2" style="width: 279.484px;"><col data-dt-column="3" style="width: 143.453px;"><col data-dt-column="4" style="width: 112.719px;"><col data-dt-column="5" style="width: 181.672px;"><col data-dt-column="6" style="width: 108.312px;"><col data-dt-column="7" style="width: 155.016px;"></colgroup>
-									<thead>
-										<tr>
-											<th data-dt-column="0" class="control dt-orderable-none dtr-hidden" rowspan="1" colspan="1" aria-label="" style="display: none;">
-												<span class="dt-column-title"></span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="1" rowspan="1" colspan="1" class="dt-select dt-orderable-none" aria-label="">
-												<span class="dt-column-title"></span>
-												<span class="dt-column-order"></span>
-												<input class="form-check-input" type="checkbox" aria-label="Select all rows">
-											</th>
-											<th data-dt-column="2" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc dt-ordering-desc" aria-sort="descending" aria-label="User: Activate to remove sorting" tabindex="0">
-												<span class="dt-column-title" role="button">Instructor Name</span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="2" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc dt-ordering-desc" aria-sort="descending" aria-label="User: Activate to remove sorting" tabindex="0">
-												<span class="dt-column-title" role="button">Current Course</span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="3" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc" aria-label="Role: Activate to sort" tabindex="0">
-												<span class="dt-column-title" role="button">Salary</span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="4" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc" aria-label="Plan: Activate to sort" tabindex="0">
-												<span class="dt-column-title" role="button">Certificate</span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="5" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc" aria-label="Billing: Activate to sort" tabindex="0">
-												<span class="dt-column-title" role="button">Time Work</span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="6" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc" aria-label="Status: Activate to sort" tabindex="0">
-												<span class="dt-column-title" role="button">Status</span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="5" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc" aria-label="Billing: Activate to sort" tabindex="0">
-												<span class="dt-column-title" role="button">Dayes Work</span>
-												<span class="dt-column-order"></span>
-											</th>
-											<th data-dt-column="7" rowspan="1" colspan="1" class="dt-orderable-none" aria-label="Actions">
-												<span class="dt-column-title">Actions</span>
-												<span class="dt-column-order"></span>
-											</th>
-										
-											
-										</tr>
-									</thead>
-									<tbody>
-										@foreach (var item in Model)
-										{
-											<tr>
-												<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-												<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-												<td class="sorting_1">
-													<div class="d-flex justify-content-start align-items-center user-name">
-														<div class="avatar-wrapper">
-															<div class="avatar avatar-sm me-4">
-																<img src="../../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
-															</div>
-														</div>
-														<div class="d-flex flex-column">
-															<a href="app-user-view-account.html" class="text-heading text-truncate">
-																<span class="fw-medium">@item.InsName</span>
-															</a>
-															<small>zmcclevertye@soundcloud.com</small>
-														</div>
-													</div>
-												</td>
-												<td><span class="text-heading">@item.CourseId</span></td>
-												<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-user text-success me-2"></i>@item.Salary</span></td>
-												<td><span class="text-heading">@item.Certificate</span></td>
-												<td>@item.TimeWork</td>
-												<td><span class="badge bg-label-success" text-capitalized="">Active</span></td>
-												<td>@item.DaysWork</td>
+    .btn-secondary {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        border: none;
+        color: white;
+    }
 
-												<td>
-													<div class="d-inline-block">
-														<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow me-1" data-bs-toggle="dropdown">
-															<i class="bx bx-dots-vertical-rounded bx-md"></i>
-														</a>
-														<ul class="dropdown-menu dropdown-menu-end m-0">
-															<li><a href="javascript:;" class="dropdown-item">Details</a></li>
-															<li><a href="javascript:;" class="dropdown-item">Archive</a></li>
-															<li>
-																<a href="javascript:void(0);" onclick="deleteRow('/Instructor/Delete/@item.InstructorId')" class="dropdown-item text-danger delete-record">
-																	Delete
-																</a>
-															</li>
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #6baff5 0%, #0770c1 100%);
+            transform: translateY(-1px);
+        }
+
+    .table thead th {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: none;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+
+    .badge {
+        font-weight: 500;
+        padding: 0.5em 0.75em;
+    }
+
+    .avatar-img {
+        border: 2px solid #dee2e6;
+        transition: border-color 0.3s ease;
+    }
+
+        .avatar-img:hover {
+            border-color: #667eea;
+        }
+
+    .dropdown-menu {
+        border: none;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        border-radius: 0.5rem;
+    }
+
+    .dropdown-item:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+
+    .search-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border: 1px solid #e9ecef;
+    }
+
+        .search-card .card-header {
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+            color: #424242;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .search-card .card-title {
+            color: #1976d2 !important;
+        }
+
+        .search-card i {
+            color: #1976d2 !important;
+        }
 
 
-														</ul>
-													</div>
-													@* data-bs-target="#CourseCreateEditForm" *@
-													<a class="btn btn-icon item-edit" onclick="Get('/Instructor/CreateEdit/@item.InstructorId', 'instructormodalContent','instructorCreateEditModalId')" tabindex="0">
-														<i class="bx bx-edit bx-md"></i>
-													</a>
-												</td>
-											</tr>
-										}
-
-										@* <tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><img src="../../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle"></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Yoko Pottie</span></a><small>ypottiec@privacy.gov.au</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-crown text-primary me-2"></i>Subscriber</span></td>
-										<td><span class="text-heading">Basic</span></td>
-										<td>Auto Debit</td>
-										<td><span class="badge bg-label-secondary" text-capitalized="">Inactive</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><img src="../../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle"></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Wesley Burland</span></a><small>wburlandj@uiuc.edu</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-pie-chart-alt text-info me-2"></i>Editor</span></td>
-										<td><span class="text-heading">Team</span></td>
-										<td>Auto Debit</td>
-										<td><span class="badge bg-label-secondary" text-capitalized="">Inactive</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><span class="avatar-initial rounded-circle bg-label-warning">VK</span></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Vladamir Koschek</span></a><small>vkoschek17@abc.net.au</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-edit text-warning me-2"></i>Author</span></td>
-										<td><span class="text-heading">Team</span></td>
-										<td>Manual - Paypal</td>
-										<td><span class="badge bg-label-success" text-capitalized="">Active</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><span class="avatar-initial rounded-circle bg-label-info">TW</span></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Tyne Widmore</span></a><small>twidmore12@bravesites.com</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-crown text-primary me-2"></i>Subscriber</span></td>
-										<td><span class="text-heading">Team</span></td>
-										<td>Manual - Cash</td>
-										<td><span class="badge bg-label-warning" text-capitalized="">Pending</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><span class="avatar-initial rounded-circle bg-label-info">TB</span></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Travus Bruntjen</span></a><small>tbruntjeni@sitemeter.com</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-desktop text-danger me-2"></i>Admin</span></td>
-										<td><span class="text-heading">Enterprise</span></td>
-										<td>Manual - Cash</td>
-										<td><span class="badge bg-label-success" text-capitalized="">Active</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><img src="../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle"></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Stu Delamaine</span></a><small>sdelamainek@who.int</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-edit text-warning me-2"></i>Author</span></td>
-										<td><span class="text-heading">Basic</span></td>
-										<td>Auto Debit</td>
-										<td><span class="badge bg-label-warning" text-capitalized="">Pending</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><span class="avatar-initial rounded-circle bg-label-danger">SO</span></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Saunder Offner</span></a><small>soffner19@mac.com</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-user text-success me-2"></i>Maintainer</span></td>
-										<td><span class="text-heading">Enterprise</span></td>
-										<td>Auto Debit</td>
-										<td><span class="badge bg-label-warning" text-capitalized="">Pending</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><span class="avatar-initial rounded-circle bg-label-danger">SM</span></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Stephen MacGilfoyle</span></a><small>smacgilfoyley@bigcartel.com</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-user text-success me-2"></i>Maintainer</span></td>
-										<td><span class="text-heading">Company</span></td>
-										<td>Manual - Paypal</td>
-										<td><span class="badge bg-label-warning" text-capitalized="">Pending</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr>
-										<tr>
-										<td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-										<td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td>
-										<td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><img src="../../assets/img/avatars/9.png" alt="Avatar" class="rounded-circle"></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Skip Hebblethwaite</span></a><small>shebblethwaite10@arizona.edu</small></div></div></td>
-										<td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-desktop text-danger me-2"></i>Admin</span></td>
-										<td><span class="text-heading">Company</span></td>
-										<td>Manual - Cash</td>
-										<td><span class="badge bg-label-secondary" text-capitalized="">Inactive</span></td>
-										<td>
-										<div class="d-flex align-items-center">
-										<a href="javascript:;" class="btn btn-icon delete-record">
-										<i class="icon-base bx bx-trash icon-md"></i>
-										</a>
-										<a href="app-user-view-account.html" class="btn btn-icon">
-										<i class="icon-base bx bx-show icon-md"></i>
-										</a>
-										<a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-										<i class="icon-base bx bx-dots-vertical-rounded icon-md"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end m-0">
-										<a href="javascript:;" class="dropdown-item">Edit</a>
-										<a href="javascript:;" class="dropdown-item">Suspend</a>
-										</div>
-										</div>
-										</td>
-										</tr> *@
-									</tbody>
-									<tfoot></tfoot>
-								</table>
-
-							</div>
-							<div class="row mt-5">
-								<div class="col-sm-12 col-md-3">
-									<div class="dataTables_length" id="DataTables_Table_0_length">
-										show
-										<label>
-
-											<select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
-												<option value="7">7</option>
-												<option value="10">10</option>
-												<option value="25">25</option>
-												<option value="50">50</option>
-												<option value="75">75</option>
-												<option value="100">100</option>
-											</select>
-										</label>
-									</div>
-								</div>
-
-								<div class="col-sm-12 col-md-6">
-									<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-										<ul class="pagination">
-											<li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-												<a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" data-dt-idx="previous" tabindex="-1" class="page-link">
-													<i class="bx bx-chevron-left bx-18px">
-													</i>
-												</a>
-											</li>
-											<li class="paginate_button page-item active">
-												<a href="#" aria-controls="DataTables_Table_0" role="link" aria-current="page" data-dt-idx="0" tabindex="0" class="page-link">1</a>
-											</li>
-											<li class="paginate_button page-item ">
-												<a href="#" aria-controls="DataTables_Table_0" role="link" data-dt-idx="1" tabindex="0" class="page-link">2</a>
-											</li>
-											<li class="paginate_button page-item ">
-												<a href="#" aria-controls="DataTables_Table_0" role="link" data-dt-idx="2" tabindex="0" class="page-link">3</a>
-											</li>
-											<li class="paginate_button page-item ">
-												<a href="#" aria-controls="DataTables_Table_0" role="link" data-dt-idx="3" tabindex="0" class="page-link">4</a>
-											</li>
-											<li class="paginate_button page-item ">
-												<a href="#" aria-controls="DataTables_Table_0" role="link" data-dt-idx="4" tabindex="0" class="page-link">5</a>
-											</li>
-											<li class="paginate_button page-item disabled" id="DataTables_Table_0_ellipsis">
-												<a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" data-dt-idx="ellipsis" tabindex="-1" class="page-link">…</a>
-											</li>
-											<li class="paginate_button page-item ">
-												<a href="#" aria-controls="DataTables_Table_0" role="link" data-dt-idx="14" tabindex="0" class="page-link">15</a>
-											</li>
-											<li class="paginate_button page-item next" id="DataTables_Table_0_next">
-												<a href="#" aria-controls="DataTables_Table_0" role="link" data-dt-idx="next" tabindex="0" class="page-link">
-													<i class="bx bx-chevron-right bx-18px">
-
-													</i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-3">
-									<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 7 of 100 entries</div>
-								</div>
-							</div>
-						</div>
-				</div>
-
-
-
-			</div>
-		</div>
-	</div>
+<!-- Modal -->
+<div class="modal fade" id="instructorCreateEditModalId" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title d-flex align-items-center">
+                    <i class="bx bx-user-plus me-2"></i>
+                    Instructor
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="instructormodalContent"></div>
+        </div>
+    </div>
 </div>
-
-
