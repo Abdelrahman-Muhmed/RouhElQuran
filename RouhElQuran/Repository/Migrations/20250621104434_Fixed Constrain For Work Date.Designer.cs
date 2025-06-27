@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository.Models;
 
@@ -11,9 +12,11 @@ using Repository.Models;
 namespace Repository.Migrations
 {
     [DbContext(typeof(RouhElQuranContext))]
-    partial class RouhElQuranContextModelSnapshot : ModelSnapshot
+    [Migration("20250621104434_Fixed Constrain For Work Date")]
+    partial class FixedConstrainForWorkDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,23 +621,17 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Repository.Models.Instructor", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InstructorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("Instructor_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstructorId"));
 
                     b.Property<string>("Certificate")
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("DaysWork")
                         .HasMaxLength(250)
@@ -650,35 +647,24 @@ namespace Repository.Migrations
                     b.Property<int>("InsUser_Id")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<decimal?>("Salary")
                         .HasColumnType("decimal(10, 2)");
 
-                    b.Property<TimeOnly?>("TimeFrom")
-                        .HasColumnType("time")
-                        .HasColumnName("Time_From");
-
-                    b.Property<TimeOnly?>("TimeTo")
-                        .HasColumnType("time")
-                        .HasColumnName("Time_To");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateOnly>("WorkExperienceFrom")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("WorkExperienceTo")
-                        .HasColumnType("date");
-
-                    b.Property<string>("YearsOfExperience")
-                        .HasMaxLength(100)
+                    b.Property<string>("TimeWork")
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("Time_Work");
 
-                    b.HasKey("Id")
+                    b.Property<DateOnly?>("WorkExperienceFrom")
+                        .IsRequired()
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("WorkExperienceTo")
+                        .IsRequired()
+                        .HasColumnType("date");
+
+                    b.HasKey("InstructorId")
                         .HasName("PK__Instruct__DD4A9EC21D0C8E56");
 
                     b.HasIndex("InsUser_Id")

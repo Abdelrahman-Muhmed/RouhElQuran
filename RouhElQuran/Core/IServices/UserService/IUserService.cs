@@ -14,8 +14,8 @@ namespace Core.IServices.UserService
 	{
 		public Task<IEnumerable<TDto>> GetAllUser();
 		public Task<TDto> GetUserById(int id);
-		public Task<TDto> CreateUser(TDto instructorDto);
-		public Task<TDto> updateUser(TDto instructorDto);
+		public Task<TDto> CreateUser(TDto userDto);
+		public Task<TDto> updateUser(TDto userDto);
 		public Task<TDto> DeleteUser(int id);
 	}
 }

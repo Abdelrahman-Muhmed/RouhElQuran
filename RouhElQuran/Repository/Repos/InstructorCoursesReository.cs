@@ -18,15 +18,21 @@ namespace Repository.Repos
 		 => _dbcontext = dbcontext;
 
 
-		public async Task<IEnumerable<Ins_Course>> GetCourseWithInstructor()
-		{
-			var result = await _dbcontext.Ins_Crs.Include(e => e.Instructor).Include(e => e.Course).ToListAsync();
-			return result;
-		}
+        public async Task<IEnumerable<IGrouping<int, Ins_Course>>> GetCourseWithInstructorGrouped()
+        {
+            var result = await _dbcontext.Ins_Crs
+                .Include(e => e.Instructor)
+                .ThenInclude(i => i.User_id)
+                .Include(e => e.Course)
+                .GroupBy(ic => ic.Ins_Id)
+                .ToListAsync();
 
-		public async Task<IEnumerable<Ins_Course>> createInstructorCours(List<Ins_Course> insCourses)
-		{
+            return result;
+        }
 
+
+        public async Task<IEnumerable<Ins_Course>> createInstructorCours(List<Ins_Course> insCourses)
+		{
 			await _dbcontext.Ins_Crs.AddRangeAsync(insCourses);
 			await _dbcontext.SaveChangesAsync();
 

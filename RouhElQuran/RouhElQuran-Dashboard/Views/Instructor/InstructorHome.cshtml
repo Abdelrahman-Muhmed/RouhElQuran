@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Core.Dto_s.InstructorDto>
+﻿@model IEnumerable<Core.Dto_s.InstructorCoursesDto>
 
 @{
 	ViewData["Title"] = "Dashboard - Instructor Management";
@@ -160,6 +160,8 @@
         background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
     }
     </style>
+
+
 <div class="container-fluid p-4">
     <div class="row">
         <div class="col-12">
@@ -247,73 +249,77 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="d-none d-md-table-cell">
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
-                                            <div>
-                                                <div class="instructor-name">John Smith</div>
-                                                <small class="instructor-email d-block d-sm-none">Mathematics</small>
-                                                <small class="instructor-email">j.smith@email.com</small>
+                                @foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td class="d-none d-md-table-cell">
+                                            <input class="form-check-input" type="checkbox">
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
+                                                <div>
+                                                    <div class="instructor-name">@item.instructorDtos.InsName</div>
+                                                    <small class="instructor-email d-block d-sm-none"></small>
+                                                    <small class="instructor-email">@item.instructorDtos.InsEmail</small>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="d-none d-lg-table-cell">
-                                        <span class="badge bg-light text-dark">Mathematics</span>
-                                    </td>
-                                    <td class="d-none d-lg-table-cell">
-                                        <span class="salary-text">$5,000</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <span class="badge certificate-badge text-white">PhD</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <small class="text-muted">8:00 AM - 4:00 PM</small>
-                                    </td>
-                                    <td>
-                                        <span class="badge status-active text-white">Active</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <small class="text-muted">Mon-Fri</small>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                        </td>
+                                        <td class="d-none d-lg-table-cell">
+                                            <span class="badge bg-light text-dark">@string.Join( ", ",  item.courseDtos.Select(x => x.CrsName))</span>
+                                        </td>
+                                        <td class="d-none d-lg-table-cell">
+                                            <span class="salary-text">$@item.instructorDtos.Salary</span>
+                                        </td>
+                                        <td class="d-none d-xl-table-cell">
+                                            <span class="badge certificate-badge text-white">@item.instructorDtos.Certificate</span>
+                                        </td>
+                                        <td class="d-none d-xl-table-cell">
+                                            <small class="text-muted">@item.instructorDtos.TimeTo</small> 
+                                        </td>
+                                        <td>
+                                            <span class="badge status-active text-white">Active</span>
+                                        </td>
+                                        <td class="d-none d-xl-table-cell">
+                                            <small class="text-muted">@item.instructorDtos.DaysWork</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" data-bs-toggle="dropdown">
+                                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" class="dropdown-item"><i class="bx bx-show me-2"></i>Details</a></li>
+                                                        <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a href="#" class="dropdown-item text-danger"><i class="bx bx-trash me-2"></i>Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-primary shadow-sm">
+                                                    <i class="bx bx-edit"></i>
                                                 </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#" class="dropdown-item"><i class="bx bx-show me-2"></i>Details</a></li>
-                                                    <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li><a href="#" class="dropdown-item text-danger"><i class="bx bx-trash me-2"></i>Delete</a></li>
-                                                </ul>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-primary shadow-sm">
-                                                <i class="bx bx-edit"></i>
-                                            </button>
-                                        </div>
 
-                                        <!-- Mobile Info -->
-                                        <div class="d-block d-md-none mt-2">
-                                            <div class="mobile-info-card">
-                                                <div class="row g-2">
-                                                    <div class="col-6">
-                                                        <small class="text-muted d-block">Salary:</small>
-                                                        <span class="salary-text fw-semibold">$5,000</span>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <small class="text-muted d-block">Days:</small>
-                                                        <span class="fw-semibold">Mon-Fri</span>
+                                            <!-- Mobile Info -->
+                                            <div class="d-block d-md-none mt-2">
+                                                <div class="mobile-info-card">
+                                                    <div class="row g-2">
+                                                        <div class="col-6">
+                                                            <small class="text-muted d-block">Salary:</small>
+                                                            <span class="salary-text fw-semibold">$5,000</span>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <small class="text-muted d-block">Days:</small>
+                                                            <span class="fw-semibold">Mon-Fri</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                }
+                               
                                 <tr>
                                     <td class="d-none d-md-table-cell">
                                         <input class="form-check-input" type="checkbox">
@@ -534,3 +540,5 @@
         </div>
     </div>
 </div>
+
+

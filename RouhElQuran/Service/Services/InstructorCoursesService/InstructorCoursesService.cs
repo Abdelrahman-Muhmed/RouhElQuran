@@ -26,13 +26,14 @@ namespace Service.Services.InstructorCoursesService
 		public async Task<IEnumerable<Ins_Course>> CreateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto)
 		{
 			var instructorCourses = _mapper.Map<List<Ins_Course>>(instructorCoursesDto);
-			await _instructorCoursesReository.createInstructorCours(instructorCourses);
+
+            await _instructorCoursesReository.createInstructorCours(instructorCourses);
 			return instructorCourses;
 		}
 
 		public async Task<IEnumerable<InstructorCoursesDto>> GetInstructorCoursesAsync()
 		{
-		  var data = await _instructorCoursesReository.GetCourseWithInstructor();
+		  var data = await _instructorCoursesReository.GetCourseWithInstructorGrouped();
 		  var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
 		   return result;
 		}

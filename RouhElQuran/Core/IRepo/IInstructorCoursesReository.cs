@@ -9,7 +9,7 @@ namespace Core.IRepo
 {
 	public interface IInstructorCoursesReository : IGenericrepo<Ins_Course>
 	{
-        public Task<IEnumerable<Ins_Course>> GetCourseWithInstructor();
+        public Task<IEnumerable<IGrouping<int, Ins_Course>>> GetCourseWithInstructorGrouped();
 	
 		public Task<IEnumerable<Ins_Course>> createInstructorCours(List<Ins_Course> Ins_Course);
 	}

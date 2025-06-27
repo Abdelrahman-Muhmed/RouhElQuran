@@ -42,20 +42,20 @@ namespace Service.Services.UserService
 			return _mapper.Map<TDto>(result);
 		}
 
-		public async Task<TDto> CreateUser(TDto instructorDto)
+		public async Task<TDto> CreateUser(TDto userDto)
 		{
-			var mapData = _mapper.Map<TEntity>(instructorDto);
+			var mapData = _mapper.Map<TEntity>(userDto);
 			var resultEntity = await _userRepository.AddAsync(mapData);
 			var resultDto = _mapper.Map<TDto>(resultEntity);
 			return resultDto;
 
 		}
 
-		public async Task<TDto> updateUser(TDto instructorDto)
+		public async Task<TDto> updateUser(TDto userDto)
 		{
-			var mapData =  _mapper.Map<TEntity>(instructorDto);
+			var mapData =  _mapper.Map<TEntity>(userDto);
 			  await _userRepository.UpdateAsync(mapData);
-			return instructorDto;
+			return userDto;
 
 
 

@@ -141,27 +141,39 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
 
         modelBuilder.Entity<Instructor>(entity =>
         {
-            entity.HasKey(e => e.InstructorId).HasName("PK__Instruct__DD4A9EC21D0C8E56");
+            entity.HasKey(e => e.Id).HasName("PK__Instruct__DD4A9EC21D0C8E56");
 
-            entity.Property(e => e.InstructorId)
+            entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("Instructor_id");
             entity.Property(e => e.Certificate)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.CurrentCourse)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("Current_Course");
+           
             entity.Property(e => e.DaysWork)
                 .HasMaxLength(250)
                 .IsUnicode(false)
                 .HasColumnName("Days_Work");
             entity.Property(e => e.Salary).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.TimeWork)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("Time_Work");
+
+            entity.Property(e => e.TimeFrom)
+                .HasColumnName("Time_From");
+
+            entity.Property(e => e.TimeTo)
+             .HasColumnName("Time_To");
+
+            entity.Property(e => e.Description)
+            .HasMaxLength(800)
+            .HasColumnName("Description");
+
+            entity.Property(e => e.WorkExperienceFrom)
+            .IsRequired();
+            entity.Property(e => e.WorkExperienceTo)
+           .IsRequired();
+
+            entity.Property(e => e.YearsOfExperience)
+            .HasMaxLength(100)
+            .IsUnicode(false);
 
             entity.HasOne(d => d.User_id).WithOne(p => p.Ins)
             .HasForeignKey<Instructor>(d => d.InsUser_Id);
