@@ -15,5 +15,7 @@
         public TimeOnly? TimeTo { get; set; }
         public string? DaysWork { get; set; }
         public int? InsUser_Id { get; set; }
+        public bool IsActive { get; set; }
+        //public int? User_id { get; set; }
     }
 }

@@ -243,7 +243,7 @@
                                     <th class="d-none d-lg-table-cell border-0">Salary</th>
                                     <th class="d-none d-xl-table-cell border-0">Certificate</th>
                                     <th class="d-none d-xl-table-cell border-0">Time Work</th>
-                                    <th class="border-0">Status</th>
+                                    @* <th class="border-0">Status</th> *@
                                     <th class="d-none d-xl-table-cell border-0">Days Work</th>
                                     <th class="border-0">Actions</th>
                                 </tr>
@@ -275,11 +275,12 @@
                                             <span class="badge certificate-badge text-white">@item.instructorDtos.Certificate</span>
                                         </td>
                                         <td class="d-none d-xl-table-cell">
-                                            <small class="text-muted">@item.instructorDtos.TimeTo</small> 
+                                            <small class="text-muted">@item.instructorDtos.TimeFrom - @item.instructorDtos.TimeTo</small>
+                                      
                                         </td>
-                                        <td>
-                                            <span class="badge status-active text-white">Active</span>
-                                        </td>
+                                       @*  <td>
+                                            <span class="badge status-active text-white">@item.instructorDtos.IsActive</span>
+                                        </td> *@
                                         <td class="d-none d-xl-table-cell">
                                             <small class="text-muted">@item.instructorDtos.DaysWork</small>
                                         </td>
@@ -290,15 +291,25 @@
                                                         <i class="bx bx-dots-vertical-rounded"></i>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" class="dropdown-item"><i class="bx bx-show me-2"></i>Details</a></li>
+                                                        <li>
+                                                            <a onclick="Get('/Instructor/GetById/@item.insId', 'instructormodalContent','instructorCreateEditModalId')" class="dropdown-item">
+                                                              <i class="bx bx-show me-2"></i>Details
+                                                           </a>
+                                                        </li>
                                                         <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
                                                         <li><hr class="dropdown-divider"></li>
-                                                        <li><a href="#" class="dropdown-item text-danger"><i class="bx bx-trash me-2"></i>Delete</a></li>
+                                                        <li>
+                                                            <a onclick="deleteRow('/Instructor/Delete/@item.insId')" class="dropdown-item text-danger">
+                                                                <i class="bx bx-trash me-2"></i>Delete
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </div>
-                                                <button class="btn btn-sm btn-outline-primary shadow-sm">
+
+                                                <a class="btn btn-sm btn-outline-primary shadow-sm" onclick="Get('/Instructor/CreateEdit/@item.insId', 'instructormodalContent','instructorCreateEditModalId')" tabindex="0">
                                                     <i class="bx bx-edit"></i>
-                                                </button>
+
+                                                </a>
                                             </div>
 
                                             <!-- Mobile Info -->
@@ -319,141 +330,7 @@
                                         </td>
                                     </tr>
                                 }
-                               
-                                <tr>
-                                    <td class="d-none d-md-table-cell">
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
-                                            <div>
-                                                <div class="instructor-name">Sarah Johnson</div>
-                                                <small class="instructor-email d-block d-sm-none">Science</small>
-                                                <small class="instructor-email">s.johnson@email.com</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="d-none d-lg-table-cell">
-                                        <span class="badge bg-light text-dark">Science</span>
-                                    </td>
-                                    <td class="d-none d-lg-table-cell">
-                                        <span class="salary-text">$4,500</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <span class="badge certificate-badge text-white">Masters</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <small class="text-muted">9:00 AM - 5:00 PM</small>
-                                    </td>
-                                    <td>
-                                        <span class="badge status-pending text-white">Pending</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <small class="text-muted">Mon-Thu</small>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#" class="dropdown-item"><i class="bx bx-show me-2"></i>Details</a></li>
-                                                    <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li><a href="#" class="dropdown-item text-danger"><i class="bx bx-trash me-2"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                            <button class="btn btn-sm btn-outline-primary shadow-sm">
-                                                <i class="bx bx-edit"></i>
-                                            </button>
-                                        </div>
 
-                                        <!-- Mobile Info -->
-                                        <div class="d-block d-md-none mt-2">
-                                            <div class="mobile-info-card">
-                                                <div class="row g-2">
-                                                    <div class="col-6">
-                                                        <small class="text-muted d-block">Salary:</small>
-                                                        <span class="salary-text fw-semibold">$4,500</span>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <small class="text-muted d-block">Days:</small>
-                                                        <span class="fw-semibold">Mon-Thu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="d-none d-md-table-cell">
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
-                                            <div>
-                                                <div class="instructor-name">Michael Brown</div>
-                                                <small class="instructor-email d-block d-sm-none">English</small>
-                                                <small class="instructor-email">m.brown@email.com</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="d-none d-lg-table-cell">
-                                        <span class="badge bg-light text-dark">English</span>
-                                    </td>
-                                    <td class="d-none d-lg-table-cell">
-                                        <span class="salary-text">$4,200</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <span class="badge certificate-badge text-white">Masters</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <small class="text-muted">10:00 AM - 6:00 PM</small>
-                                    </td>
-                                    <td>
-                                        <span class="badge status-inactive text-white">Inactive</span>
-                                    </td>
-                                    <td class="d-none d-xl-table-cell">
-                                        <small class="text-muted">Tue-Sat</small>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="#" class="dropdown-item"><i class="bx bx-show me-2"></i>Details</a></li>
-                                                    <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li><a href="#" class="dropdown-item text-danger"><i class="bx bx-trash me-2"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                            <button class="btn btn-sm btn-outline-primary shadow-sm">
-                                                <i class="bx bx-edit"></i>
-                                            </button>
-                                        </div>
-
-                                        <!-- Mobile Info -->
-                                        <div class="d-block d-md-none mt-2">
-                                            <div class="mobile-info-card">
-                                                <div class="row g-2">
-                                                    <div class="col-6">
-                                                        <small class="text-muted d-block">Salary:</small>
-                                                        <span class="salary-text fw-semibold">$4,200</span>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <small class="text-muted d-block">Days:</small>
-                                                        <span class="fw-semibold">Tue-Sat</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -529,11 +406,12 @@
 <div class="modal fade" id="instructorCreateEditModalId" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content shadow">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title d-flex align-items-center">
+            <div class="modal-header">
+             @* 
+                <h5 class="card-title mb-2 mb-md-0 d-flex align-items-center">
                     <i class="bx bx-user-plus me-2"></i>
-                    Instructor
-                </h5>
+                    Instructor 
+                </h5> *@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="instructormodalContent"></div>

@@ -16,11 +16,17 @@ namespace RouhElQuran.AutoMapper
             .ForMember(dest => dest.Course_Plan, opt => opt.MapFrom(src => src.CoursePlans))
 			.ReverseMap();
 
+            // Map from Instructor to InstructorDto
             CreateMap<Instructor, InstructorDto>()
-               .ForMember(e => e.InsName, a => a.MapFrom(e => e.User_id.FirstName + " " + e.User_id.LastName))
-               .ForMember(e => e.InsEmail, a => a.MapFrom(e => e.User_id.Email))
-               .ReverseMap();
-            
+                .ForMember(dest => dest.InsName, opt => opt.MapFrom(src => src.User_id.FirstName + " " + src.User_id.LastName))
+                .ForMember(dest => dest.InsEmail, opt => opt.MapFrom(src => src.User_id.Email))
+                .ForMember(dest => dest.InsUser_Id, opt => opt.MapFrom(src => src.InsUser_Id));
+                //.ForPath(dest => dest.User_id, opt => opt.Ignore());
+
+            // Map from InstructorDto to Instructor
+            CreateMap<InstructorDto, Instructor>()
+                .ForMember(dest => dest.InsUser_Id, opt => opt.MapFrom(src => src.InsUser_Id))
+                .ForMember(dest => dest.User_id, opt => opt.Ignore()); // Navigation property, handled by EF
             //CreateMap<InstructorCoursesDto, Ins_Course>()
             //        .ForMember(e => e.Ins_Id, a => a.MapFrom(e => e.insId))
             //        .ForMember(e => e.Course_Id, a => a.MapFrom(e => e.crsId))
@@ -44,22 +50,17 @@ namespace RouhElQuran.AutoMapper
                 .ForMember(dest => dest.courseDtos, opt => opt.MapFrom(src => src.Select(ic => ic.Course).ToList()));
 
 
+            // Alternative: Direct mapping from Ins_Course collection to single DTO
+            CreateMap<IEnumerable<Ins_Course>, InstructorCoursesDto>()
+                .ForMember(dest => dest.insId, opt => opt.MapFrom(src => src.First().Ins_Id))
+                .ForMember(dest => dest.crsIds, opt => opt.MapFrom(src => src.Select(ic => ic.Course_Id).ToList()))
+                .ForMember(dest => dest.instructorDtos, opt => opt.MapFrom(src => src.First().Instructor))
+                .ForMember(dest => dest.courseDtos, opt => opt.MapFrom(src => src.Select(ic => ic.Course).ToList()));
             // For Mapping Multiple 
-            CreateMap<InstructorCoursesDto, List<Ins_Course>>()
-                .AfterMap((src, dest) =>
-                {
-                    dest.AddRange(
-                        src.crsIds
-                            .Where(courseId => courseId.HasValue)
-                            .Select(courseId => new Ins_Course
-                            {
-                                Ins_Id = src.insId.Value,
-                                Course_Id = courseId.Value
-                            })
-                    );
-                });
+            //CreateMap<InstructorCoursesDto, Ins_Course>();
 
-     
+
+
 
             CreateMap<CoursePlan, CoursePlanDto>().ReverseMap();
             ///

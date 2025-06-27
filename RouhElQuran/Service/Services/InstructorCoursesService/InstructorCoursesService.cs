@@ -22,22 +22,32 @@ namespace Service.Services.InstructorCoursesService
 		    _instructorCoursesReository = instructorCoursesReository;
 			_mapper = mapper;
 		}
+        public async Task<IEnumerable<InstructorCoursesDto>> GetInstructorCoursesAsync()
+        {
+            var data = await _instructorCoursesReository.GetCourseWithInstructorGrouped();
+            var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
+            return result;
+        }
 
-		public async Task<IEnumerable<Ins_Course>> CreateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto)
+        public async Task<IEnumerable<InstructorCoursesDto>> GetInstructorCourseByInstructorId(int? id)
+        {
+            var result = await _instructorCoursesReository.GetCourseInstructorByInstructorIdGrouped(id);
+            var resultMap = _mapper.Map<IEnumerable<InstructorCoursesDto>>(result);
+            return resultMap;
+        }
+        public async Task<IEnumerable<Ins_Course>> CreateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto)
 		{
-			var instructorCourses = _mapper.Map<List<Ins_Course>>(instructorCoursesDto);
+			//var instructorCourses = _mapper.Map<List<Ins_Course>>(instructorCoursesDto);
 
-            await _instructorCoursesReository.createInstructorCours(instructorCourses);
+           var instructorCourses = await _instructorCoursesReository.CreateInstructorCourses(instructorCoursesDto);
 			return instructorCourses;
 		}
 
-		public async Task<IEnumerable<InstructorCoursesDto>> GetInstructorCoursesAsync()
-		{
-		  var data = await _instructorCoursesReository.GetCourseWithInstructorGrouped();
-		  var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
-		   return result;
-		}
+        public async Task<IEnumerable<Ins_Course>> UpdateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto)
+        {
+            var instructorCourses = await _instructorCoursesReository.UpdateInstructorCourse(instructorCoursesDto);
+            return instructorCourses;
+        }
 
-	
-	}
+    }
 }

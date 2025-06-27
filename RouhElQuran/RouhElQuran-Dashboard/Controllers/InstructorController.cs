@@ -42,96 +42,114 @@ namespace RouhElQuran_Dashboard.Controllers
 			return View(Result);
 		}
 
-		//Get By Id
-		[HttpGet("{id}")]
+		[HttpGet]
 		public async Task<IActionResult> GetById(int id)
 		{
-			var result = await _instructorService.GetInstructorById(id);
-			if (result == null)
-			{
+            var instructorCorses = await _instructorCoursesService.GetInstructorCourseByInstructorId(id);
+            if (instructorCorses == null)
 				return NotFound("Instructor not found");
-			}
-			return Ok(result);
-		}
 
-		//For get dialog to create or edit
-		[HttpGet]
-		public async Task<IActionResult> CreateEdit(int id)
-		{
-			var instructor = await _instructorService.GetInstructorById(id);
-			instructor = id == null ? new InstructorDto() : instructor;
-			var instructors = await _userManager.Users
-				.Where(x => x.EmailConfirmed == true)
-				.Select(user => new
-				{
-					user.Id,
-					FullName = user.FirstName + " " + user.LastName
-				})
-			.ToListAsync();
+            return PartialView("Instructors/_Details", instructorCorses);
 
-			var courses = await _coursesService.GetAllCourse();
-			ViewData["AllUser"] = new SelectList(instructors, "Id", "FullName");
-			ViewData["AllCourses"] = new SelectList(courses, "Id", "CrsName");
-		
-			if (instructor != null)
-				return PartialView("Instructors/_CreateEdite", instructor);
-			else
-				return PartialView("Instructors/_CreateEdite");
+        
+        }
 
-		}
+        [HttpGet]
+        public async Task<IActionResult> CreateEdit(int? id)
+        {
+            var courses = await _coursesService.GetAllCourse();
+            var instructors = await _userManager.Users
+            .Where(x => x.EmailConfirmed == true)
+            .Select(user => new
+            {
+                user.Id,
+                FullName = user.FirstName + " " + user.LastName
+            })
+           .ToListAsync();
+            ViewData["AllUser"] = new SelectList(instructors, "Id", "FullName");
+            ViewData["AllCourses"] = new SelectList(courses, "Id", "CrsName");
 
-		[HttpPost]
-		public async Task<IActionResult> CreateEdit(InstructorDto instructorDto)
-		{
-			//if (ModelState.IsValid)
-			//{
-			try
-			{
-				if (instructorDto.Id != null)
-					await _instructorService.updateInstructor(instructorDto);
-				else
-				{
-				 var result = await _instructorService.CreateInstructor(instructorDto);
-					InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
-					{
-						insId = result.Id,
-						crsIds = instructorDto.CourseId.ToList()
-					};
-			    	await _instructorCoursesService.CreateInstructorCourseAsync(instructorCoursesDto);
-				}
+            if (id != null)
+            {
+                var instructor = await _instructorService.GetInstructorById(id);
+                var instructorCorses = await _instructorCoursesService.GetInstructorCourseByInstructorId(id);
+
+                var selectedCourseIds = instructorCorses
+                      .SelectMany(c => c.crsIds)
+                      .Where(id => id.HasValue)
+                      .ToList();
+                if (instructor != null)
+                    instructor.CourseId = selectedCourseIds;
+
+                return PartialView("Instructors/_CreateEdite", instructor);
+
+            }
+            else
+                return PartialView("Instructors/_CreateEdite");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEdit(InstructorDto instructorDto)
+        {
+            //if (ModelState.IsValid)
+            //{
+            try
+            {
+                if (instructorDto.Id != null)
+                {
+                    var result = await _instructorService.updateInstructor(instructorDto);
+                    InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
+                    {
+                        insId = result.Id,
+                        crsIds = instructorDto.CourseId.ToList()
+                    };
+                    _instructorCoursesService.UpdateInstructorCourseAsync(instructorCoursesDto);
+
+                }
+                else
+                {
+                    var result = await _instructorService.CreateInstructor(instructorDto);
+                    InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
+                    {
+                        insId = result.Id,
+                        crsIds = instructorDto.CourseId.ToList()
+                    };
+                    await _instructorCoursesService.CreateInstructorCourseAsync(instructorCoursesDto);
+                }
 
 
-				return RedirectToAction(nameof(InstructorHome));
-			}
-			catch
-			{
-				return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Adding");
-			}
-			//}
-			//return BadRequest("Invalid Data");
-		}
+                return RedirectToAction(nameof(InstructorHome));
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Adding");
+            }
+            //}
+            //return BadRequest("Invalid Data");
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> Delete(int id)
-		{
-			if (id != null)
-			{
-				try
-				{
-					var Result = await _instructorService.DeleteInstructor(id);
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id != null)
+            {
+                try
+                {
+                    var Result = await _instructorService.DeleteInstructor(id);
 
-					if (Result is null)
-						return NotFound("Not Found This Course");
+                    if (Result is null)
+                        return NotFound("Not Found This Course");
 
-					RedirectToAction("InstructorHome", "Instructor");
-				}
-				catch
-				{
-					return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Deleting");
-				}
-			}
-			return BadRequest("Invalid Data");
-		}
+                    RedirectToAction("InstructorHome", "Instructor");
+                }
+                catch
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Deleting");
+                }
+            }
+            return BadRequest("Invalid Data");
+        }
 
-	}
+    }
 }

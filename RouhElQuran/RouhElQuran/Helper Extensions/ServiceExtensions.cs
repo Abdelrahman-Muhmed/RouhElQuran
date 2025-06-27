@@ -43,7 +43,8 @@ namespace RouhElQuran.Serivces
             services.AddScoped<IInstructorService, InstructorService>();
             services.AddScoped<IInstructorCoursesService, InstructorCoursesService>();
 
-			services.AddScoped(typeof(IUserService<,>), typeof(UserService<,>));
+
+            services.AddScoped(typeof(IUserService<,>), typeof(UserService<,>));
 
 			// Database Context
 			services.AddDbContext<RouhElQuranContext>(options =>

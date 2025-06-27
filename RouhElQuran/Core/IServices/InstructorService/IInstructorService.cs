@@ -12,10 +12,10 @@ namespace Core.IServices.InstructorService
     public interface IInstructorService
     {
         public Task<IEnumerable<InstructorDto>> GetAllInstructor();
-        public Task<InstructorDto> GetInstructorById(int id);
+        public Task<InstructorDto> GetInstructorById(int? id);
         public Task<Instructor> CreateInstructor(InstructorDto courseDto);
         public Task<Instructor> updateInstructor(InstructorDto courseDto);
 
-        public Task<Instructor> DeleteInstructor(int id);
+        public Task<Instructor> DeleteInstructor(int? id);
     }
 }

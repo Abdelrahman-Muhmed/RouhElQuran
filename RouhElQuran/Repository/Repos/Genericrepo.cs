@@ -28,7 +28,7 @@ namespace Repository.Repos
             return result.Entity;
         }
 
-        public async Task<TEntity> DeleteAsync(int id)
+        public async Task<TEntity> DeleteAsync(int? id)
         {
             var entity = await GetByIdAsync(id);
             if (entity != null)
@@ -49,7 +49,7 @@ namespace Repository.Repos
 
 		}
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int? id)
         {
             var res = await context.Set<TEntity>().FindAsync(id);
             return res;

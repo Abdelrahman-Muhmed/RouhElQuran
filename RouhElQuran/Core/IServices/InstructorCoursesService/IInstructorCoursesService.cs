@@ -12,6 +12,9 @@ namespace Core.IServices.InstructorCoursesService
 	{
 		public Task <IEnumerable<InstructorCoursesDto>> GetInstructorCoursesAsync();
 		public Task<IEnumerable<Ins_Course>> CreateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto);
+        public Task<IEnumerable<Ins_Course>> UpdateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto);
+
+        public Task<IEnumerable<InstructorCoursesDto>> GetInstructorCourseByInstructorId(int? id);
 	
 	}
 }

@@ -144,8 +144,7 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
             entity.HasKey(e => e.Id).HasName("PK__Instruct__DD4A9EC21D0C8E56");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("Instructor_id");
+                .ValueGeneratedOnAdd();
             entity.Property(e => e.Certificate)
                 .HasMaxLength(100)
                 .IsUnicode(false);

@@ -13,6 +13,8 @@ $(document).ready(function () {
                 processData: false,
                 success(res) {
                     $("#" + formContent).html(res);
+                    console.log(res);
+
                     $("#" + formId).modal('show');
                         // Reinitialize MultiSelect for dynamically added content
                 document.querySelectorAll('[data-multi-select]').forEach((select) => {
