@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.HelperModel
+namespace Core.HelperModel.FileModel
 {
 	public class FileUpload
 	{

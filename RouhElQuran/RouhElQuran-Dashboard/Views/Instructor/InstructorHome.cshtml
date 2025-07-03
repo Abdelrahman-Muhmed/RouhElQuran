@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Core.Dto_s.InstructorCoursesDto>
 
-@{
+@* @{
 	ViewData["Title"] = "Dashboard - Instructor Management";
 }
+ *@
+
 
  <style>
     body {
@@ -230,111 +232,7 @@
                         </div>
                     </div>
 
-                    <!-- Table -->
-                    <div class="table-responsive shadow-sm rounded">
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="d-none d-md-table-cell border-0">
-                                        <input class="form-check-input" type="checkbox">
-                                    </th>
-                                    <th class="border-0">Instructor Name</th>
-                                    <th class="d-none d-lg-table-cell border-0">Current Course</th>
-                                    <th class="d-none d-lg-table-cell border-0">Salary</th>
-                                    <th class="d-none d-xl-table-cell border-0">Certificate</th>
-                                    <th class="d-none d-xl-table-cell border-0">Time Work</th>
-                                    @* <th class="border-0">Status</th> *@
-                                    <th class="d-none d-xl-table-cell border-0">Days Work</th>
-                                    <th class="border-0">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach(var item in Model)
-                                {
-                                    <tr>
-                                        <td class="d-none d-md-table-cell">
-                                            <input class="form-check-input" type="checkbox">
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
-                                                <div>
-                                                    <div class="instructor-name">@item.instructorDtos.InsName</div>
-                                                    <small class="instructor-email d-block d-sm-none"></small>
-                                                    <small class="instructor-email">@item.instructorDtos.InsEmail</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="d-none d-lg-table-cell">
-                                            <span class="badge bg-light text-dark">@string.Join( ", ",  item.courseDtos.Select(x => x.CrsName))</span>
-                                        </td>
-                                        <td class="d-none d-lg-table-cell">
-                                            <span class="salary-text">$@item.instructorDtos.Salary</span>
-                                        </td>
-                                        <td class="d-none d-xl-table-cell">
-                                            <span class="badge certificate-badge text-white">@item.instructorDtos.Certificate</span>
-                                        </td>
-                                        <td class="d-none d-xl-table-cell">
-                                            <small class="text-muted">@item.instructorDtos.TimeFrom - @item.instructorDtos.TimeTo</small>
-                                      
-                                        </td>
-                                       @*  <td>
-                                            <span class="badge status-active text-white">@item.instructorDtos.IsActive</span>
-                                        </td> *@
-                                        <td class="d-none d-xl-table-cell">
-                                            <small class="text-muted">@item.instructorDtos.DaysWork</small>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex gap-1">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" data-bs-toggle="dropdown">
-                                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a onclick="Get('/Instructor/GetById/@item.insId', 'instructormodalContent','instructorCreateEditModalId')" class="dropdown-item">
-                                                              <i class="bx bx-show me-2"></i>Details
-                                                           </a>
-                                                        </li>
-                                                        <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
-                                                        <li><hr class="dropdown-divider"></li>
-                                                        <li>
-                                                            <a onclick="deleteRow('/Instructor/Delete/@item.insId')" class="dropdown-item text-danger">
-                                                                <i class="bx bx-trash me-2"></i>Delete
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                                <a class="btn btn-sm btn-outline-primary shadow-sm" onclick="Get('/Instructor/CreateEdit/@item.insId', 'instructormodalContent','instructorCreateEditModalId')" tabindex="0">
-                                                    <i class="bx bx-edit"></i>
-
-                                                </a>
-                                            </div>
-
-                                            <!-- Mobile Info -->
-                                            <div class="d-block d-md-none mt-2">
-                                                <div class="mobile-info-card">
-                                                    <div class="row g-2">
-                                                        <div class="col-6">
-                                                            <small class="text-muted d-block">Salary:</small>
-                                                            <span class="salary-text fw-semibold">$5,000</span>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <small class="text-muted d-block">Days:</small>
-                                                            <span class="fw-semibold">Mon-Fri</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
-
+                    @Html.Partial("Instructors/_InstructorTCorseTablePartial");
                     <!-- Pagination -->
                     <div class="row mt-4 align-items-center">
                         <div class="col-12 col-md-6 mb-3 mb-md-0">
@@ -419,4 +317,86 @@
     </div>
 </div>
 
+@* 
+<script>
+    function initializeGenericSort(tableName) {
+        let currentSortColumn = '';
+        let currentSortDirection = 'asc';
 
+        // Add click event to all sortable headers
+        $(document).on('click', '.sortable-header', function() {
+            const column = $(this).data('column');
+            const table = $(this).data('table') || tableName; // Use parameter as fallback
+
+            // Determine sort direction
+            if (currentSortColumn === column) {
+                currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortDirection = 'asc';
+            }
+            currentSortColumn = column;
+
+            // Show loading indicator
+            showLoadingIndicator();
+
+            // Make AJAX request
+            $.ajax({
+                url: '/Instructor/InstructorHome',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    tableName: table,
+                    sortColumn: column,
+                    sortDirection: currentSortDirection
+                }),
+                success: function(data) {
+                    $('#table-container').html(data);
+                    hideLoadingIndicator();
+                    updateSortIcons(column, currentSortDirection);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Sort request failed:', error);
+                    hideLoadingIndicator();
+                    showErrorMessage('Failed to sort data. Please try again.');
+                }
+            });
+        });
+    }
+
+    function updateSortIcons(sortColumn, sortDirection) {
+        // Reset all sort icons
+        $('.sort-icon').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
+
+        // Update the active column's icon
+        $(`.sortable-header[data-column="${sortColumn}"] .sort-icon`)
+            .removeClass('fa-sort')
+            .addClass(sortDirection === 'asc' ? 'fa-sort-up' : 'fa-sort-down');
+    }
+
+    function showLoadingIndicator() {
+        if ($('#loading-indicator').length === 0) {
+            $('body').append(`
+                <div id="loading-indicator" class="position-fixed top-50 start-50 translate-middle" style="z-index: 9999;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            `);
+        }
+    }
+
+    function hideLoadingIndicator() {
+        $('#loading-indicator').remove();
+    }
+
+    function showErrorMessage(message) {
+        // You can customize this based on your UI framework
+        alert(message);
+        // Or use a toast notification, modal, etc.
+    }
+
+    // Initialize the sort functionality when document is ready
+    $(document).ready(function() {
+        initializeGenericSort('InstructorCourses'); // Pass the default table name
+    });
+</script> *@

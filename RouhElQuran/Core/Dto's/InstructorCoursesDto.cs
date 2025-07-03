@@ -10,7 +10,8 @@ namespace Core.Dto_s
 	{
 		public InstructorDto instructorDtos { get; set; } = new InstructorDto();
 
-		public List<CourseDto> courseDtos { get; set; } = new List<CourseDto>();
+
+        public List<CourseDto> courseDtos { get; set; } = new List<CourseDto>();
 
 		public int? insId { get; set; }
 		public List<int?> crsIds { get; set; }

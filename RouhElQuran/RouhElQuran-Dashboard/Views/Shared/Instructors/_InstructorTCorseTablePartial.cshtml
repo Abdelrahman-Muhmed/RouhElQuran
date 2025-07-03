@@ -1,0 +1,168 @@
+﻿@model IEnumerable<Core.Dto_s.InstructorCoursesDto>
+
+<style>
+    .sortable-header {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+    }
+
+        .sortable-header:hover {
+            background-color: #f8f9fa;
+        }
+
+    .sort-icon {
+        margin-left: 5px;
+        font-size: 0.8em;
+        color: #6c757d;
+    }
+
+    .sortable-header:hover .sort-icon {
+        color: #495057;
+    }
+
+    .fa-sort-up, .fa-sort-down {
+        color: #007bff !important;
+    }
+</style>
+<!-- Table -->
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover mb-0">
+     @*    <thead class="table-light">
+            
+            <tr>
+                @if (Model?.Headers != null)
+                {
+                    <th class="d-none d-md-table-cell border-0">
+                        <input class="form-check-input" type="checkbox">
+                    </th>
+                    @foreach (var header in Model.Headers)
+                    {
+                        <th class="sortable-header d-lg-table-cell" data-column="@header.Key" data-table="@Model.TableName">
+                            @header.Value
+                            <i class="fas fa-sort sort-icon @(Model.SortColumn == header.Key ? (Model.SortDirection == "asc" ? "fa-sort-up" : "fa-sort-down") : "")"></i>
+                        </th>
+                    }
+                    <th class="border-0">Actions</th>
+
+                }
+            </tr>
+        </thead> *@
+        <thead class="table-light">
+            <tr>
+                <th class="d-none d-md-table-cell border-0">
+                    <input class="form-check-input" type="checkbox">
+                </th>
+                <th class="border-0 sortable-header" data-column="Instructor.User_id.InsName">
+                    Instructor Name
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-lg-table-cell border-0 sortable-header" data-column="CurrentCourse">
+                    Current Course
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-lg-table-cell border-0 sortable-header" data-column="Instructor.Salary">
+                    Salary
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Instructor.Certificate">
+                    Certificate
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Instructor.TimeFrom">
+                    Time Work
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Instructor.DaysWork">
+                    Days Work
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="border-0">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="d-none d-md-table-cell">
+                        <input class="form-check-input" type="checkbox">
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
+                            <div>
+                                <div class="instructor-name">@item.instructorDtos.InsName</div>
+                                <small class="instructor-email d-block d-sm-none"></small>
+                                <small class="instructor-email">@item.instructorDtos.InsEmail</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        <span class="badge bg-light text-dark">@string.Join(", ", item.courseDtos.Select(x => x.CrsName))</span>
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        <span class="salary-text">$@item.instructorDtos.Salary</span>
+                    </td>
+                    <td class="d-none d-xl-table-cell">
+                        <span class="badge certificate-badge text-white">@item.instructorDtos.Certificate</span>
+                    </td>
+                    <td class="d-none d-xl-table-cell">
+                        <small class="text-muted">@item.instructorDtos.TimeFrom - @item.instructorDtos.TimeTo</small>
+
+                    </td>
+                    @*  <td>
+                                            <span class="badge status-active text-white">@item.instructorDtos.IsActive</span>
+                                        </td> *@
+                    <td class="d-none d-xl-table-cell">
+                        <small class="text-muted">@item.instructorDtos.DaysWork</small>
+                    </td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a onclick="Get('/Instructor/GetById/@item.insId', 'instructormodalContent','instructorCreateEditModalId')" class="dropdown-item">
+                                            <i class="bx bx-show me-2"></i>Details
+                                        </a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a onclick="deleteRow('/Instructor/Delete/@item.insId')" class="dropdown-item text-danger">
+                                            <i class="bx bx-trash me-2"></i>Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a class="btn btn-sm btn-outline-primary shadow-sm" onclick="Get('/Instructor/CreateEdit/@item.insId', 'instructormodalContent','instructorCreateEditModalId')" tabindex="0">
+                                <i class="bx bx-edit"></i>
+
+                            </a>
+                        </div>
+
+                        <!-- Mobile Info -->
+                        <div class="d-block d-md-none mt-2">
+                            <div class="mobile-info-card">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Salary:</small>
+                                        <span class="salary-text fw-semibold">$5,000</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Days:</small>
+                                        <span class="fw-semibold">Mon-Fri</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Core.HelperModel.FileModel;
 
 namespace Service.Helper.FileUploadHelper
 {

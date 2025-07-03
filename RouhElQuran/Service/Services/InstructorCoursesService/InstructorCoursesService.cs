@@ -4,12 +4,12 @@ using Core.IRepo;
 using Core.IServices.InstructorCoursesService;
 using Core.Models;
 using Repository.Models;
+using Service.Helper.SortHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Service.Services.InstructorCoursesService
 {
@@ -22,10 +22,19 @@ namespace Service.Services.InstructorCoursesService
 		    _instructorCoursesReository = instructorCoursesReository;
 			_mapper = mapper;
 		}
-        public async Task<IEnumerable<InstructorCoursesDto>> GetInstructorCoursesAsync()
+        public IEnumerable<InstructorCoursesDto> GetInstructorCoursesAsync()
         {
-            var data = await _instructorCoursesReository.GetCourseWithInstructorGrouped();
+            var data = _instructorCoursesReository.GetCourseWithInstructorGrouped();
+            
             var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
+            return result;
+        }
+        public IEnumerable<InstructorCoursesDto> GetInstructorCoursesAsync(string sortBy, bool IsDesc)
+        {
+            var data = _instructorCoursesReository.GetCourseWithInstructorGroupedSorted(sortBy , IsDesc);
+
+            var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
+
             return result;
         }
 
@@ -48,6 +57,11 @@ namespace Service.Services.InstructorCoursesService
             var instructorCourses = await _instructorCoursesReository.UpdateInstructorCourse(instructorCoursesDto);
             return instructorCourses;
         }
+
+
+
+
+
 
     }
 }

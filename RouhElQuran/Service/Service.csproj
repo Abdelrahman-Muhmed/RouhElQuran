@@ -17,6 +17,7 @@
 		<PackageReference Include="System.IO" Version="4.3.0" />
 		<PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
 		<PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.6" />
 		<PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
 		<PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
 

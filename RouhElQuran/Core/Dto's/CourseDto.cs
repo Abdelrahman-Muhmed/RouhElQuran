@@ -1,4 +1,5 @@
 ﻿using Core.HelperModel;
+using Core.HelperModel.FileModel;
 using Core.Models;
 
 namespace Core.Dto_s

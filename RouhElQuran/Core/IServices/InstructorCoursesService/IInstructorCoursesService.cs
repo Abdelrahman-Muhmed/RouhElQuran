@@ -10,8 +10,10 @@ namespace Core.IServices.InstructorCoursesService
 {
 	public interface IInstructorCoursesService
 	{
-		public Task <IEnumerable<InstructorCoursesDto>> GetInstructorCoursesAsync();
-		public Task<IEnumerable<Ins_Course>> CreateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto);
+		public IEnumerable<InstructorCoursesDto> GetInstructorCoursesAsync();
+		IEnumerable<InstructorCoursesDto> GetInstructorCoursesAsync(string sortBy, bool sortDirection);
+
+        public Task<IEnumerable<Ins_Course>> CreateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto);
         public Task<IEnumerable<Ins_Course>> UpdateInstructorCourseAsync(InstructorCoursesDto instructorCoursesDto);
 
         public Task<IEnumerable<InstructorCoursesDto>> GetInstructorCourseByInstructorId(int? id);

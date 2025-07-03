@@ -12,7 +12,6 @@ namespace Core.Dto_s
         [Required]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "LastName must be at least 2 characters.")]
         public string LastName { get; set; }
-
         [Required]
         //[StringLength(20, MinimumLength = 2, ErrorMessage = "Country must be exactly 2 characters.")]
         public string Country { get; set; }

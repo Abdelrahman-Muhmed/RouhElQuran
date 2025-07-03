@@ -14,9 +14,9 @@ namespace RouhElQuran.Controllers
 		 => _InstructorCoursesService = InstructorCoursesService;
 
 		[HttpGet("GetAll")]
-		public async Task<IActionResult> GetAll()
+		public IActionResult GetAll()
 		{
-			var result = await _InstructorCoursesService.GetInstructorCoursesAsync();
+			var result =  _InstructorCoursesService.GetInstructorCoursesAsync();
 			return Ok(result);
 		}
 

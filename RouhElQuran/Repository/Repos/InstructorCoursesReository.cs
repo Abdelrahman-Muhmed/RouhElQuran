@@ -3,10 +3,13 @@ using Core.IRepo;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
+using Service.Helper.SortHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,17 +22,31 @@ namespace Repository.Repos
 		 => _dbcontext = dbcontext;
 
 
-        public async Task<IEnumerable<IGrouping<int, Ins_Course>>> GetCourseWithInstructorGrouped()
+        public  IQueryable<IGrouping<int, Ins_Course>> GetCourseWithInstructorGrouped()
         {
-            var result = await _dbcontext.Ins_Crs
-                .Include(e => e.Instructor)
-                .ThenInclude(i => i.User_id)
-                .Include(e => e.Course)
-                .GroupBy(ic => ic.Ins_Id)
-                .ToListAsync();
+            return _dbcontext.Ins_Crs
+              .Include(e => e.Instructor)
+              .ThenInclude(i => i.User_id)
+              .Include(e => e.Course)
+              .GroupBy(ic => ic.Ins_Id);
 
-            return result;
         }
+
+        public IEnumerable<IGrouping<int, Ins_Course>> GetCourseWithInstructorGroupedSorted(string sortBy, bool isDesc)
+        {
+            var query = _dbcontext.Ins_Crs
+            .Include(x => x.Instructor)
+            .ThenInclude(i => i.User_id)
+            .Include(x => x.Course)
+            .AsEnumerable()
+            .GroupBy(x => x.Ins_Id);
+
+                    query = query.OrderGroupByProperty<int, Ins_Course>(sortBy, isDesc);
+
+            return query;
+
+        }
+       
         public async Task<IEnumerable<IGrouping<int, Ins_Course>>> GetCourseInstructorByInstructorIdGrouped(int? id)
         {
             var result = await _dbcontext.Ins_Crs
@@ -93,6 +110,7 @@ namespace Repository.Repos
 
         }
 
+     
     }
 
 }

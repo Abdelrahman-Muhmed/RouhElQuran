@@ -13,4 +13,8 @@
     <PackageReference Include="Stripe.net" Version="44.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IServices\ISortSerice\" />
+  </ItemGroup>
+
 </Project>

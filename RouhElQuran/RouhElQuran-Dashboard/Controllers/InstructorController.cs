@@ -36,13 +36,21 @@ namespace RouhElQuran_Dashboard.Controllers
 
 		public IActionResult Index() => View();
 
-		public async Task<IActionResult> InstructorHome()
+		public IActionResult InstructorHome()
 		{
-			var Result = await _instructorCoursesService.GetInstructorCoursesAsync();
+			var Result =  _instructorCoursesService.GetInstructorCoursesAsync();
 			return View(Result);
 		}
 
-		[HttpGet]
+
+        public IActionResult InstructorHomeSort(string sortBy, bool IsDesc)
+        {
+            var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc);
+            return PartialView("Instructors/_InstructorTCorseTablePartial", result);
+        }
+
+
+        [HttpGet]
 		public async Task<IActionResult> GetById(int id)
 		{
             var instructorCorses = await _instructorCoursesService.GetInstructorCourseByInstructorId(id);
