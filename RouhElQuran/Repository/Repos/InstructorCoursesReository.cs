@@ -1,11 +1,15 @@
-﻿using Core.Dto_s;
+﻿using Azure;
+using Core.Dto_s;
+using Core.HelperModel.PaginationModel;
 using Core.IRepo;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
+using Repository.PaginationHelper;
 using Service.Helper.SortHelper;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
@@ -41,12 +45,28 @@ namespace Repository.Repos
             .AsEnumerable()
             .GroupBy(x => x.Ins_Id);
 
-                    query = query.OrderGroupByProperty<int, Ins_Course>(sortBy, isDesc);
+            query = query.OrderGroupByProperty<int, Ins_Course>(sortBy, isDesc);
 
             return query;
 
         }
-       
+
+        //public PaginationRequest<IGrouping<int, Ins_Course>>  GetCourseWithInstructorGroupedSorted(string sortBy, bool isDesc, int page , int pageSize)
+        //{
+        //    var query = _dbcontext.Ins_Crs
+        //    .Include(x => x.Instructor)
+        //    .ThenInclude(i => i.User_id)
+        //    .Include(x => x.Course)
+        //    .AsEnumerable()
+        //    .GroupBy(x => x.Ins_Id);
+
+        //    query = query.OrderGroupByProperty<int, Ins_Course>(sortBy, isDesc);
+        //    int totalCount = query.Count();
+
+        //    return PaginationHelper.PaginationHelper.CreatePaginatedResult(query, page, pageSize, totalCount);
+
+        //}
+
         public async Task<IEnumerable<IGrouping<int, Ins_Course>>> GetCourseInstructorByInstructorIdGrouped(int? id)
         {
             var result = await _dbcontext.Ins_Crs

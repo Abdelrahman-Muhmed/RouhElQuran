@@ -1,4 +1,8 @@
-﻿@model IEnumerable<Core.Dto_s.InstructorCoursesDto>
+﻿@using Core.HelperModel.PaginationModel
+@* @model IEnumerable<Core.Dto_s.InstructorCoursesDto> *@
+
+@model PaginationRequest<Core.Dto_s.InstructorCoursesDto>
+
 
 <style>
     .sortable-header {
@@ -26,28 +30,8 @@
     }
 </style>
 <!-- Table -->
-<div class="table-responsive shadow-sm rounded">
+<div class="table-responsive shadow-sm rounded p-4" id="instructorTableContainer">
     <table class="table table-hover mb-0">
-     @*    <thead class="table-light">
-            
-            <tr>
-                @if (Model?.Headers != null)
-                {
-                    <th class="d-none d-md-table-cell border-0">
-                        <input class="form-check-input" type="checkbox">
-                    </th>
-                    @foreach (var header in Model.Headers)
-                    {
-                        <th class="sortable-header d-lg-table-cell" data-column="@header.Key" data-table="@Model.TableName">
-                            @header.Value
-                            <i class="fas fa-sort sort-icon @(Model.SortColumn == header.Key ? (Model.SortDirection == "asc" ? "fa-sort-up" : "fa-sort-down") : "")"></i>
-                        </th>
-                    }
-                    <th class="border-0">Actions</th>
-
-                }
-            </tr>
-        </thead> *@
         <thead class="table-light">
             <tr>
                 <th class="d-none d-md-table-cell border-0">
@@ -81,7 +65,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Items)
             {
                 <tr>
                     <td class="d-none d-md-table-cell">
@@ -91,30 +75,36 @@
                         <div class="d-flex align-items-center">
                             <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
                             <div>
-                                <div class="instructor-name">@item.instructorDtos.InsName</div>
+                                <div class="instructor-name">@item.instructorDtos?.InsName</div>
                                 <small class="instructor-email d-block d-sm-none"></small>
-                                <small class="instructor-email">@item.instructorDtos.InsEmail</small>
+                                <small class="instructor-email">@item.instructorDtos?.InsEmail</small>
                             </div>
                         </div>
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        <span class="badge bg-light text-dark">@string.Join(", ", item.courseDtos.Select(x => x.CrsName))</span>
+                        <span class="badge bg-light text-dark">
+                            @(item.courseDtos != null ? string.Join(", ", item.courseDtos.Select(x => x.CrsName)) : "N/A")
+                        </span>
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        <span class="salary-text">$@item.instructorDtos.Salary</span>
+                        <span class="salary-text">
+                            @(item.instructorDtos != null ? $"${item.instructorDtos.Salary}" : "N/A")
+                        </span>
                     </td>
                     <td class="d-none d-xl-table-cell">
-                        <span class="badge certificate-badge text-white">@item.instructorDtos.Certificate</span>
+                        <span class="badge certificate-badge text-white">
+                            @item.instructorDtos?.Certificate
+                        </span>
                     </td>
                     <td class="d-none d-xl-table-cell">
-                        <small class="text-muted">@item.instructorDtos.TimeFrom - @item.instructorDtos.TimeTo</small>
-
+                        <small class="text-muted">
+                            @(item.instructorDtos != null ? $"{item.instructorDtos.TimeFrom} - {item.instructorDtos.TimeTo}" : "N/A")
+                        </small>
                     </td>
-                    @*  <td>
-                                            <span class="badge status-active text-white">@item.instructorDtos.IsActive</span>
-                                        </td> *@
                     <td class="d-none d-xl-table-cell">
-                        <small class="text-muted">@item.instructorDtos.DaysWork</small>
+                        <small class="text-muted">
+                            @item.instructorDtos?.DaysWork
+                        </small>
                     </td>
                     <td>
                         <div class="d-flex gap-1">
@@ -137,24 +127,25 @@
                                     </li>
                                 </ul>
                             </div>
-
                             <a class="btn btn-sm btn-outline-primary shadow-sm" onclick="Get('/Instructor/CreateEdit/@item.insId', 'instructormodalContent','instructorCreateEditModalId')" tabindex="0">
                                 <i class="bx bx-edit"></i>
-
                             </a>
                         </div>
-
                         <!-- Mobile Info -->
                         <div class="d-block d-md-none mt-2">
                             <div class="mobile-info-card">
                                 <div class="row g-2">
                                     <div class="col-6">
                                         <small class="text-muted d-block">Salary:</small>
-                                        <span class="salary-text fw-semibold">$5,000</span>
+                                        <span class="salary-text fw-semibold">
+                                            @(item.instructorDtos != null ? $"${item.instructorDtos.Salary}" : "N/A")
+                                        </span>
                                     </div>
                                     <div class="col-6">
                                         <small class="text-muted d-block">Days:</small>
-                                        <span class="fw-semibold">Mon-Fri</span>
+                                        <span class="fw-semibold">
+                                            @item.instructorDtos?.DaysWork
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -162,7 +153,104 @@
                     </td>
                 </tr>
             }
-
         </tbody>
     </table>
+
+    @if (Model != null)
+    {
+        <div class="row mt-4 align-items-center">
+            <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="d-flex align-items-center flex-wrap">
+                    <span class="me-2 text-muted">Show</span>
+                    <select name="DataTables_Table_0_length" class="form-select form-select-sm shadow-sm" style="width: auto;">
+                        @* Uncomment and populate the options if needed *@  
+                      @*               @foreach (var size in Model.PageNumbers)
+                        { *@
+                            <option value="">soon</option>  
+                        @* }   *@
+                            </select>
+                    <span class="ms-2 text-muted">entries</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm justify-content-center justify-content-md-end mb-0">
+
+                        <!-- Previous Button -->
+                        <li class="page-item @(!Model.HasPrevious ? "disabled" : "")">
+                            <a class="page-link"
+                               href="javascript:void(0);"
+                               data-page="@(Model.CurrentPage - 1)">
+                                <i class="bx bx-chevron-left"></i>
+                            </a>
+                        </li>
+
+                        <!-- Start Ellipsis -->
+                        @if (Model.ShowStartEllipsis)
+                        {
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="javascript:void(0);"
+                                   data-page="1">
+                                    1
+                                </a>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        }
+
+                        <!-- Page Numbers -->
+                        @foreach (var pageNum in Model.PageNumbers)
+                        {
+                            <li class="page-item @(pageNum == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link"
+                                   href="javascript:void(0);"
+                                   data-page="@pageNum">
+                                    @pageNum
+                                </a>
+                            </li>
+                        }
+
+                        <!-- End Ellipsis -->
+                        @if (Model.ShowEndEllipsis)
+                        {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="javascript:void(0);"
+                                   data-page="@Model.TotalPages">
+                                    @Model.TotalPages
+                                </a>
+                            </li>
+                        }
+
+                        <!-- Next Button -->
+                        <li class="page-item @(!Model.HasNext ? "disabled" : "")">
+                            <a class="page-link"
+                               href="javascript:void(0);"
+                               data-page="@(Model.CurrentPage + 1)">
+                                <i class="bx bx-chevron-right"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Hidden fields to hold current sort & page state -->
+                    <input type="hidden" id="currentSortBy" value="@Model.SortBy" />
+                    <input type="hidden" id="currentIsDesc" value="@Model.IsDesc.ToString().ToLower()" />
+                    <input type="hidden" id="currentPageSize" value="@Model.PageSize" />
+
+                </nav>
+            </div>
+        </div>
+        <!-- Pagination Info -->
+        <div class="row mt-3">
+            <div class="col-12 text-center text-md-start">
+                <small class="text-muted">@Model.PaginationInfo</small>
+            </div>
+        </div>
+    }
 </div>

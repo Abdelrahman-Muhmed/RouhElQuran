@@ -199,7 +199,10 @@ function applySorting(column, direction, IsDesc) {
         type: 'POST',
         data: {
             sortBy: column,
-            IsDesc: isDesc
+            IsDesc: isDesc,
+            page: $(this).data('page'),
+            pageSize: $(this).data('page-size') || 10
+
          },
         success: function (data) {
             console.log('Sort successful');
@@ -243,4 +246,36 @@ $(document).ready(function () {
 // Re-initialize after AJAX content loads
 $(document).on('DOMContentLoaded', function () {
     initializeSortableHeaders();
+});
+
+
+$(document).on('click', '.pagination .page-link', function (e) {
+    e.preventDefault();
+
+    var $parent = $(this).closest('.page-item');
+    if ($parent.hasClass('disabled') || $parent.hasClass('active')) return;
+
+    var page = $(this).data('page');
+    if (!page || page < 1) return;
+
+    var sortBy = $('#currentSortBy').val() || 'Instructor.Salary';
+    var isDesc = $('#currentIsDesc').val() === 'true';
+    var pageSize = $('#currentPageSize').val() || 10;
+
+    $.ajax({
+        url: '/Instructor/InstructorHomeSort',
+        type: 'POST',
+        data: {
+            sortBy: sortBy,
+            IsDesc: isDesc,
+            page: page,
+            pageSize: pageSize
+        },
+        success: function (result) {
+            console.log(result)
+            $('#instructorTableContainer').replaceWith(result);
+            initializeSortableHeaders();
+
+        }
+    });
 });

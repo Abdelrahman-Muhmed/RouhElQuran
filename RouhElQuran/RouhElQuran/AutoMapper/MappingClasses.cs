@@ -1,8 +1,9 @@
 ﻿
+using AutoMapper;
+using Core.Dto_s;
+using Core.HelperModel.PaginationModel;
 using Core.Models;
 using Repository.Models;
-using Core.Dto_s;
-using AutoMapper;
 
 namespace RouhElQuran.AutoMapper
 {

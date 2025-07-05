@@ -1,14 +1,17 @@
-﻿using Core.IServices.UserService;
+﻿using Core.Dto_s;
+using Core.IServices.InstructorCoursesService;
+using Core.IServices.InstructorService;
+using Core.IServices.UserService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
-using Core.IServices.InstructorCoursesService;
 using Stripe;
-using Core.IServices.InstructorService;
+using System.Drawing.Printing;
+using System.Globalization;
 
 
 namespace RouhElQuran_Dashboard.Controllers
@@ -38,14 +41,20 @@ namespace RouhElQuran_Dashboard.Controllers
 
 		public IActionResult InstructorHome()
 		{
-			var Result =  _instructorCoursesService.GetInstructorCoursesAsync();
-			return View(Result);
+            string sortBy = "Instructor.Salary";
+            bool IsDesc = false;
+            int page = 1;
+            int pageSize = 1;
+            //var Result =  _instructorCoursesService.GetInstructorCoursesAsync();
+            var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc, page, pageSize);
+
+            return View(result);
 		}
 
-
-        public IActionResult InstructorHomeSort(string sortBy, bool IsDesc)
+        [HttpPost]
+        public IActionResult InstructorHomeSort(string sortBy, bool IsDesc,int page = 1 , int pageSize = 10)
         {
-            var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc);
+            var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc, page, pageSize);
             return PartialView("Instructors/_InstructorTCorseTablePartial", result);
         }
 

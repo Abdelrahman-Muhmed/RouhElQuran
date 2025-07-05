@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Core.Dto_s;
+using Core.HelperModel.PaginationModel;
 using Core.IRepo;
 using Core.IServices.InstructorCoursesService;
 using Core.Models;
 using Repository.Models;
+using Repository.PaginationHelper;
 using Service.Helper.SortHelper;
 using System;
 using System.Collections.Generic;
@@ -29,14 +31,27 @@ namespace Service.Services.InstructorCoursesService
             var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
             return result;
         }
-        public IEnumerable<InstructorCoursesDto> GetInstructorCoursesAsync(string sortBy, bool IsDesc)
+        public PaginationRequest<InstructorCoursesDto> GetInstructorCoursesAsync(string sortBy, bool IsDesc, int page, int pageSize)
         {
-            var data = _instructorCoursesReository.GetCourseWithInstructorGroupedSorted(sortBy , IsDesc);
+            var data = _instructorCoursesReository.GetCourseWithInstructorGroupedSorted(sortBy, IsDesc);
 
             var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
+            int totalCount = result.Count();
 
-            return result;
+           var resultData =  PaginationHelper.CreatePaginatedResult<InstructorCoursesDto>(result, page, pageSize, totalCount , sortBy , IsDesc);
+
+            return resultData;
         }
+
+        //public PaginationRequest<IGrouping<int, Ins_Course>> GetInstructorCoursesAsync(string sortBy, bool IsDesc, int page, int pageSize)
+        //{
+        //    var data = _instructorCoursesReository.GetCourseWithInstructorGroupedSorted(sortBy, IsDesc, page, pageSize);
+
+        //    //var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
+
+        //    return data;
+        //}
+
 
         public async Task<IEnumerable<InstructorCoursesDto>> GetInstructorCourseByInstructorId(int? id)
         {
