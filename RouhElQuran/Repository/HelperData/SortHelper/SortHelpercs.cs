@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Helper.SortHelper
+namespace Repository.Helper.SortHelper
 {
     public static class SortHelpercs
     {

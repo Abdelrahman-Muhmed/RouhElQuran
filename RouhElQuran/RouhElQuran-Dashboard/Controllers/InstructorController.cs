@@ -44,7 +44,7 @@ namespace RouhElQuran_Dashboard.Controllers
             string sortBy = "Instructor.Salary";
             bool IsDesc = false;
             int page = 1;
-            int pageSize = 1;
+            int pageSize = 10;
             //var Result =  _instructorCoursesService.GetInstructorCoursesAsync();
             var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc, page, pageSize);
 
