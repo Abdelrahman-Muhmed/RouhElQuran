@@ -1,4 +1,6 @@
-﻿namespace Core.Dto_s
+﻿using Core.HelperModel.FileModel;
+
+namespace Core.Dto_s
 {
     public class InstructorDto
     {
@@ -17,5 +19,7 @@
         public int? InsUser_Id { get; set; }
         public bool IsActive { get; set; }
         //public int? User_id { get; set; }
+        public FileUpload? FileUpload { get; set; }
+
     }
 }

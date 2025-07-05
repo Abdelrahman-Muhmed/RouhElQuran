@@ -209,7 +209,7 @@ function applySorting(column, direction, IsDesc) {
             hideLoadingIndicator();
 
             // Replace table content
-            $('.table-responsive').html(data);
+            $('.TableContainer').html(data);
 
             // Re-initialize sortable headers for the new content
             initializeSortableHeaders();
