@@ -1,9 +1,11 @@
 ﻿
 using AutoMapper;
 using Core.Dto_s;
+using Core.HelperModel.FileModel;
 using Core.HelperModel.PaginationModel;
 using Core.Models;
 using Repository.Models;
+using System.Linq;
 
 namespace RouhElQuran.AutoMapper
 {
@@ -29,12 +31,14 @@ namespace RouhElQuran.AutoMapper
                 .ForMember(dest => dest.InsUser_Id, opt => opt.MapFrom(src => src.InsUser_Id))
                 .ForMember(dest => dest.User_id, opt => opt.Ignore()); // Navigation property, handled by EF
 
-
+            
+            CreateMap<Files, FileUpload>();
             CreateMap<IGrouping<int, Ins_Course>, InstructorCoursesDto>()
                 .ForMember(dest => dest.insId, opt => opt.MapFrom(src => src.Key))
                 .ForMember(dest => dest.crsIds, opt => opt.MapFrom(src => src.Select(ic => (int?)ic.Course_Id).ToList()))
                 .ForMember(dest => dest.instructorDtos, opt => opt.MapFrom(src => src.First().Instructor))
-                .ForMember(dest => dest.courseDtos, opt => opt.MapFrom(src => src.Select(ic => ic.Course).ToList()));
+                .ForMember(dest => dest.courseDtos, opt => opt.MapFrom(src => src.Select(ic => ic.Course).ToList()))
+                 .ForPath(dest => dest.instructorDtos.FileUpload,opt=> opt.MapFrom(src => src.SelectMany(ic => ic.Instructor.User_id.files).FirstOrDefault()));
 
 
 

@@ -67,8 +67,8 @@
 						<div>Courses Home</div>
 					</a>
 				</li>
-				<li class='menu-item@(currentPage == "/GetAllDash" ? " active" : "")'>
-					<a asp-controller="Courses" asp-action="GetAllDash" class="menu-link">
+				<li class='menu-item@(currentPage == "/CorsesHome" ? " active" : "")'>
+					<a asp-controller="Courses" asp-action="CorsesHome" class="menu-link">
 						<div>All Courses Academy</div>
 					</a>
 				</li>
@@ -105,9 +105,30 @@
 			</ul>
 		</li>
 
-	
+		<!-- About Pages  -->
+		<li class='menu-item@(currentPage.StartsWith("/About") ? " active open" : "")'>
+			<a href="javascript:void(0);" class="menu-link menu-toggle">
+				<i class="menu-icon tf-icons bx bx-chalkboard"></i>
+				<div>About</div>
+			</a>
+			<ul class="menu-sub">
+				
+				<li class='menu-item@(currentPage == "/About/Index" ? " active" : "")'>
+					<a asp-controller="About" asp-action="Index" class="menu-link">
+						<div>About Home</div>
+					</a>
+				</li>
+				<li class='menu-item@(currentPage == "/About/CreateView" ? " active" : "")'>
+					<a asp-controller="About" asp-action="CreateView" class="menu-link">
+						<div>Create</div>
+					</a>
+				</li>
+				
+			</ul>
+		</li>
+
 		<!-- Auth -->
-		<li class='menu-item@(currentPage.StartsWith("/Auth") ? " active open" : "")'>
+	@* 	<li class='menu-item@(currentPage.StartsWith("/Auth") ? " active open" : "")'>
 			<a href="javascript:void(0);" class="menu-link menu-toggle">
 				<i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
 				<div>Authentications</div>
@@ -129,7 +150,7 @@
 					</a>
 				</li>
 			</ul>
-		</li>
+		</li> *@
 
 
 	</ul>

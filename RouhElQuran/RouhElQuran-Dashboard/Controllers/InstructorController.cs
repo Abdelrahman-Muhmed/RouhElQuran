@@ -1,17 +1,12 @@
 ﻿using Core.Dto_s;
 using Core.IServices.InstructorCoursesService;
 using Core.IServices.InstructorService;
-using Core.IServices.UserService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using RouhElQuran.IServices.CoursesService;
-using Stripe;
-using System.Drawing.Printing;
-using System.Globalization;
 
 
 namespace RouhElQuran_Dashboard.Controllers
@@ -126,7 +121,7 @@ namespace RouhElQuran_Dashboard.Controllers
                 }
                 else
                 {
-                    var result = await _instructorService.CreateInstructor(instructorDto);
+                    var result = await _instructorService.CreateInstructor(instructorDto , Request);
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
                     {
                         insId = result.Id,

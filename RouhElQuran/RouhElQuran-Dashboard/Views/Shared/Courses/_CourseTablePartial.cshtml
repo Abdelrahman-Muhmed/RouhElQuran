@@ -1,0 +1,121 @@
+﻿@model IEnumerable<Core.Dto_s.CourseDto>
+
+<div class="TableContainer" id="instructorTableContainer">
+    <table class="table table-hover mb-0">
+        <thead class="table-light">
+            <tr>
+                <th class="d-none d-md-table-cell border-0">
+                    <input class="form-check-input" type="checkbox">
+                </th>
+                <th class="border-0 sortable-header" data-column="Name">
+                    Corse Name
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-lg-table-cell border-0 sortable-header" data-column="Time">
+                    Time
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-lg-table-cell border-0 sortable-header" data-column="SissionTime">
+                    SissionTime
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Date">
+                    Date
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Price">
+                    Price
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Specialty">
+                    Specialty
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
+                <th class="border-0">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="d-none d-md-table-cell">
+                        <input class="form-check-input" type="checkbox">
+                    </td>
+                    <td>
+                        <span class="badge certificate-badge text-white">
+                            <i class="bx bx-book me-1"></i>@item.CrsName
+                        </span>
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        <i class="bx bx-time me-1"></i>@item.CoursesTime
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        <i class="bx bx-stopwatch me-1"></i>@item.SessionTime
+                    </td>
+                    <td class="d-none d-xl-table-cell">
+                        @* <i class="bx bx-calendar me-1"></i>@item.Date *@
+                    </td>
+                    <td class="d-none d-xl-table-cell">
+                        @* <i class="bx bx-dollar me-1"></i>@item.Price *@
+                    </td>
+                    <td class="d-none d-xl-table-cell">
+                        <i class="bx bx-category me-1"></i>@item.Specialty
+                    </td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a onclick="Get('/Courses/GetById/@item.Id', 'modalContent','CourseCreateEditModalId')" class="dropdown-item">
+                                            <i class="bx bx-show me-2"></i>Details
+                                        </a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item"><i class="bx bx-archive me-2"></i>Archive</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a onclick="deleteRow('/Courses/Delete/@item.Id')" class="dropdown-item text-danger">
+                                            <i class="bx bx-trash me-2"></i>Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a class="btn btn-sm btn-outline-primary shadow-sm" onclick="Get('Courses/CreateEdit/@item.Id', 'modalContent','CourseCreateEditModalId')" tabindex="0">
+                                <i class="bx bx-edit"></i>
+                            </a>
+                        </div>
+                        <!-- Mobile Info -->
+                        <div class="d-block d-md-none mt-2">
+                            <div class="mobile-info-card">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <small class="text-muted d-block"><i class="bx bx-time me-1"></i>Time:</small>
+                                        <span class="fw-semibold">@item.CoursesTime</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block"><i class="bx bx-stopwatch me-1"></i>Session:</small>
+                                        <span class="fw-semibold">@item.SessionTime</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block"><i class="bx bx-calendar me-1"></i>Date:</small>
+                                        @* <span class="fw-semibold">@item.Date</span> *@
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block"><i class="bx bx-dollar me-1"></i>Price:</small>
+                                        @* <span class="fw-semibold">@item.Price</span> *@
+                                    </div>
+                                    <div class="col-12">
+                                        <small class="text-muted d-block"><i class="bx bx-category me-1"></i>Specialty:</small>
+                                        <span class="fw-semibold">@item.Specialty</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

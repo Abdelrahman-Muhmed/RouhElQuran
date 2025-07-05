@@ -22,7 +22,7 @@ namespace RouhElQuran_Dashboard.Controllers
 
 
 		[HttpGet("GetAllDash")]
-		public async Task<IActionResult> GetAllDash()
+		public async Task<IActionResult> CorsesHome()
 		{
 			var Result = await _coursesService.GetAllCourse();
 			if (Result != null)
@@ -31,8 +31,22 @@ namespace RouhElQuran_Dashboard.Controllers
 				return BadRequest();
 		}
 
-		//For get dialog to create or edit
-		[HttpGet]
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var instructorCorses = await _coursesService.GetCourseById(id);
+            if (instructorCorses == null)
+                return NotFound("Instructor not found");
+
+            return PartialView("Courses/_Details", instructorCorses);
+
+
+        }
+
+        //For get dialog to create or edit
+        [HttpGet]
 		public async Task<IActionResult> CreateEdit(int? id)
 		{
 			var course = await _coursesService.GetCourseById(id);
@@ -45,8 +59,8 @@ namespace RouhElQuran_Dashboard.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateEdit(CourseDto coursedto)
 		{
-			if (ModelState.IsValid)
-			{
+			//if (ModelState.IsValid)
+			//{
 				try
 				{
 					if (coursedto.Id == null)
@@ -55,14 +69,14 @@ namespace RouhElQuran_Dashboard.Controllers
 						await _coursesService.updateCourse(coursedto);
 
 
-					return RedirectToAction(nameof(GetAllDash));
+					return RedirectToAction(nameof(CorsesHome));
 				}
 				catch
 				{
 					return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Adding");
 				}
-			}
-			return BadRequest("Invalid Data");
+			//}
+			//return BadRequest("Invalid Data");
 		}
 
 		[HttpPost]
@@ -77,7 +91,7 @@ namespace RouhElQuran_Dashboard.Controllers
 					if (Result is null)
 						return NotFound("Not Found This Course");
 
-					return RedirectToAction(nameof(GetAllDash));
+					return RedirectToAction(nameof(CorsesHome));
 				}
 				catch
 				{

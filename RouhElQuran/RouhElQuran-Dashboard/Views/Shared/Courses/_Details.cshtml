@@ -1,0 +1,247 @@
+﻿@model Core.Dto_s.CourseDto
+
+<div class="container-fluid p-4">
+
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
+                    <h5 class="card-title mb-2 mb-md-0 d-flex align-items-center">
+                        <i class="bx bx-book-content me-2 fs-4"></i>
+                        Course Details
+                    </h5>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Course Summary -->
+        <div class="col-lg-4 mb-4">
+            <div class="card info-card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bx bx-book fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="mb-1">Model.CrsName</h4>
+                    <p class="text-muted mb-2">Course Code: CRS-@Model.Id</p>
+                    <p class="text-muted mb-3">Model.Specialty</p>
+                    <div class="d-flex justify-content-center mb-3">
+                        <span class="badge status-active text-white fs-6">Active</span>
+                    </div>
+                    <div class="salary-text mb-3">$Model.Price</div>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="bx bx-user-plus"></i> Enroll Students
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="bx bx-calendar"></i> Schedule
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card info-card shadow-sm mt-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0 d-flex align-items-center">
+                        <i class="bx bx-stats me-2"></i>
+                        Course Statistics
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row text-center">
+                        <div class="col-6 mb-3">
+                            <div class="info-label">Total Students</div>
+                            <div class="info-value fs-4 fw-bold text-primary">45</div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="info-label">Completion Rate</div>
+                            <div class="info-value fs-4 fw-bold text-success">89%</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="info-label">Average Grade</div>
+                            <div class="info-value fs-4 fw-bold text-info">B+</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="info-label">Course Rating</div>
+                            <div class="info-value fs-4 fw-bold text-warning">4.7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Information -->
+        <div class="col-lg-8">
+            <div class="row">
+                <!-- Course Information -->
+                <div class="col-12 mb-4">
+                    <div class="card info-card shadow-sm">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0 d-flex align-items-center">
+                                <i class="bx bx-info-circle me-2"></i>
+                                Course Information
+                            </h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-label">Course Name</div>
+                                    <div class="info-value">@Model.CrsName</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-label">Specialty</div>
+                                    <div class="info-value">@Model.Specialty</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-label">Course Price</div>
+                                    @* <div class="info-value">$@Model.p</div> *@
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-label">Course ID</div>
+                                    <div class="info-value">CRS-@Model.Id</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-label">Course Date</div>
+                                    @* <div class="info-value">@Model.</div> *@
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-label">Duration</div>
+                                    <div class="info-value">12 weeks</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule & Timing -->
+                <div class="col-md-6 mb-4">
+                    <div class="card info-card shadow-sm h-100">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0 d-flex align-items-center">
+                                <i class="bx bx-time me-2"></i>
+                                Course Schedule
+                            </h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="work-schedule-card">
+                                <div class="info-label mb-2">Class Time</div>
+                                <div class="info-value mb-3">
+                                    <i class="bx bx-time me-1"></i>@Model.CoursesTime
+                                </div>
+
+                                <div class="info-label mb-2">Session Duration</div>
+                                <div class="info-value mb-3">
+                                    <i class="bx bx-stopwatch me-1"></i>@Model.SessionTime
+                                </div>
+
+                                <div class="info-label mb-2">Start Date</div>
+                                <div class="schedule-day active">
+                                    @* <span><i class="bx bx-calendar me-1"></i>Model.Date</span> *@
+                                    <i class="bx bx-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Resources -->
+                <div class="col-md-6 mb-4">
+                    <div class="card info-card shadow-sm h-100">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0 d-flex align-items-center">
+                                <i class="bx bx-folder me-2"></i>
+                                Course Resources
+                            </h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="mb-3">
+                                <span class="badge course-badge text-white me-2 mb-2">
+                                    <i class="bx bx-file-pdf me-1"></i>Course Materials
+                                </span>
+                                <span class="badge course-badge text-white me-2 mb-2">
+                                    <i class="bx bx-video me-1"></i>Video Lectures
+                                </span>
+                                <span class="badge course-badge text-white me-2 mb-2">
+                                    <i class="bx bx-book-bookmark me-1"></i>Assignments
+                                </span>
+                                <span class="badge course-badge text-white me-2 mb-2">
+                                    <i class="bx bx-test-tube me-1"></i>Quizzes
+                                </span>
+                            </div>
+                            <div class="info-label">Resource Count</div>
+                            <div class="salary-text">24 Files</div>
+                            <small class="text-muted">Last updated: June 2025</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Prerequisites -->
+                <div class="col-12 mb-4">
+                    <div class="card info-card shadow-sm">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0 d-flex align-items-center">
+                                <i class="bx bx-list-check me-2"></i>
+                                Prerequisites & Requirements
+                            </h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <span class="badge certificate-badge text-white me-2">Basic Mathematics</span>
+                                    <span class="badge certificate-badge text-white me-2 mt-3">Computer Literacy</span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <span class="badge certificate-badge text-white me-2">High School Diploma</span>
+                                    <span class="badge certificate-badge text-white me-2 mt-3">English Proficiency</span>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="info-label">Course Description</div>
+                                <div class="info-value">
+                                    This comprehensive course covers advanced topics in Model.Specialty. Students will learn through hands-on projects,
+                                    interactive sessions, and real-world applications. The curriculum is designed to provide both theoretical knowledge
+                                    and practical skills essential for professional development.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Outcomes -->
+                <div class="col-12 mb-4">
+                    <div class="card info-card shadow-sm">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0 d-flex align-items-center">
+                                <i class="bx bx-target-lock me-2"></i>
+                                Learning Outcomes
+                            </h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="experience-timeline">
+                                <div class="timeline-item">
+                                    <div class="info-label">Master Core Concepts</div>
+                                    <div class="info-value">Understanding fundamental principles and theories</div>
+                                    <small class="text-muted">Weeks 1-4</small>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="info-label">Apply Practical Skills</div>
+                                    <div class="info-value">Hands-on projects and real-world applications</div>
+                                    <small class="text-muted">Weeks 5-8</small>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="info-label">Advanced Problem Solving</div>
+                                    <div class="info-value">Complex scenarios and critical thinking</div>
+                                    <small class="text-muted">Weeks 9-12</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

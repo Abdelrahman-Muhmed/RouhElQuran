@@ -48,7 +48,6 @@ namespace Repository.Repos
             return r;
 
 		}
-
         public async Task<TEntity> GetByIdAsync(int? id)
         {
             var res = await context.Set<TEntity>().FindAsync(id);

@@ -1,5 +1,6 @@
 ﻿using Core.IRepo;
 using Core.IServices;
+using Core.IServices.AboutService;
 using Core.IServices.InstructorCoursesService;
 using Core.IServices.InstructorService;
 using Core.IServices.UserService;
@@ -16,6 +17,7 @@ using RouhElQuran.AutoMapper;
 using RouhElQuran.IServices.CoursesService;
 using RouhElQuran.PaymentServices;
 using RouhElQuran.SendEmail;
+using Service.Services.AboutService;
 using Service.Services.CourcesService;
 using Service.Services.InstructorCoursesService;
 using Service.Services.InstructorService;
@@ -42,6 +44,8 @@ namespace RouhElQuran.Serivces
 			services.AddScoped<ICoursesService, CoursesServic>();
             services.AddScoped<IInstructorService, InstructorService>();
             services.AddScoped<IInstructorCoursesService, InstructorCoursesService>();
+            services.AddScoped<IAboutService, AboutService>();
+
 
 
             services.AddScoped(typeof(IUserService<,>), typeof(UserService<,>));

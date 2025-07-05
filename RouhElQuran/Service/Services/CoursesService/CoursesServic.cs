@@ -63,7 +63,7 @@ namespace Service.Services.CourcesService
 
 				var Result = await _courseRepository.AddAsync(course);
 
-				var fileContent = await FileHelper.streamedOrBufferedProcess(courseDto.FileUpload, Result.Id, _fileGenericRepo, request);
+				var fileContent = await FileHelper.streamedOrBufferedProcess( request, courseDto.FileUpload, _fileGenericRepo, courseId:Result.Id);
 
 				await _courseRepository.CommitTransactionAsync();
 				return Result;

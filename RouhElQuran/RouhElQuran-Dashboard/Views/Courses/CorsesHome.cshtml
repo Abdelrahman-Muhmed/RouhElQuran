@@ -1,5 +1,6 @@
-﻿@using Core.HelperModel.PaginationModel
-@model PaginationRequest<Core.Dto_s.InstructorCoursesDto>
+﻿@model IEnumerable<Core.Dto_s.CourseDto>
+
+
 
 <div class="row">
     <div class="col-12">
@@ -7,7 +8,7 @@
             <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
                 <h5 class="card-title mb-2 mb-md-0 d-flex align-items-center">
                     <i class="bx bx-user-circle me-2 fs-4"></i>
-                    Instructor Management
+                    Course Management
                 </h5>
                 <div class="d-flex flex-column flex-sm-row gap-2">
                     <div class="btn-group">
@@ -20,7 +21,7 @@
                             <li><a class="dropdown-item" href="#"><i class="bx bx-file me-2"></i>Export PDF</a></li>
                         </ul>
                     </div>
-                    <button class="btn btn-primary shadow-sm" onclick="Get('/Instructor/CreateEdit/', 'instructormodalContent','instructorCreateEditModalId')">
+                    <button class="btn btn-primary shadow-sm" onclick="Get('Courses/CreateEdit/', 'modalContent','CourseCreateEditModalId')">
                         <i class="bx bx-plus me-1"></i>
                         <span class="d-none d-sm-inline">Add New Record</span>
                     </button>
@@ -42,7 +43,7 @@
                                 <label class="form-label fw-semibold">Status</label>
                                 <select id="FilterTransaction" class="form-select shadow-sm">
                                     <option value="">Soon</option>
-                                 
+
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -65,7 +66,7 @@
                     </div>
                 </div>
 
-                @Html.Partial("Instructors/_InstructorTCorseTablePartial")
+                @Html.Partial("Courses/_CourseTablePartial")
 
             </div>
         </div>
@@ -73,18 +74,14 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="instructorCreateEditModalId" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="CourseCreateEditModalId" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content shadow">
             <div class="modal-header">
-                @* 
-                <h5 class="card-title mb-2 mb-md-0 d-flex align-items-center">
-                    <i class="bx bx-user-plus me-2"></i>
-                    Instructor 
-                </h5> *@
+            
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="instructormodalContent"></div>
+            <div class="modal-body" id="modalContent"></div>
         </div>
     </div>
 </div>

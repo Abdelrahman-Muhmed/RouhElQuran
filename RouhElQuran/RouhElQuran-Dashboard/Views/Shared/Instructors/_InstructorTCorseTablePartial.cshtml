@@ -3,32 +3,6 @@
 
 @model PaginationRequest<Core.Dto_s.InstructorCoursesDto>
 
-
-<style>
-    .sortable-header {
-        cursor: pointer;
-        user-select: none;
-        position: relative;
-    }
-
-        .sortable-header:hover {
-            background-color: #f8f9fa;
-        }
-
-    .sort-icon {
-        margin-left: 5px;
-        font-size: 0.8em;
-        color: #6c757d;
-    }
-
-    .sortable-header:hover .sort-icon {
-        color: #495057;
-    }
-
-    .fa-sort-up, .fa-sort-down {
-        color: #007bff !important;
-    }
-</style>
 <!-- Table -->
 <div class="TableContainer" id="instructorTableContainer">
     <table class="table table-hover mb-0">
@@ -73,7 +47,24 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40">
+                            @if (item.instructorDtos?.FileUpload?.Content != null && item.instructorDtos.FileUpload.UntrustedName != null)
+                            {
+                                var ext = System.IO.Path.GetExtension(item.instructorDtos.FileUpload.UntrustedName).ToLowerInvariant();
+                                var mime = ext switch
+                                {
+                                    ".jpg" or ".jpeg" => "image/jpeg",
+                                    ".png" => "image/png",
+                                    ".gif" => "image/gif",
+                                    _ => "application/octet-stream"
+                                };
+                                var base64 = Convert.ToBase64String(item.instructorDtos.FileUpload.Content);
+                                <img src="data:@mime;base64,@base64" alt="File" class="rounded-circle me-3 avatar-img shadow-sm" width="100" height="100" />
+                            }
+                            else
+                            {
+                                <img src="~/wwwroot/img/avatars/7.png" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="40" height="40" />
+
+                            }
                             <div>
                                 <div class="instructor-name">@item.instructorDtos?.InsName</div>
                                 <small class="instructor-email d-block d-sm-none"></small>

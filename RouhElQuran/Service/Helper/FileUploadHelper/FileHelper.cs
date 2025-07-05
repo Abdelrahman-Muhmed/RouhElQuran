@@ -27,7 +27,7 @@ namespace Service.Helper.FileUploadHelper
 	{
 		private static ModelStateDictionary modelState = new ModelStateDictionary();
 
-		private static string _StordFilesPath = "F:\\Files";
+		private static string _StordFilesPath = "D:\\Files";
 
 		private static long _StreemedFileSizeLimite = 524288000;
 
@@ -92,7 +92,7 @@ namespace Service.Helper.FileUploadHelper
 				}
 			}
 		};
-		public static async Task<object> streamedOrBufferedProcess(FileUpload? formFiles, int? Id, IGenericrepo<Files> fileGenericRepo, HttpRequest Request)
+		public static async Task<object> streamedOrBufferedProcess(HttpRequest Request, FileUpload? formFiles = null, IGenericrepo<Files>? fileGenericRepo = null, int?courseId = null, int?userId = null)
 		{
 			List<IFormFile> bufferedFiles = new List<IFormFile>();
 			object result = new List<byte[]>(); 
@@ -108,7 +108,7 @@ namespace Service.Helper.FileUploadHelper
 
 				if (bufferedFiles.Count > 0)
 				{
-					result = await BufferedProcessFormFile(bufferedFiles, formFiles.Note, Id, fileGenericRepo);
+					result = await BufferedProcessFormFile(bufferedFiles, formFiles.Note, fileGenericRepo, courseId, userId);
 				}
 
 				if (formFiles.FormFile.Any(file => file.Length > _BufferedFileSizeLimite))
@@ -120,7 +120,7 @@ namespace Service.Helper.FileUploadHelper
 		}
 
 
-		public static async Task<List<byte[]>> BufferedProcessFormFile(List<IFormFile>? formFiles, string fileNote, int? Id, IGenericrepo<Files> fileGenericRepo)
+		public static async Task<List<byte[]>> BufferedProcessFormFile(List<IFormFile>? formFiles, string fileNote, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
 		{
 			List<byte[]> fileData = new List<byte[]>();
 
@@ -193,7 +193,7 @@ namespace Service.Helper.FileUploadHelper
 							//if (File.Length <= _BufferedFileSizeLimite)
 							//	await SaveFileInPhysical(memoryStream.ToArray());
 							//else
-							await BufferedSaveFileInDb(memoryStream.ToArray(), File, Id, fileNote, fileGenericRepo);
+							await BufferedSaveFileInDb(memoryStream.ToArray(), File, fileNote, fileGenericRepo, courseId, userId);
 
 							fileData.Add(memoryStream.ToArray());
 						}
@@ -261,13 +261,12 @@ namespace Service.Helper.FileUploadHelper
 							using (var memoryStream = new MemoryStream())
 							{
 								await section.Body.CopyToAsync(memoryStream);
-
 								// Check if the file is empty or exceeds the size limit.
 								if (memoryStream.Length == 0)
 								{
 									modelState.AddModelError("File", "The file is empty.");
 								}
-								else if (memoryStream.Length > _StreemedFileSizeLimite)
+								if (memoryStream.Length > _StreemedFileSizeLimite)
 								{
 									var megabyteSizeLimit = _StreemedFileSizeLimite / 1048576;
 									modelState.AddModelError("File",
@@ -387,22 +386,22 @@ namespace Service.Helper.FileUploadHelper
 
 		}
 
-		private static async Task BufferedSaveFileInDb(byte[]? filecontent, IFormFile? formFile,
-		 int? Id, string? note, IGenericrepo<Files> fileGenericRepo)
+		private static async Task BufferedSaveFileInDb(byte[]? filecontent, IFormFile? formFile
+		 , string? note, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
 		{
 
 			var filData = new Files()
 			{
-				CourseId = Id,
-				Content = filecontent,
 				UntrustedName = formFile.FileName,
-				UploadDT = DateTime.UtcNow,
-				Note = note,
-				Size = filecontent.Length
-
-			};
-			await fileGenericRepo.AddAsync(filData);
-		}
+                Content = filecontent,
+                Note = note,
+                Size = filecontent.Length,
+                UploadDT = DateTime.UtcNow,
+                AppUserId = userId,
+                CourseId = courseId,
+            };
+            await fileGenericRepo.AddAsync(filData);
+        }
 
 		private static bool IsMultipartContentType(string contentType)
 		{
@@ -431,5 +430,6 @@ namespace Service.Helper.FileUploadHelper
 				//&& !string.IsNullOrEmpty(contentDisposition.FileNameStar.Value);
 
 		}
+
 	}
 }

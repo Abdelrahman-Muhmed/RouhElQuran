@@ -21,5 +21,7 @@ namespace Core.Dto_s
         //public int? User_id { get; set; }
         public FileUpload? FileUpload { get; set; }
 
+
+
     }
 }

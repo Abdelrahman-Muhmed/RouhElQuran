@@ -63,6 +63,7 @@ namespace Service.Services.InstructorCoursesService
 			//var instructorCourses = _mapper.Map<List<Ins_Course>>(instructorCoursesDto);
 
            var instructorCourses = await _instructorCoursesReository.CreateInstructorCourses(instructorCoursesDto);
+
 			return instructorCourses;
 		}
 

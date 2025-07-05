@@ -41,6 +41,7 @@ namespace Repository.Repos
             var query = _dbcontext.Ins_Crs
             .Include(x => x.Instructor)
             .ThenInclude(i => i.User_id)
+            .ThenInclude(f => f.files)
             .Include(x => x.Course)
             .AsEnumerable()
             .GroupBy(x => x.Ins_Id);
@@ -50,22 +51,6 @@ namespace Repository.Repos
             return query;
 
         }
-
-        //public PaginationRequest<IGrouping<int, Ins_Course>>  GetCourseWithInstructorGroupedSorted(string sortBy, bool isDesc, int page , int pageSize)
-        //{
-        //    var query = _dbcontext.Ins_Crs
-        //    .Include(x => x.Instructor)
-        //    .ThenInclude(i => i.User_id)
-        //    .Include(x => x.Course)
-        //    .AsEnumerable()
-        //    .GroupBy(x => x.Ins_Id);
-
-        //    query = query.OrderGroupByProperty<int, Ins_Course>(sortBy, isDesc);
-        //    int totalCount = query.Count();
-
-        //    return PaginationHelper.PaginationHelper.CreatePaginatedResult(query, page, pageSize, totalCount);
-
-        //}
 
         public async Task<IEnumerable<IGrouping<int, Ins_Course>>> GetCourseInstructorByInstructorIdGrouped(int? id)
         {
