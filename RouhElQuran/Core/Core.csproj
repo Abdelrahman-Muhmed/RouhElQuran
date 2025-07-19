@@ -10,11 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
     <PackageReference Include="Stripe.net" Version="44.8.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="IServices\ISortSerice\" />
   </ItemGroup>
 
 </Project>

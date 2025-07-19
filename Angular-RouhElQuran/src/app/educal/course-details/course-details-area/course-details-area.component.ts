@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CourseDetailsService } from 'src/app/Services/Course-Details/course-details.service';
+import { environment } from 'src/environments/environment';
 // import Swiper core and required modules
 import SwiperCore, { Pagination, Autoplay } from "swiper";
 
@@ -85,9 +88,36 @@ export class CourseDetailsAreaComponent implements OnInit {
     },
   ]
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+    CourseData: any;
+    apiUrl = environment.apiBaseUrl;
+    CourseId!: number;
+  
+    constructor(
+      private route: ActivatedRoute,
+      private _CourseDetailsService: CourseDetailsService
+    ) {}
+  
+    ngOnInit(): void {
+      this.route.paramMap.subscribe(params => {
+        const idParam = params.get('id');
+        if (idParam) {
+          this.CourseId = +idParam;
+          console.log('Instructor ID:', this.CourseId);
+          this.getData(this.CourseId);
+        }
+      });
+    }
+  
+    getData(CourseId: number) {
+      this._CourseDetailsService.getCourseDataById(CourseId).subscribe({
+        next: (response) => {
+          this.CourseData = response;
+          console.log('Course data:', this.CourseData);
+        },
+        error: (err) => {
+          console.error('Error fetching instructor data:', err);
+        }
+      });
+    }
 
 }

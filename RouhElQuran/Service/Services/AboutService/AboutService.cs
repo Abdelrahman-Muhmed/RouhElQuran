@@ -15,14 +15,22 @@ namespace Service.Services.AboutService
     public class AboutService : IAboutService
     {
         private string _StordFilesPath = "D:\\Files";
-        public  IEnumerable<string> GetAbout()
+        public IEnumerable<string> GetAbout()
         {
             if (!Directory.Exists(_StordFilesPath))
                 Directory.CreateDirectory(_StordFilesPath);
 
-            return Directory.GetFiles(_StordFilesPath)
-                .Select(Path.GetFileName);
+            var fileNames = Directory.GetFiles(_StordFilesPath)
+                           .Select(Path.GetFileName)
+                           .Where(name => !string.IsNullOrEmpty(name));
 
+
+            return fileNames;
+        }
+
+        public IActionResult GetSingleFile(string fileName)
+        {
+            return FileHelper.GetSingleFile(_StordFilesPath, fileName);
         }
 
         [DisableFormValueModelBinding]

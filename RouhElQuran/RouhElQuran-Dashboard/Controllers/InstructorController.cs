@@ -7,63 +7,77 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using RouhElQuran.IServices.CoursesService;
+using System.Threading.Tasks;
 
 
 namespace RouhElQuran_Dashboard.Controllers
 {
 	public class InstructorController : Controller
 	{
-		//private readonly IUserService<Instructor, InstructorDto> _useresService;
 		private readonly UserManager<AppUser> _userManager;
 		private readonly ICoursesService _coursesService;
-		private readonly IInstructorCoursesService _instructorCoursesService;
 		private readonly IInstructorService _instructorService;
-		public InstructorController(
-            //IUserService<Instructor,InstructorDto> useresService,
+        private readonly IInstructorCoursesService _instructorCoursesService;
+
+        public InstructorController(
             IInstructorService instructorService,
             UserManager<AppUser> userManager,
-			ICoursesService coursesService, IInstructorCoursesService instructorCoursesService)
+			ICoursesService coursesService,
+            IInstructorCoursesService instructorCoursesService)
 		{
-			//_useresService = useresService;
 			_userManager = userManager;
 			_coursesService = coursesService;
-			_instructorCoursesService = instructorCoursesService;
 			_instructorService = instructorService;
+            _instructorCoursesService = instructorCoursesService;
 
         }
 
 		public IActionResult Index() => View();
 
-		public IActionResult InstructorHome()
+		public async Task<IActionResult> InstructorHome()
 		{
-            string sortBy = "Instructor.Salary";
-            bool IsDesc = false;
-            int page = 1;
-            int pageSize = 10;
-            //var Result =  _instructorCoursesService.GetInstructorCoursesAsync();
-            var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc, page, pageSize);
-
-            return View(result);
+            try
+            {
+                //string sortBy = "Instructor.Salary";
+                //bool IsDesc = false;
+                //int page = 1;
+                //int pageSize = 10;
+                var result = await _instructorService.GetAllInstructor();
+                return View(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+         
 		}
 
-        [HttpPost]
-        public IActionResult InstructorHomeSort(string sortBy, bool IsDesc,int page = 1 , int pageSize = 10)
-        {
-            var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc, page, pageSize);
-            return PartialView("Instructors/_InstructorTCorseTablePartial", result);
-        }
+        //[HttpPost]
+        //public IActionResult InstructorHomeSort(string sortBy, bool IsDesc, int page = 1, int pageSize = 10)
+        //{
+        //    //var result = _instructorCoursesService.GetInstructorCoursesAsync(sortBy, IsDesc, page, pageSize);
 
+        //    return PartialView("Instructors/_InstructorTCorseTablePartial", result);
+        //}
 
+  
         [HttpGet]
-		public async Task<IActionResult> GetById(int id)
-		{
-            var instructorCorses = await _instructorCoursesService.GetInstructorCourseByInstructorId(id);
-            if (instructorCorses == null)
-				return NotFound("Instructor not found");
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                var result = await _instructorService.GetInstructorById(id);
+                if (result == null)
+                    return NotFound("Instructor not found");
 
-            return PartialView("Instructors/_Details", instructorCorses);
+                return PartialView("Instructors/_Details", result);
+            }
 
-        
+            catch
+            {
+                return BadRequest();
+            }
+
         }
 
         [HttpGet]
@@ -79,21 +93,13 @@ namespace RouhElQuran_Dashboard.Controllers
             })
            .ToListAsync();
             ViewData["AllUser"] = new SelectList(instructors, "Id", "FullName");
-            ViewData["AllCourses"] = new SelectList(courses, "Id", "CrsName");
+            ViewData["AllCourses"] = new SelectList(courses, "Id", "CourseName");
 
             if (id != null)
             {
-                var instructor = await _instructorService.GetInstructorById(id);
-                var instructorCorses = await _instructorCoursesService.GetInstructorCourseByInstructorId(id);
+                var result = await _instructorService.GetInstructorById(id);
 
-                var selectedCourseIds = instructorCorses
-                      .SelectMany(c => c.crsIds)
-                      .Where(id => id.HasValue)
-                      .ToList();
-                if (instructor != null)
-                    instructor.CourseId = selectedCourseIds;
-
-                return PartialView("Instructors/_CreateEdite", instructor);
+                return PartialView("Instructors/_CreateEdite", result);
 
             }
             else
@@ -108,24 +114,26 @@ namespace RouhElQuran_Dashboard.Controllers
             //{
             try
             {
-                if (instructorDto.Id != null)
+                if (instructorDto.InstructorId != null)
                 {
                     var result = await _instructorService.updateInstructor(instructorDto);
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
                     {
                         insId = result.Id,
-                        crsIds = instructorDto.CourseId.ToList()
+                        crsIds = instructorDto.CourseIds
                     };
-                    _instructorCoursesService.UpdateInstructorCourseAsync(instructorCoursesDto);
+                    await _instructorCoursesService.UpdateInstructorCourseAsync(instructorCoursesDto);
 
                 }
                 else
                 {
-                    var result = await _instructorService.CreateInstructor(instructorDto , Request);
+
+                    var result = await _instructorService.CreateInstructor(instructorDto, Request);
+
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
                     {
                         insId = result.Id,
-                        crsIds = instructorDto.CourseId.ToList()
+                        crsIds = instructorDto.CourseIds
                     };
                     await _instructorCoursesService.CreateInstructorCourseAsync(instructorCoursesDto);
                 }

@@ -17,7 +17,7 @@
 
 <form id="InstructorCreateEditFormId" class="form-section">
     <!-- Details-->
-    <input type="number" asp-for="Id" hidden="hidden" id="insId" />
+    <input type="number" asp-for="InstructorId" hidden="hidden" id="insId" />
     
     <div class="col-12">
         <h6 class="text-start section-title">
@@ -32,7 +32,7 @@
             <!--For Display Old Course   asp-for="CourseId"  -->
             <select data-multi-select
                     id="CoursesMultiSelectID"
-                    asp-for="CourseId"
+                    asp-for="CourseIds"
                     asp-items="@(ViewData["AllCourses"] as SelectList)"
                     multiple="multiple"
                     class="form-control rounded-3">

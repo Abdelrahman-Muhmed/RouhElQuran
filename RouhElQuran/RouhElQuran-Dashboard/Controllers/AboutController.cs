@@ -1,4 +1,5 @@
-﻿using Core.HelperModel.FileModel;
+﻿using Core.Dto_s;
+using Core.HelperModel.FileModel;
 using Core.IServices.AboutService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,24 +13,42 @@ namespace RouhElQuran_Dashboard.Controllers
         {
             _AboutService = AboutService;
         }
-        public IEnumerable<string> Files { get; set; }
+
         public IActionResult Index()
         {
-            Files = _AboutService.GetAbout();
-            return View(Files);
+            var files = _AboutService.GetAbout();
+            return View(files);
         }
 
-        public IActionResult CreateView()
+        // Add this method to serve individual files
+        public IActionResult GetFile(string fileName)
         {
-            return View();
+            if (string.IsNullOrWhiteSpace(fileName))
+                return BadRequest("File name is required");
+
+            var result = _AboutService.GetSingleFile(fileName);
+            return result;
         }
 
-        public IActionResult Create(FileUpload fileUpload)
+   
+        [HttpGet]
+        public async Task<IActionResult> CreateEdit(int? id)
         {
-              _AboutService.CreateAbout(Request , fileUpload);
-             
-             return RedirectToAction(nameof(Index));
+            //var course = await _AboutService.(id);
+            //course = id == null ? new CourseDto() : course;
+
+            return PartialView("About/_CreateEdit");
+
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEdit(FileUpload fileUpload)
+        {
+           await _AboutService.CreateAbout(Request, fileUpload);
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
     }
 }

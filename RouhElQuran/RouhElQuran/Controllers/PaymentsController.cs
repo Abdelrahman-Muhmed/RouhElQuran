@@ -24,44 +24,44 @@ namespace Talabat.API.Controllers
             configuration = _configuration;
         }
 
-        [HttpPost("CreatePayment")]
-        [Authorize]
-        public async Task<IActionResult> CreatePaymentPlan(int PlanId)
-        {
-            var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
-            //var BuyerEmail = "m.salah532@gmail.com";
-            var PaymentSession = await _paymentService.CreateOrUpdatePaymentIntent(PlanId, BuyerEmail);
-            if (PaymentSession != null)
-                return Ok(new { sessionId = PaymentSession.Id });
-            else
-                return BadRequest();
-        }
+        //[HttpPost("CreatePayment")]
+        //[Authorize]
+        //public async Task<IActionResult> CreatePaymentPlan(int PlanId)
+        //{
+        //    var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
+        //    //var BuyerEmail = "m.salah532@gmail.com";
+        //    var PaymentSession = await _paymentService.CreateOrUpdatePaymentIntent(PlanId, BuyerEmail);
+        //    if (PaymentSession != null)
+        //        return Ok(new { sessionId = PaymentSession.Id });
+        //    else
+        //        return BadRequest();
+        //}
 
-        [HttpPost("webhook")]
-        public async Task<IActionResult> StripeWebHook()
-        {
-            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+        //[HttpPost("webhook")]
+        //public async Task<IActionResult> StripeWebHook()
+        //{
+        //    var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
-            var stripeEvent = EventUtility.ConstructEvent(json,
-                Request.Headers["Stripe-Signature"], WHSecret, throwOnApiVersionMismatch: false);
+        //    var stripeEvent = EventUtility.ConstructEvent(json,
+        //        Request.Headers["Stripe-Signature"], WHSecret, throwOnApiVersionMismatch: false);
 
-            // Handle the event
-            var paymentIntent = (PaymentIntent)stripeEvent.Data.Object;
+        //    // Handle the event
+        //    var paymentIntent = (PaymentIntent)stripeEvent.Data.Object;
 
-            UserPayments userPayments = new UserPayments();
+        //    UserPayments userPayments = new UserPayments();
 
-            switch (stripeEvent.Type)
-            {
-                case Events.PaymentIntentSucceeded:
-                    userPayments = await _paymentService.UpdatePaymentIntentToSuccededOrFailed(paymentIntent.Id, paymentIntent.Created, true);
-                    break;
+        //    switch (stripeEvent.Type)
+        //    {
+        //        case Events.PaymentIntentSucceeded:
+        //            userPayments = await _paymentService.UpdatePaymentIntentToSuccededOrFailed(paymentIntent.Id, paymentIntent.Created, true);
+        //            break;
 
-                case Events.PaymentIntentPaymentFailed:
-                    userPayments = await _paymentService.UpdatePaymentIntentToSuccededOrFailed(paymentIntent.Id, paymentIntent.Created, false);
-                    break;
-            }
+        //        case Events.PaymentIntentPaymentFailed:
+        //            userPayments = await _paymentService.UpdatePaymentIntentToSuccededOrFailed(paymentIntent.Id, paymentIntent.Created, false);
+        //            break;
+        //    }
 
-            return Ok(userPayments);
-        }
+        //    return Ok(userPayments);
+        //}
     }
 }

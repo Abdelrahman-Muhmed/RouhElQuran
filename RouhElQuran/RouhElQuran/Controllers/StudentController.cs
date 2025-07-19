@@ -26,25 +26,25 @@ namespace RouhElQuran.Controllers
         [HttpGet("getAll")]
         public async Task<IActionResult> Getall()
         {
-            IEnumerable<Student> students = await genericrepo.GetAllAsync();
+            IEnumerable<Student> students =  genericrepo.GetAllAsync();
             return Ok(map.Map<List<StudentDto>>(students));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            if (id == 0)
-                return BadRequest();
-            else
-            {
-                Student stu = await genericrepo.GetByIdAsync(id);
-                if (stu == null)
-                {
-                    return NotFound();
-                }
-                return Ok(map.Map<StudentDto>(stu));
-            }
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetById(int id)
+        //{
+        //    if (id == 0)
+        //        return BadRequest();
+        //    else
+        //    {
+        //        Student stu = await genericrepo.GetByIdAsync(id);
+        //        if (stu == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        return Ok(map.Map<StudentDto>(stu));
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Save(StudentDto student)

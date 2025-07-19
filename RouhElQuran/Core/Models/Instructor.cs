@@ -18,8 +18,8 @@ public partial class Instructor : BaseEntity
     public DateOnly WorkExperienceTo { get; set; }
     public string?  YearsOfExperience { get; set; }
     public int InsUser_Id { get; set; }
-    public virtual ICollection<InstructorSpecialty> InstructorSpecialty { get; set; } = new List<InstructorSpecialty>();
-    public virtual ICollection<Attendence> Attendences { get; set; } = new List<Attendence>();
-    public virtual AppUser User_id { get; set; }
-    public virtual ICollection<Ins_Course> Ins_Courses { get; set; } = new List<Ins_Course>();
+    public ICollection<InstructorSpecialty> InstructorSpecialty { get; set; } = new List<InstructorSpecialty>();
+    public ICollection<Attendence> Attendences { get; set; } = new List<Attendence>();
+    public AppUser AppUser { get; set; }
+    public ICollection<Ins_Course> Ins_Courses { get; set; } = new List<Ins_Course>();
 }

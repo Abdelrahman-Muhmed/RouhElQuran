@@ -19,7 +19,12 @@ namespace Repository.Repos
 
 		public async Task<Course> GetCourseWithPlansByIDAsync(int? id)
         {
-            var GetData = await dbContext.Courses.Include(e => e.CoursePlans).Where(e => e.Id == id).FirstOrDefaultAsync();
+            var GetData = await dbContext.Courses
+                .Include(f=> f.files)
+                .Include(e => e.CoursePlans)
+                .Where(e => e.Id == id)
+
+                .FirstOrDefaultAsync();
             //var GetPlans = await dbContext.CoursePlans.Where(e => e.Courses.Id == GetData.Id).ToListAsync();
             return GetData;
         }

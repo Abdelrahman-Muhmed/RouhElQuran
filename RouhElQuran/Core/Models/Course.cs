@@ -14,9 +14,12 @@ public partial class Course
 
 	public string? Description { get; set; }
 
-	public string? CrsName { get; set; }
+	public string? CourseName { get; set; }
 
     public int? CoursesTime { get; set; }
+    public decimal? CoursePrice { get; set; }
+
+
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     public virtual ICollection<CoursePlan> CoursePlans { get; set; } = new List<CoursePlan>();

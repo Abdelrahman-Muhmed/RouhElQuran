@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CoursesService } from 'src/app/Services/courses.service';
+import { CourseService } from 'src/app/Services/Course-Service/course.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeThreeCtaComponent implements OnInit {
   courseId: number = 0;
-  constructor( private route: ActivatedRoute,private _CourseService: CoursesService) {}
+  constructor( private route: ActivatedRoute,private _CourseService: CourseService) {}
 
   ngOnInit(): void {
     this.courseId = Number(this.route.snapshot.paramMap.get('id'));

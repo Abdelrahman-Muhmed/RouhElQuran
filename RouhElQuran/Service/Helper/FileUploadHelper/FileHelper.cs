@@ -23,376 +23,411 @@ using Core.HelperModel.FileModel;
 namespace Service.Helper.FileUploadHelper
 {
 
-	public static class FileHelper
-	{
-		private static ModelStateDictionary modelState = new ModelStateDictionary();
+    public static class FileHelper
+    {
+        private static ModelStateDictionary modelState = new ModelStateDictionary();
 
-		private static string _StordFilesPath = "D:\\Files";
+        private static string _StordFilesPath = "D:\\Files";
 
-		private static long _StreemedFileSizeLimite = 524288000;
+        private static long _StreemedFileSizeLimite = 524288000;
 
-		private static long _BufferedFileSizeLimite = 2097152;
+        private static long _BufferedFileSizeLimite = 2097152;
 
-		//for check on Chars if we are found char like "-,*,} , ..... ==> secure xss injection"
-		private static readonly byte[] _allowedChars = { };
+        //for check on Chars if we are found char like "-,*,} , ..... ==> secure xss injection"
+        private static readonly byte[] _allowedChars = { };
 
-		private static readonly string[] _permittedExtensions = { ".txt", ".jpg", ".jpeg", ".png", ".mp4", ".mp3", ".pdf" };
+        private static readonly string[] _permittedExtensions = { ".txt", ".jpg", ".jpeg", ".png", ".mp4", ".mp3", ".pdf" };
 
-		// Get the default form options so that we can use them to set the default 
-		// limits for request body data.
-		private static readonly FormOptions _defaultFormOptions = new FormOptions();
+        // Get the default form options so that we can use them to set the default 
+        // limits for request body data.
+        private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
-		// file signatures From (https://www.filesignatures.net/) for check on fileSignature ==> secure xss injection
-		private static readonly Dictionary<string, List<byte[]>> _fileSignature = new Dictionary<string, List<byte[]>>
-		{
-			{ ".gif", new List<byte[]> { new byte[] { 0x47, 0x49, 0x46, 0x38 } } },
-			{ ".png", new List<byte[]> { new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A } } },
-			{ ".jpeg", new List<byte[]>
-				{
-					new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
-					new byte[] { 0xFF, 0xD8, 0xFF, 0xE2 },
-					new byte[] { 0xFF, 0xD8, 0xFF, 0xE3 },
-				}
-			},
-			{ ".jpg", new List<byte[]>
-				{
-					new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
-					new byte[] { 0xFF, 0xD8, 0xFF, 0xE1 },
-					new byte[] { 0xFF, 0xD8, 0xFF, 0xE8 },
-				}
-			},
-			{ ".txt", new List<byte[]> { new byte[] { 0xEF, 0xBB, 0xBF } } },
-			{ ".zip", new List<byte[]>
-				{
-					new byte[] { 0x50, 0x4B, 0x03, 0x04 },
-					new byte[] { 0x50, 0x4B, 0x4C, 0x49, 0x54, 0x45 },
-					new byte[] { 0x50, 0x4B, 0x53, 0x70, 0x58 },
-					new byte[] { 0x50, 0x4B, 0x05, 0x06 },
-					new byte[] { 0x50, 0x4B, 0x07, 0x08 },
-					new byte[] { 0x57, 0x69, 0x6E, 0x5A, 0x69, 0x70 },
-				}
-			},
-			{ ".pdf", new List<byte[]>
-				{
-					new byte[] { 0x25, 0x50, 0x44, 0x46, 0x2D }
-				}
-			},
-			{ ".mp4", new List<byte[]>
-				{
-					new byte[] { 0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70 },
-					new byte[] { 0x00, 0x00, 0x00, 0x20, 0x66, 0x74, 0x79, 0x70 }
-				}
-			},
-			{ ".mp3", new List<byte[]>
-				{
-					new byte[] { 0x49, 0x44, 0x33 },
-					new byte[] { 0xFF, 0xFB },
-					new byte[] { 0xFF, 0xF3 },
-					new byte[] { 0xFF, 0xF2 }
-				}
-			}
-		};
-		public static async Task<object> streamedOrBufferedProcess(HttpRequest Request, FileUpload? formFiles = null, IGenericrepo<Files>? fileGenericRepo = null, int?courseId = null, int?userId = null)
-		{
-			List<IFormFile> bufferedFiles = new List<IFormFile>();
-			object result = new List<byte[]>(); 
-			if (formFiles != null)
-			{
-				foreach (var file in formFiles.FormFile)
-				{
-					if (file.Length <= _BufferedFileSizeLimite)
-					{
-						bufferedFiles.Add(file);
-					}
-				}
+        // file signatures From (https://www.filesignatures.net/) for check on fileSignature ==> secure xss injection
+        private static readonly Dictionary<string, List<byte[]>> _fileSignature = new Dictionary<string, List<byte[]>>
+        {
+            { ".gif", new List<byte[]> { new byte[] { 0x47, 0x49, 0x46, 0x38 } } },
+            { ".png", new List<byte[]> { new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A } } },
+            { ".jpeg", new List<byte[]>
+                {
+                    new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
+                    new byte[] { 0xFF, 0xD8, 0xFF, 0xE2 },
+                    new byte[] { 0xFF, 0xD8, 0xFF, 0xE3 },
+                }
+            },
+            { ".jpg", new List<byte[]>
+                {
+                    new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
+                    new byte[] { 0xFF, 0xD8, 0xFF, 0xE1 },
+                    new byte[] { 0xFF, 0xD8, 0xFF, 0xE8 },
+                }
+            },
+            { ".txt", new List<byte[]> { new byte[] { 0xEF, 0xBB, 0xBF } } },
+            { ".zip", new List<byte[]>
+                {
+                    new byte[] { 0x50, 0x4B, 0x03, 0x04 },
+                    new byte[] { 0x50, 0x4B, 0x4C, 0x49, 0x54, 0x45 },
+                    new byte[] { 0x50, 0x4B, 0x53, 0x70, 0x58 },
+                    new byte[] { 0x50, 0x4B, 0x05, 0x06 },
+                    new byte[] { 0x50, 0x4B, 0x07, 0x08 },
+                    new byte[] { 0x57, 0x69, 0x6E, 0x5A, 0x69, 0x70 },
+                }
+            },
+            { ".pdf", new List<byte[]>
+                {
+                    new byte[] { 0x25, 0x50, 0x44, 0x46, 0x2D }
+                }
+            },
+            { ".mp4", new List<byte[]>
+                {
+                    new byte[] { 0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70 },
+                    new byte[] { 0x00, 0x00, 0x00, 0x20, 0x66, 0x74, 0x79, 0x70 },
+                    new byte[] { 0x66, 0x74, 0x79, 0x70 }
+                }
+            },
+            { ".mp3", new List<byte[]>
+                {
+                    new byte[] { 0x49, 0x44, 0x33 },
+                    new byte[] { 0xFF, 0xFB },
+                    new byte[] { 0xFF, 0xF3 },
+                    new byte[] { 0xFF, 0xF2 }
+                }
+            }
+        };
+        public static async Task<object> streamedOrBufferedProcess(HttpRequest Request, FileUpload? formFiles = null, IGenericrepo<Files>? fileGenericRepo = null, int? courseId = null, int? userId = null)
+        {
+            List<IFormFile> bufferedFiles = new List<IFormFile>();
+            object result = new List<byte[]>();
+            if (formFiles != null)
+            {
+                foreach (var file in formFiles.FormFile)
+                {
+                    if (file.Length <= _BufferedFileSizeLimite)
+                    {
+                        bufferedFiles.Add(file);
+                    }
+                }
 
-				if (bufferedFiles.Count > 0)
-				{
-					result = await BufferedProcessFormFile(bufferedFiles, formFiles.Note, fileGenericRepo, courseId, userId);
-				}
+                if (bufferedFiles.Count > 0)
+                {
+                    result = await BufferedProcessFormFile(bufferedFiles, formFiles.Note, fileGenericRepo, courseId, userId);
+                }
 
-				if (formFiles.FormFile.Any(file => file.Length > _BufferedFileSizeLimite))
-				{
-					result = await streamedProcessFormFile(Request);
-				}
-			}
-			return result;
-		}
-
-
-		public static async Task<List<byte[]>> BufferedProcessFormFile(List<IFormFile>? formFiles, string fileNote, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
-		{
-			List<byte[]> fileData = new List<byte[]>();
-
-			foreach (var File in formFiles)
-			{
-				#region get DisplayAttribute File Name       
-				string fileDisplayName = string.Empty;
-				var property =
-				  typeof(FileUpload).GetProperty(File.Name.Substring(File.Name.IndexOf(".", StringComparison.Ordinal) + 1));
-
-				if (property != null)
-				{
-					if (property.GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute displayAttribute)
-					{
-						fileDisplayName = $"{displayAttribute.Name}";
-					}
-				}
-				#endregion
-
-				#region Encode For Content  
-
-				// Don't trust the file content sent by the client. ==> Secure when i make display 
-				var trustedFileName = WebUtility.HtmlEncode(File.Name);
-				#endregion
-
-				#region size   Check    
-				if (trustedFileName.Length == 0)
-				{
-					modelState.AddModelError(File.Name, $"{fileDisplayName}({trustedFileName}) is Empty");
-					continue;
-				}
-
-				if (trustedFileName.Length > _BufferedFileSizeLimite)
-				{
-					var megaBytSiteLimite = _BufferedFileSizeLimite / 1048576;
-					modelState.AddModelError(File.Name, $"{fileDisplayName}({trustedFileName}) is exceed {megaBytSiteLimite}MB");
-					continue;
-				}
-				#endregion
+                if (formFiles.FormFile.Any(file => file.Length > _BufferedFileSizeLimite))
+                {
+                    result = await streamedProcessFormFile(Request);
+                }
+            }
+            return result;
+        }
 
 
-				try
-				{
-					//Using Memory for Storge Data 
-					using (var memoryStream = new MemoryStream())
-					{
-						//Read Data From Memory RAM 
-						await File.CopyToAsync(memoryStream);
+        public static async Task<List<byte[]>> BufferedProcessFormFile(List<IFormFile>? formFiles, string fileNote, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
+        {
+            List<byte[]> fileData = new List<byte[]>();
 
-						#region After read data send it for check on ext and signature 
-						if (memoryStream.Length == 0)
-						{
-							modelState.AddModelError(File.Name,
-								$"{fileDisplayName}({trustedFileName}) is empty.");
-							continue;
-						}
+            foreach (var File in formFiles)
+            {
+                #region get DisplayAttribute File Name       
+                string fileDisplayName = string.Empty;
+                var property =
+                  typeof(FileUpload).GetProperty(File.Name.Substring(File.Name.IndexOf(".", StringComparison.Ordinal) + 1));
 
-						if (!IsValidFileExtensionAndSignature(File.FileName, memoryStream))
-						{
-							modelState.AddModelError(File.Name,
-								$"{fileDisplayName}({trustedFileName}) file " +
-								"type isn't permitted or the file's signature " +
-								"doesn't match the file's extension.");
-						}
-						#endregion
+                if (property != null)
+                {
+                    if (property.GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute displayAttribute)
+                    {
+                        fileDisplayName = $"{displayAttribute.Name}";
+                    }
+                }
+                #endregion
 
-						#region Saving file  
-						else
-						{
-							//if (File.Length <= _BufferedFileSizeLimite)
-							//	await SaveFileInPhysical(memoryStream.ToArray());
-							//else
-							await BufferedSaveFileInDb(memoryStream.ToArray(), File, fileNote, fileGenericRepo, courseId, userId);
+                #region Encode For Content  
 
-							fileData.Add(memoryStream.ToArray());
-						}
+                // Don't trust the file content sent by the client. ==> Secure when i make display 
+                var trustedFileName = WebUtility.HtmlEncode(File.Name);
+                #endregion
 
-						#endregion
+                #region size   Check    
+                if (trustedFileName.Length == 0)
+                {
+                    modelState.AddModelError(File.Name, $"{fileDisplayName}({trustedFileName}) is Empty");
+                    continue;
+                }
 
-					}
-
-				}
-				catch (Exception ex)
-				{
-					modelState.AddModelError(File.Name,
-					$"{fileDisplayName}({trustedFileName}) upload failed. " +
-					$"Please contact the Help Desk for support. Error: {ex.HResult}");
-				}
-			}
-			return fileData;
-
-		}
-
-	
-		[DisableFormValueModelBinding]
-		public static async Task<List<byte[]>> streamedProcessFormFile(HttpRequest Request)
-		{
-			List<byte[]> fileData = new List<byte[]>();
-
-			if (!IsMultipartContentType(Request.ContentType))
-			{
-				modelState.AddModelError("File",
-				   $"The request couldn't be processed");
-
-			}
-			var result = GetBoundry(MediaTypeHeaderValue.Parse(Request.ContentType), _defaultFormOptions.MultipartBoundaryLengthLimit);
-
-			var reader = new MultipartReader(result, Request.Body);
+                if (trustedFileName.Length > _BufferedFileSizeLimite)
+                {
+                    var megaBytSiteLimite = _BufferedFileSizeLimite / 1048576;
+                    modelState.AddModelError(File.Name, $"{fileDisplayName}({trustedFileName}) is exceed {megaBytSiteLimite}MB");
+                    continue;
+                }
+                #endregion
 
 
-			var section = await reader.ReadNextSectionAsync();
-			while (section != null)
-			{
-				var hasContentDispositionHeader =
-					   ContentDispositionHeaderValue.TryParse(
-						   section.ContentDisposition, out var contentDisposition);
+                try
+                {
+                    //Using Memory for Storge Data 
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        //Read Data From Memory RAM 
+                        await File.CopyToAsync(memoryStream);
 
-				if (hasContentDispositionHeader)
-				{
-					// This check assumes that there's a file
-					// present without form data. If form data
-					// is present, this method immediately fails
-					if (!HasFileContentDisposition(contentDisposition))
-					{
-						modelState.AddModelError("File",
-							$"The request couldn't be processed (Error 2).");
+                        #region After read data send it for check on ext and signature 
+                        if (memoryStream.Length == 0)
+                        {
+                            modelState.AddModelError(File.Name,
+                                $"{fileDisplayName}({trustedFileName}) is empty.");
+                            continue;
+                        }
 
-					}
-					else
-					{
-						// Don't trust the file name sent by the client. To display
-						// the file name, HTML-encode the value.
-						//var trudtedFileNameForDisplay = WebUtility.HtmlEncode(contentDisposition.FileName.Value);
+                        if (!IsValidFileExtensionAndSignature(File.FileName, memoryStream))
+                        {
+                            modelState.AddModelError(File.Name,
+                                $"{fileDisplayName}({trustedFileName}) file " +
+                                "type isn't permitted or the file's signature " +
+                                "doesn't match the file's extension.");
+                        }
+                        #endregion
 
+                        #region Saving file  
+                        else
+                        {
+                            //if (File.Length <= _BufferedFileSizeLimite)
+                            //	await SaveFileInPhysical(memoryStream.ToArray());
+                            //else
+                            await BufferedSaveFileInDb(memoryStream.ToArray(), File, fileNote, fileGenericRepo, courseId, userId);
 
-						try
-						{
-							using (var memoryStream = new MemoryStream())
-							{
-								await section.Body.CopyToAsync(memoryStream);
-								// Check if the file is empty or exceeds the size limit.
-								if (memoryStream.Length == 0)
-								{
-									modelState.AddModelError("File", "The file is empty.");
-								}
-								if (memoryStream.Length > _StreemedFileSizeLimite)
-								{
-									var megabyteSizeLimit = _StreemedFileSizeLimite / 1048576;
-									modelState.AddModelError("File",
-									$"The file exceeds {megabyteSizeLimit:N1} MB.");
-								}
-								else if (!IsValidFileExtensionAndSignature(contentDisposition.FileName.Value, memoryStream))
-								{
-									modelState.AddModelError("File",
-										"The file type isn't permitted or the file's " +
-										"signature doesn't match the file's extension.");
-								}
+                            fileData.Add(memoryStream.ToArray());
+                        }
 
-								else
-								{
-									#region Saving file  
+                        #endregion
 
-									await SaveFileInPhysical(memoryStream.ToArray());
+                    }
 
-									fileData.Add(memoryStream.ToArray());
-									#endregion
+                }
+                catch (Exception ex)
+                {
+                    modelState.AddModelError(File.Name,
+                    $"{fileDisplayName}({trustedFileName}) upload failed. " +
+                    $"Please contact the Help Desk for support. Error: {ex.HResult}");
+                }
+            }
+            return fileData;
 
-								}
+        }
 
 
+        [DisableFormValueModelBinding]
+        public static async Task<List<byte[]>> streamedProcessFormFile(HttpRequest Request)
+        {
+            List<byte[]> fileData = new List<byte[]>();
 
-							}
-						}
-						catch (Exception ex)
-						{
-							modelState.AddModelError("File",
-								"The upload failed. Please contact the Help Desk " +
-								$" for support. Error: {ex.HResult}");
-						}
-					}
-				}
-				// Drain any remaining section body that hasn't been consumed and
-				// read the headers for the next section.
-				section = await reader.ReadNextSectionAsync();
+            if (!IsMultipartContentType(Request.ContentType))
+            {
+                modelState.AddModelError("File",
+                   $"The request couldn't be processed");
 
-			}
+            }
+            var result = GetBoundry(MediaTypeHeaderValue.Parse(Request.ContentType), _defaultFormOptions.MultipartBoundaryLengthLimit);
+
+            var reader = new MultipartReader(result, Request.Body);
+
+
+            var section = await reader.ReadNextSectionAsync();
+            while (section != null)
+            {
+                var hasContentDispositionHeader =
+                       ContentDispositionHeaderValue.TryParse(
+                           section.ContentDisposition, out var contentDisposition);
+
+                if (hasContentDispositionHeader)
+                {
+                    // This check assumes that there's a file
+                    // present without form data. If form data
+                    // is present, this method immediately fails
+                    if (!HasFileContentDisposition(contentDisposition))
+                    {
+                        modelState.AddModelError("File",
+                            $"The request couldn't be processed (Error 2).");
+
+                    }
+                    else
+                    {
+                        // Don't trust the file name sent by the client. To display
+                        // the file name, HTML-encode the value.
+                        //var trudtedFileNameForDisplay = WebUtility.HtmlEncode(contentDisposition.FileName.Value);
+
+
+                        try
+                        {
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                await section.Body.CopyToAsync(memoryStream);
+                                // Check if the file is empty or exceeds the size limit.
+                                if (memoryStream.Length == 0)
+                                {
+                                    modelState.AddModelError("File", "The file is empty.");
+                                }
+                                if (memoryStream.Length > _StreemedFileSizeLimite)
+                                {
+                                    var megabyteSizeLimit = _StreemedFileSizeLimite / 1048576;
+                                    modelState.AddModelError("File",
+                                    $"The file exceeds {megabyteSizeLimit:N1} MB.");
+                                }
+                                else if (!IsValidFileExtensionAndSignature(contentDisposition.FileName.Value, memoryStream))
+                                {
+                                    modelState.AddModelError("File",
+                                        "The file type isn't permitted or the file's " +
+                                        "signature doesn't match the file's extension.");
+                                }
+
+                                else
+                                {
+                                    #region Saving file  
+
+                                    await SaveFileInPhysical(memoryStream.ToArray());
+
+                                    fileData.Add(memoryStream.ToArray());
+                                    #endregion
+
+                                }
 
 
 
-			return fileData;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            modelState.AddModelError("File",
+                                "The upload failed. Please contact the Help Desk " +
+                                $" for support. Error: {ex.HResult}");
+                        }
+                    }
+                }
+                // Drain any remaining section body that hasn't been consumed and
+                // read the headers for the next section.
+                section = await reader.ReadNextSectionAsync();
 
-		}
+            }
 
-		private static bool IsValidFileExtensionAndSignature(string fileName, Stream dataStream)
-		{
-			if (string.IsNullOrEmpty(fileName) || dataStream.Length == 0 || dataStream == null)
-				return false;
 
-			var ext = Path.GetExtension(fileName).ToLowerInvariant();
 
-			if (string.IsNullOrEmpty(ext) || !_permittedExtensions.Contains(ext))
-				return false;
+            return fileData;
 
-			dataStream.Position = 0;
-			using (var reader = new BinaryReader(dataStream))
-			{
-				if (reader.Equals(".txt"))
-				{
-					// Limits characters to ASCII encoding.
-					if (_allowedChars.Length == 0)
-					{
-						for (int i = 0; i < dataStream.Length; i++)
-						{
-							if (reader.ReadByte() > byte.MaxValue)
-							{
-								return false;
-							}
-						}
-					}
-					// Limits characters to ASCII encoding and
-					// values of the _allowedChars array.
-					else
-					{
-						for (int i = 0; i < dataStream.Length; i++)
-						{
-							var result = reader.ReadByte();
-							if (result > byte.MaxValue || !_allowedChars.Contains(result))
-							{
-								return false;
-							}
-						}
+        }
 
-					}
-					return true;
-				}
+        private static bool IsValidFileExtensionAndSignature(string fileName, Stream dataStream)
+        {
+            if (string.IsNullOrEmpty(fileName) || dataStream.Length == 0 || dataStream == null)
+                return false;
 
-				// File signature check
-				// --------------------
-				// With the file signatures provided in the _fileSignature
-				// dictionary, the following code tests the input content's
-				// file signature.
-				var signatures = _fileSignature[ext];
-				var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
+            var ext = Path.GetExtension(fileName).ToLowerInvariant();
 
-				return signatures.Any(signature =>
-					headerBytes.Take(signature.Length).SequenceEqual(signature));
-			}
+            if (string.IsNullOrEmpty(ext) || !_permittedExtensions.Contains(ext))
+                return false;
 
-		}
+            dataStream.Position = 0;
+            using (var reader = new BinaryReader(dataStream))
+            {
+                if (reader.Equals(".txt"))
+                {
+                    // Limits characters to ASCII encoding.
+                    if (_allowedChars.Length == 0)
+                    {
+                        for (int i = 0; i < dataStream.Length; i++)
+                        {
+                            if (reader.ReadByte() > byte.MaxValue)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    // Limits characters to ASCII encoding and
+                    // values of the _allowedChars array.
+                    else
+                    {
+                        for (int i = 0; i < dataStream.Length; i++)
+                        {
+                            var result = reader.ReadByte();
+                            if (result > byte.MaxValue || !_allowedChars.Contains(result))
+                            {
+                                return false;
+                            }
+                        }
 
-		private static async Task SaveFileInPhysical(ReadOnlyMemory<byte> filecontent)
-		{
-			// For the file name of the uploaded file stored
-			// server-side, use Path.GetRandomFileName to generate a safe
-			// random file name.
-			var trustedFileNameForSaving = Path.GetRandomFileName();
-			var filePath = Path.Combine(_StordFilesPath, trustedFileNameForSaving);
+                    }
+                    return true;
+                }
 
-			using (var fileStreem = File.Create(filePath))
-			{
-				await fileStreem.WriteAsync(filecontent);
-			}
+                // File signature check
+                // --------------------
+                // With the file signatures provided in the _fileSignature
+                // dictionary, the following code tests the input content's
+                // file signature.
+                var signatures = _fileSignature[ext];
+                //var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
 
-		}
+                //return signatures.Any(signature =>
+                //    headerBytes.Take(signature.Length).SequenceEqual(signature));
 
-		private static async Task BufferedSaveFileInDb(byte[]? filecontent, IFormFile? formFile
-		 , string? note, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
-		{
+                var headerBytes = reader.ReadBytes(64);
+                return signatures.Any(signature =>
+                {
+                    if (signature.Length == 8)
+                    {
+                        // strict match at the start
+                        return headerBytes.Take(signature.Length).SequenceEqual(signature);
+                    }
+                    else if (signature.Length == 4)
+                    {
+                        // look for 'ftyp' at offset 4
+                        if (headerBytes.Length >= 8 &&
+                            headerBytes[4] == signature[0] &&
+                            headerBytes[5] == signature[1] &&
+                            headerBytes[6] == signature[2] &&
+                            headerBytes[7] == signature[3])
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            }
 
-			var filData = new Files()
-			{
-				UntrustedName = formFile.FileName,
+        }
+
+        private static async Task SaveFileInPhysical(ReadOnlyMemory<byte> filecontent)
+        {
+            // For the file name of the uploaded file stored
+            // server-side, use Path.GetRandomFileName to generate a safe
+            // random file name.
+            var trustedFileNameForSaving = Path.GetRandomFileName();
+            var filePath = Path.Combine(_StordFilesPath, trustedFileNameForSaving);
+
+            using (var fileStreem = File.Create(filePath))
+            {
+                await fileStreem.WriteAsync(filecontent);
+            }
+
+        }
+
+        private static async Task BufferedSaveFileInDb(byte[]? filecontent, IFormFile? formFile
+         , string? note, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
+        {
+            // Ensure the directory exists
+            if (!Directory.Exists(_StordFilesPath))
+            {
+                Directory.CreateDirectory(_StordFilesPath);
+            }
+
+            // Save to disk
+            string uniqueFileName = $"{Guid.NewGuid()}-{userId}-{Path.GetExtension(formFile.FileName)}";
+            string filePath = Path.Combine(_StordFilesPath, uniqueFileName);
+
+            await File.WriteAllBytesAsync(filePath, filecontent);
+
+            var filData = new Files()
+            {
+                UntrustedName = uniqueFileName,
                 Content = filecontent,
                 Note = note,
                 Size = filecontent.Length,
@@ -403,33 +438,74 @@ namespace Service.Helper.FileUploadHelper
             await fileGenericRepo.AddAsync(filData);
         }
 
-		private static bool IsMultipartContentType(string contentType)
-		{
-			return !string.IsNullOrEmpty(contentType)
-				&& contentType.IndexOf("multipart/", StringComparison.OrdinalIgnoreCase) >= 0;
-		}
+        private static bool IsMultipartContentType(string contentType)
+        {
+            return !string.IsNullOrEmpty(contentType)
+                && contentType.IndexOf("multipart/", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
 
-		private static string GetBoundry(MediaTypeHeaderValue contentType, int BoundaryLengthLimit)
-		{
+        private static string GetBoundry(MediaTypeHeaderValue contentType, int BoundaryLengthLimit)
+        {
 
-			var result = HeaderUtilities.RemoveQuotes(contentType.Boundary).Value;
+            var result = HeaderUtilities.RemoveQuotes(contentType.Boundary).Value;
 
-			if (string.IsNullOrEmpty(result))
-				throw new InvalidDataException("Missing content-type boundary.");
+            if (string.IsNullOrEmpty(result))
+                throw new InvalidDataException("Missing content-type boundary.");
 
-			if (result.Length > BoundaryLengthLimit)
-				throw new InvalidDataException($"Multipart boundary length limit {BoundaryLengthLimit} exceeded.");
+            if (result.Length > BoundaryLengthLimit)
+                throw new InvalidDataException($"Multipart boundary length limit {BoundaryLengthLimit} exceeded.");
 
-			return result;
-		}
+            return result;
+        }
 
-		private static bool HasFileContentDisposition(ContentDispositionHeaderValue contentDisposition)
-		{
-			return contentDisposition != null && contentDisposition.DispositionType.Equals("form-data");
-				//&& !string.IsNullOrEmpty(contentDisposition.FileName.Value)
-				//&& !string.IsNullOrEmpty(contentDisposition.FileNameStar.Value);
+        private static bool HasFileContentDisposition(ContentDispositionHeaderValue contentDisposition)
+        {
+            return contentDisposition != null && contentDisposition.DispositionType.Equals("form-data");
+            //&& !string.IsNullOrEmpty(contentDisposition.FileName.Value)
+            //&& !string.IsNullOrEmpty(contentDisposition.FileNameStar.Value);
 
-		}
+        }
 
-	}
+
+
+
+
+
+        public static IActionResult GetSingleFile(string folderPath, string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return new BadRequestResult();
+
+            var filePath = Path.Combine(folderPath, fileName);
+            if (!System.IO.File.Exists(filePath))
+                return new NotFoundResult();
+
+            var contentType = GetContentType(fileName);
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+            // Return file for streaming (not download)
+            return new FileContentResult(fileBytes, contentType);
+        }
+
+        private static string GetContentType(string fileName)
+        {
+            var ext = Path.GetExtension(fileName).ToLowerInvariant();
+            return ext switch
+            {
+                ".mp4" => "video/mp4",
+                ".avi" => "video/x-msvideo",
+                ".mov" => "video/quicktime",
+                ".wmv" => "video/x-ms-wmv",
+                ".pdf" => "application/pdf",
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".txt" => "text/plain",
+                _ => "application/octet-stream"
+            };
+        }
+    }
+
+
+
 }

@@ -1,10 +1,11 @@
 ﻿
+using Core.Dto_s;
 using Core.IRepo;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using Core.Dto_s;
 using RouhElQuran.IServices.CoursesService;
+using Stripe;
 
 namespace RouhElQuran_Dashboard.Controllers
 {
@@ -24,23 +25,37 @@ namespace RouhElQuran_Dashboard.Controllers
 		[HttpGet("GetAllDash")]
 		public async Task<IActionResult> CorsesHome()
 		{
-			var Result = await _coursesService.GetAllCourse();
-			if (Result != null)
-				return View(Result);
-			else
-				return BadRequest();
-		}
+			try
+			{
+                var Result = await _coursesService.GetAllCourse();
+                if (Result != null)
+                    return View(Result);
+                else
+                    return BadRequest();
 
+            }
+			catch
+			{
+               return BadRequest();
 
+            }
 
+        }
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
-            var instructorCorses = await _coursesService.GetCourseById(id);
-            if (instructorCorses == null)
-                return NotFound("Instructor not found");
+			try
+			{
+                var instructorCorses = await _coursesService.GetCourseById(id);
+                if (instructorCorses == null)
+                    return NotFound("Instructor not found");
 
-            return PartialView("Courses/_Details", instructorCorses);
+                return PartialView("Courses/_Details", instructorCorses);
+            }
+			catch
+			{
+				return BadRequest();
+			}
 
 
         }
@@ -49,21 +64,33 @@ namespace RouhElQuran_Dashboard.Controllers
         [HttpGet]
 		public async Task<IActionResult> CreateEdit(int? id)
 		{
-			var course = await _coursesService.GetCourseById(id);
-		  	course = id == null ? new CourseDto() : course;
+			try
+			{
+                if (id != null)
+                {
+                    var result = await _coursesService.GetCourseById(id);
+                    return PartialView("Courses/_CreateEdite", result);
 
-            return PartialView("Courses/_CreateEdite", course);
+                }
+                return PartialView("Courses/_CreateEdite");
+            }
+			catch
+			{
+				return BadRequest();
+			}
 
-		}
 
-		[HttpPost]
+
+        }
+
+        [HttpPost]
 		public async Task<IActionResult> CreateEdit(CourseDto coursedto)
 		{
 			//if (ModelState.IsValid)
 			//{
 				try
 				{
-					if (coursedto.Id == null)
+					if (coursedto.Id == null || coursedto.Id == 0)
 						await _coursesService.CreateCource(coursedto, Request);
 					else
 						await _coursesService.updateCourse(coursedto);
@@ -73,7 +100,7 @@ namespace RouhElQuran_Dashboard.Controllers
 				}
 				catch
 				{
-					return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Adding");
+				return BadRequest();
 				}
 			//}
 			//return BadRequest("Invalid Data");

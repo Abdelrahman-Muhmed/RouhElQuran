@@ -1,8 +1,6 @@
-﻿@model IEnumerable<Core.Dto_s.InstructorCoursesDto>
+﻿@model Core.Dto_s.InstructorDto
 
-    @{
-        var data = Model.FirstOrDefault();
-    }
+
 
     <div class="container-fluid p-4">
   
@@ -26,13 +24,13 @@
                 <div class="card info-card shadow-sm">
                     <div class="card-body text-center">
                         <img src="https://via.placeholder.com/120" alt="Instructor Avatar" class="profile-avatar rounded-circle mb-3">
-                        <h4 class="mb-1">@data?.instructorDtos.InsName</h4>
-                        <p class="text-muted mb-2">@data?.instructorDtos.InsEmail</p>
+                        <h4 class="mb-1">@Model?.InstructorFirstName</h4>
+                    <p class="text-muted mb-2">@Model?.InstructorEmail</p>
                         <p class="text-muted mb-3">Senior Mathematics Instructor</p>
                         <div class="d-flex justify-content-center mb-3">
                             <span class="badge status-active text-white fs-6">Active</span>
                         </div>
-                        <div class="salary-text mb-3">$@data.instructorDtos.Salary</div>
+                    <div class="salary-text mb-3">$@Model.Salary</div>
                         <div class="d-flex justify-content-center gap-2">
                             <button class="btn btn-primary btn-sm">
                                 <i class="bx bx-message-dots"></i> Message
@@ -91,11 +89,11 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <div class="info-label">Full Name</div>
-                                        <div class="info-value">@data?.instructorDtos.InsName</div>
+                                        <div class="info-value">@Model?.InstructorFirstName</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="info-label">Email Address</div>
-                                        <div class="info-value">@data.instructorDtos.InsEmail</div>
+                                        <div class="info-value">@Model?.InstructorEmail</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="info-label">Phone Number</div>
@@ -129,9 +127,9 @@
                             </div>
                             <div class="card-body p-4">
                                 <div class="mb-3">
-                                @foreach(var item in data.courseDtos)
+                                @foreach(var item in Model?.CoursesName)
                                 {
-                                    <span class="badge course-badge text-white">@item.CrsName</span>
+                                    <span class="badge course-badge text-white">@item</span>
 
                                 }
                             
@@ -155,11 +153,11 @@
                             <div class="card-body p-4">
                                 <div class="work-schedule-card">
                                     <div class="info-label mb-2">Working Hours</div>
-                                    <div class="info-value mb-3">@data.instructorDtos.TimeFrom - @data.instructorDtos.TimeTo</div>
+                                    <div class="info-value mb-3">@Model.TimeFrom - @Model.TimeTo</div>
 
                                     <div class="info-label mb-2">Working Days</div>
                                     <div class="schedule-day active">
-                                        <span>@data.instructorDtos.DaysWork</span>
+                                        <span>@Model.DaysWork</span>
                                         <i class="bx bx-check-circle"></i>
                                     </div>
                                     <div class="schedule-day">

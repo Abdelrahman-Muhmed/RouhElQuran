@@ -5,15 +5,15 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class CoursesService {
+export class CourseService {
 
-
+ 
   constructor(private _HttpClient: HttpClient) { }
   private apiUrl = environment.apiBaseUrl;
   getAllCourses() {
     // return this._HttpClient.get('/api/Courses/GetAll');
 
-     return this._HttpClient.get(`${this.apiUrl}/api/Instructor/GetAll`);
+     return this._HttpClient.get(`${this.apiUrl}/api/Courses/GetAll`);
   }
 
   bookFreeCourse(courseId: number)

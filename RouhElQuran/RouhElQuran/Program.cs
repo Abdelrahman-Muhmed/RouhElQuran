@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using RouhElQuran.Serivces;
 
@@ -41,7 +42,14 @@ namespace RouhElQuran
 			// Configure Middleware
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
-			app.UseCors("Policy");
+
+			//For Display from Extenal file 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(@"D:\Files"),
+                RequestPath = "/files"
+            });
+            app.UseCors("Policy");
 			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();

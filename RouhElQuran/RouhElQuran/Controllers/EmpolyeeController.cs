@@ -23,25 +23,25 @@ namespace RouhElQuran.Controllers
         [HttpGet("getAll")]
         public async Task<IActionResult> Getall()
         {
-            IEnumerable<Employee> employees = await genericrepo.GetAllAsync();
+            IEnumerable<Employee> employees =  genericrepo.GetAllAsync();
             return Ok(map.Map<List<EmployeeDto>>(employees));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            if (id == 0)
-                return BadRequest();
-            else
-            {
-                Employee emp = await genericrepo.GetByIdAsync(id);
-                if (emp == null)
-                {
-                    return NotFound();
-                }
-                return Ok(map.Map<EmployeeDto>(emp));
-            }
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetById(int id)
+        //{
+        //    if (id == 0)
+        //        return BadRequest();
+        //    else
+        //    {
+        //        Employee emp = await genericrepo.GetByIdAsync(id);
+        //        if (emp == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        return Ok(map.Map<EmployeeDto>(emp));
+        //    }
+        //}
 
         ///
         [HttpPost]

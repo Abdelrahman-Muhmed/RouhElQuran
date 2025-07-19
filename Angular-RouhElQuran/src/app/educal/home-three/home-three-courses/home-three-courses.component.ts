@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CoursesService } from 'src/app/Services/courses.service';
-import { InstructorCoursesServiceService } from 'src/app/Services/Instructor-Courses-Servic/instructor-courses.service.service';
+import { CourseService } from 'src/app/Services/Course-Service/course.service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
     selector: 'app-home-three-courses',
@@ -11,7 +13,9 @@ import { InstructorCoursesServiceService } from 'src/app/Services/Instructor-Cou
 export class HomeThreeCoursesComponent implements OnInit {
 
   coursesData : any = [];
-  constructor(private _InstructorCoursesService : InstructorCoursesServiceService) { }
+   apiUrl = environment.apiBaseUrl; 
+  
+  constructor(private _CoursesService : CourseService) { }
 
   ngOnInit(): void {
 
@@ -19,10 +23,10 @@ export class HomeThreeCoursesComponent implements OnInit {
   }
 
   GetCourses() {
-    this._InstructorCoursesService.getAllInstructorCourses().subscribe({
+  this._CoursesService.getAllCourses().subscribe({
       next: (response) => {
         this.coursesData = response;
-            console.log("Courses data:", this.coursesData);
+            console.log("Course data:", this.coursesData );
       },
       error: (err) => {
         console.error("Error fetching courses:", err);

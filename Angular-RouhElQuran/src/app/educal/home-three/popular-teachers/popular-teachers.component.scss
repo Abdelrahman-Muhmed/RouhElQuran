@@ -1,0 +1,616 @@
+// Variables
+$primary-color: #C5A565;
+$secondary-color: #ffffff;
+$text-dark: #333333;
+$text-light: #666666;
+$text-muted: #8e8e93;
+$border-color: #e0e0e0;
+$shadow-light: rgba(0, 0, 0, 0.08);
+$shadow-medium: rgba(0, 0, 0, 0.15);
+$shadow-strong: rgba(0, 0, 0, 0.25);
+$gradient-primary: linear-gradient(135deg, #C5A565 0%, #D4B574 100%);
+$gradient-overlay: linear-gradient(135deg, rgba(197, 165, 101, 0.85) 0%, rgba(212, 181, 116, 0.9) 100%);
+$transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-fast: all 0.3s ease;
+
+// Enhanced Instructor Cards Styles
+.instructor-card {
+  background: $secondary-color;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  transition: $transition;
+  border: 1px solid rgba(197, 165, 101, 0.1);
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: $gradient-primary;
+    opacity: 0;
+    transition: $transition;
+  }
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    border-color: rgba(197, 165, 101, 0.2);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &__image {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
+    .instructor-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: $transition;
+      filter: grayscale(20%) brightness(1.05);
+    }
+
+    &:hover .instructor-image {
+      transform: scale(1.08);
+      filter: grayscale(0%) brightness(1.1);
+    }
+
+    .instructor-card__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $gradient-overlay;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: $transition;
+      backdrop-filter: blur(2px);
+
+      .btn-view-details {
+        background: $secondary-color;
+        color: $primary-color;
+        border: 2px solid transparent;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        font-size: 0.85rem;
+        transition: $transition;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+        transform: translateY(10px);
+
+        &:hover {
+          background: $primary-color;
+          color: $secondary-color;
+          transform: translateY(0px) scale(1.05);
+          box-shadow: 0 12px 32px rgba(197, 165, 101, 0.4);
+        }
+      }
+    }
+
+    &:hover .instructor-card__overlay {
+      opacity: 1;
+      
+      .btn-view-details {
+        transform: translateY(0px);
+      }
+    }
+
+    // Status indicator on image
+    .status-indicator {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(10px);
+      
+      &.active {
+        background: rgba(40, 167, 69, 0.9);
+        color: $secondary-color;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+      }
+
+      &.inactive {
+        background: rgba(220, 53, 69, 0.9);
+        color: $secondary-color;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      }
+    }
+  }
+
+  &__content {
+    padding: 30px 25px;
+    position: relative;
+
+    .instructor-name {
+      margin-bottom: 12px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.3;
+
+      a {
+        color: $text-dark;
+        text-decoration: none;
+        transition: $transition-fast;
+        cursor: pointer;
+        background: linear-gradient(135deg, $primary-color, $primary-color);
+        background-size: 0% 2px;
+        background-position: 0% 100%;
+        background-repeat: no-repeat;
+
+        &:hover {
+          color: $primary-color;
+          background-size: 100% 2px;
+        }
+      }
+    }
+
+    .instructor-certificate {
+      color: $primary-color;
+      font-weight: 600;
+      margin-bottom: 20px;
+      font-style: normal;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      
+      &::before {
+        content: '🎓';
+        margin-right: 8px;
+        font-size: 1.1rem;
+      }
+    }
+
+    .instructor-info {
+      margin-bottom: 20px;
+
+      .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+        color: $text-light;
+        padding: 8px 12px;
+        background: rgba(197, 165, 101, 0.05);
+        border-radius: 10px;
+        transition: $transition-fast;
+
+        &:hover {
+          background: rgba(197, 165, 101, 0.1);
+          color: $text-dark;
+        }
+
+        i {
+          margin-right: 12px;
+          color: $primary-color;
+          width: 18px;
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .instructor-status {
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+
+      .status-badge {
+        padding: 8px 18px;
+        border-radius: 25px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        &:hover::before {
+          left: 100%;
+        }
+
+        &.active {
+          background: linear-gradient(135deg, #28a745, #20c997);
+          color: $secondary-color;
+          box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        &.inactive {
+          background: linear-gradient(135deg, #dc3545, #fd7e14);
+          color: $secondary-color;
+          box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+      }
+    }
+
+    .instructor-social {
+      ul {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 45px;
+          height: 45px;
+          background: linear-gradient(135deg, rgba(197, 165, 101, 0.1), rgba(197, 165, 101, 0.05));
+          color: $primary-color;
+          border-radius: 12px;
+          transition: $transition;
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(197, 165, 101, 0.2);
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: $gradient-primary;
+            transition: $transition;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+          }
+
+          i {
+            position: relative;
+            z-index: 1;
+            font-size: 1.1rem;
+          }
+
+          &:hover {
+            color: $secondary-color;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(197, 165, 101, 0.4);
+            border-color: $primary-color;
+
+            &::before {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    // Decorative elements
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: $gradient-primary;
+      border-radius: 2px;
+      opacity: 0;
+      transition: $transition;
+    }
+  }
+
+  &:hover &__content::after {
+    opacity: 1;
+  }
+}
+
+// Enhanced Instructor Details Styles
+.instructor-details {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+
+  .btn-back {
+    background: $secondary-color;
+    border: 2px solid $primary-color;
+    color: $primary-color;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: $transition;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(197, 165, 101, 0.2);
+
+    &:hover {
+      background: $primary-color;
+      color: $secondary-color;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(197, 165, 101, 0.4);
+    }
+
+    i {
+      margin-right: 10px;
+    }
+  }
+
+  .instructor-profile-card {
+    background: $secondary-color;
+    border-radius: 25px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 20px;
+    border: 1px solid rgba(197, 165, 101, 0.1);
+
+    .profile-image {
+      position: relative;
+      margin-bottom: 25px;
+
+      .profile-img {
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 6px solid $primary-color;
+        margin: 0 auto;
+        display: block;
+        box-shadow: 0 10px 30px rgba(197, 165, 101, 0.3);
+        transition: $transition;
+
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 0 15px 40px rgba(197, 165, 101, 0.4);
+        }
+      }
+
+      .status-indicator {
+        position: absolute;
+        bottom: 15px;
+        right: 50%;
+        transform: translateX(90px);
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+        &.active {
+          background: linear-gradient(135deg, #28a745, #20c997);
+          color: $secondary-color;
+        }
+
+        &.inactive {
+          background: linear-gradient(135deg, #dc3545, #fd7e14);
+          color: $secondary-color;
+        }
+      }
+    }
+
+    .profile-info {
+      .instructor-name {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 15px;
+        background: $gradient-primary;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .instructor-certificate {
+        color: $primary-color;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 25px;
+        font-style: normal;
+      }
+
+      .contact-info {
+        margin-bottom: 30px;
+
+        .contact-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 15px;
+          font-size: 1rem;
+          padding: 12px;
+          border-radius: 12px;
+          transition: $transition-fast;
+
+          &:hover {
+            background: rgba(197, 165, 101, 0.05);
+          }
+
+          i {
+            margin-right: 15px;
+            color: $primary-color;
+            width: 24px;
+            font-size: 1.2rem;
+          }
+
+          a {
+            color: $text-light;
+            text-decoration: none;
+            transition: $transition-fast;
+
+            &:hover {
+              color: $primary-color;
+            }
+          }
+        }
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+
+        .social-link {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 50px;
+          height: 50px;
+          background: linear-gradient(135deg, rgba(197, 165, 101, 0.1), rgba(197, 165, 101, 0.05));
+          color: $primary-color;
+          border-radius: 15px;
+          transition: $transition;
+          border: 1px solid rgba(197, 165, 101, 0.2);
+
+          &:hover {
+            background: $gradient-primary;
+            color: $secondary-color;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(197, 165, 101, 0.4);
+          }
+        }
+      }
+    }
+  }
+
+  // Rest of the styles remain similar but with enhanced spacing and effects...
+  .instructor-details-content {
+    .details-section {
+      background: $secondary-color;
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(197, 165, 101, 0.1);
+      transition: $transition-fast;
+
+      &:hover {
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid $primary-color;
+        display: inline-block;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -3px;
+          left: 0;
+          width: 50%;
+          height: 3px;
+          background: linear-gradient(90deg, $primary-color, transparent);
+        }
+      }
+    }
+  }
+}
+
+// Enhanced loading animation
+.loading-state {
+  text-align: center;
+  padding: 80px 20px;
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(197, 165, 101, 0.2);
+    border-top: 5px solid $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 30px;
+  }
+
+  p {
+    color: $text-light;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Enhanced responsive design
+@media (max-width: 768px) {
+  .instructor-card {
+    margin-bottom: 40px;
+    
+    &__image {
+      height: 250px;
+    }
+    
+    &__content {
+      padding: 25px 20px;
+      
+      .instructor-name {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  .instructor-profile-card {
+    margin-bottom: 30px;
+    padding: 30px 20px;
+    
+    .profile-image .profile-img {
+      width: 180px;
+      height: 180px;
+    }
+    
+    .profile-info .instructor-name {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .instructor-card {
+    &__content {
+      padding: 20px 15px;
+      
+      .instructor-social ul {
+        gap: 10px;
+        
+        li a {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+  }
+}

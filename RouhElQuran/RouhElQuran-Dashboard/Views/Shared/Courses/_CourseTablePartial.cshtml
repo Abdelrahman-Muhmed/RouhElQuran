@@ -7,20 +7,20 @@
                 <th class="d-none d-md-table-cell border-0">
                     <input class="form-check-input" type="checkbox">
                 </th>
+                <th class="border-0 sortable-header" data-column="Image">
+                    Image
+                    <i class="bi bi-arrow-down-up sort-icon"></i>
+                </th>
                 <th class="border-0 sortable-header" data-column="Name">
-                    Corse Name
+                    Course Name
                     <i class="bi bi-arrow-down-up sort-icon"></i>
                 </th>
                 <th class="d-none d-lg-table-cell border-0 sortable-header" data-column="Time">
-                    Time
+                    Course Time
                     <i class="bi bi-arrow-down-up sort-icon"></i>
                 </th>
                 <th class="d-none d-lg-table-cell border-0 sortable-header" data-column="SissionTime">
                     SissionTime
-                    <i class="bi bi-arrow-down-up sort-icon"></i>
-                </th>
-                <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Date">
-                    Date
                     <i class="bi bi-arrow-down-up sort-icon"></i>
                 </th>
                 <th class="d-none d-xl-table-cell border-0 sortable-header" data-column="Price">
@@ -42,8 +42,15 @@
                         <input class="form-check-input" type="checkbox">
                     </td>
                     <td>
+                    @foreach (var file in item.FileName)
+                    {
+                        <img src="/Files/@file" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="60" height="60" />
+
+                    }
+                    </td>
+                    <td>
                         <span class="badge certificate-badge text-white">
-                            <i class="bx bx-book me-1"></i>@item.CrsName
+                            <i class="bx bx-book me-1"></i>@item.CourseName
                         </span>
                     </td>
                     <td class="d-none d-lg-table-cell">
@@ -52,11 +59,9 @@
                     <td class="d-none d-lg-table-cell">
                         <i class="bx bx-stopwatch me-1"></i>@item.SessionTime
                     </td>
+                  
                     <td class="d-none d-xl-table-cell">
-                        @* <i class="bx bx-calendar me-1"></i>@item.Date *@
-                    </td>
-                    <td class="d-none d-xl-table-cell">
-                        @* <i class="bx bx-dollar me-1"></i>@item.Price *@
+                        <i class="bx bx-dollar me-1"></i>@item.CoursePrice
                     </td>
                     <td class="d-none d-xl-table-cell">
                         <i class="bx bx-category me-1"></i>@item.Specialty

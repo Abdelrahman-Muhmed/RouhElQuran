@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InstructorService } from 'src/app/Services/Instructor-Service/instructor.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { InstructorService } from 'src/app/Services/Instructor-Service/instructo
 export class PopularTeachersComponent implements OnInit {
 
    instructorData : any = [];
+    apiUrl = environment.apiBaseUrl; 
   constructor(private _instructorService: InstructorService ) { }
 
   ngOnInit(): void {
@@ -21,7 +23,7 @@ export class PopularTeachersComponent implements OnInit {
     this._instructorService.getInstructorData().subscribe({
       next: (response) => {
         this.instructorData = response;
-            console.log("Courses data:", this.instructorData);
+            console.log("Instructor data:", this.instructorData );
       },
       error: (err) => {
         console.error("Error fetching courses:", err);

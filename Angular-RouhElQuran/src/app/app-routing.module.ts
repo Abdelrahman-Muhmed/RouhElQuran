@@ -68,7 +68,7 @@ const routes: Routes = [
     component: InstructorMainComponent
   },
   {
-    path: 'instructor-details',
+    path: 'instructor-details/:id',
     component: InstructorDetailsComponent
   },
   {

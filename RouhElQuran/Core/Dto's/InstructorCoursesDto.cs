@@ -13,7 +13,7 @@ namespace Core.Dto_s
         public List<CourseDto> courseDtos { get; set; } = new List<CourseDto>();
 
 		public int? insId { get; set; }
-		public List<int?> crsIds { get; set; }
+		public List<int> crsIds { get; set; }
 
 		public PaginationRequest<InstructorCoursesDto> PaginationRequest { get; set; }
     }

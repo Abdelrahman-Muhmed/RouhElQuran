@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CoursesService } from 'src/app/Services/courses.service';
+import { CourseService } from 'src/app/Services/Course-Service/course.service';
+
 
 @Component({
     selector: 'app-course-sidebar-area',
@@ -96,7 +97,7 @@ export class CourseSidebarAreaComponent implements OnInit {
   // ]
 
   courseData: any = [];
-  constructor(private CourseService: CoursesService) { }
+  constructor(private CourseService: CourseService) { }
 
   ngOnInit(): void {
     this.GetCourses()

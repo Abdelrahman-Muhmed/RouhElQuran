@@ -13,9 +13,6 @@ namespace Core.IRepo
 	{
         public IQueryable<IGrouping<int, Ins_Course>> GetCourseWithInstructorGrouped();
 		public IEnumerable<IGrouping<int, Ins_Course>> GetCourseWithInstructorGroupedSorted(string sortBy, bool IsDesc);
-		//public PaginationRequest<IGrouping<int, Ins_Course>> GetCourseWithInstructorGroupedSorted(string sortBy, bool isDesc, int page, int pageSize);
-
-
 
 		public Task<IEnumerable<Ins_Course>> CreateInstructorCourses(InstructorCoursesDto instructorCoursesDtodto);
 		public Task<IEnumerable<Ins_Course>> UpdateInstructorCourse(InstructorCoursesDto instructorCoursesDto);

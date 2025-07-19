@@ -1,21 +1,24 @@
-﻿using Core.IRepo;
+﻿using AutoMapper;
+using Core.Dto_s;
+using Core.HelperModel;
+using Core.IRepo;
+using Core.Models;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Repository.Models;
+using Repository.Repos;
+using RouhElQuran.IServices.CoursesService;
+using Service.Helper.CalculatHelper;
+using Service.Helper.FileUploadHelper;
+using Stripe.Forwarding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore;
-using Repository.Repos;
-using Core.Dto_s;
-using RouhElQuran.IServices.CoursesService;
-using Repository.Models;
-using Service.Helper.FileUploadHelper;
-using Core.HelperModel;
-using Core.Models;
-using Microsoft.AspNetCore.Http;
-using Stripe.Forwarding;
-using Microsoft.Extensions.Configuration;
 namespace Service.Services.CourcesService
 {
 	public class CoursesServic : ICoursesService
@@ -23,41 +26,67 @@ namespace Service.Services.CourcesService
 		private readonly ICourseRepository _courseRepository;
 		private readonly IGenericrepo<Files> _fileGenericRepo;
 		private readonly IMapper _mapper;
-		//private readonly IConfiguration _configuration;
-		private readonly long _fileSizeLimite;
 		public CoursesServic(ICourseRepository courseRepository, IMapper mapper,
 			IGenericrepo<Files> fileGeneRicrepo)
 		{
 			_courseRepository = courseRepository;
 			_mapper = mapper;
 			_fileGenericRepo = fileGeneRicrepo;
-			//_configuration = configuration;
-			//_fileSizeLimite = long.Parse(_configuration["FileSizeLimite"]);
 
 		}
 		public async Task<CourseDto> GetCourseById(int? id)
 		{
-			var getCourse = await _courseRepository.GetCourseWithPlansByIDAsync(id);
-			var Result = _mapper.Map<CourseDto>(getCourse);
-			return Result;
+            //var getCourse = await _courseRepository.GetCourseWithPlansByIDAsync(id);
+            //var Result = _mapper.Map<CourseDto>(getCourse);
+            var result = _courseRepository.GetByIdAsync(id);
+
+            var CourseDto = await result
+               .Include(f => f.files)
+               .Select(c => new CourseDto
+               {
+                   Id = c.Id,
+                   CourseName = c.CourseName,
+                   SessionTime = c.SessionTime,
+                   Specialty = c.Specialty,
+                   Description = c.Description,
+                   CoursesTime = c.CoursesTime,
+                   CoursePrice = c.CoursePrice,
+
+                   FileName = c.files.Select(f => f.UntrustedName).ToList()
+
+               }).FirstOrDefaultAsync();
+            return CourseDto;
 		}
 
 		public async Task<IEnumerable<CourseDto>> GetAllCourse()
 		{
-			var Getall = await _courseRepository.GetAllAsync();
-			var Result = _mapper.Map<IEnumerable<CourseDto>>(Getall);
+			var result = _courseRepository.GetAllAsync();
 
-			return Result;
+            var CourseDto = await result
+				.Include(f => f.files)
+                .Select(c => new CourseDto
+                {
+                    Id = c.Id,
+					CourseName = c.CourseName,
+                    SessionTime = c.SessionTime,
+                    Specialty = c.Specialty,
+                    Description = c.Description,
+					CoursesTime = c.CoursesTime,
+                    CoursePrice = c.CoursePrice,
+
+                    FileName = c.files.Select(f => f.UntrustedName).ToList()
+
+                }).ToListAsync();
+
+			return CourseDto;
 		}
 	
 
 		public async Task<Course> CreateCource(CourseDto courseDto, HttpRequest request)
 		{
 
-
 			try
 			{
-				await _courseRepository.BeginTransactionAsync();
 
 				Course course = _mapper.Map<Course>(courseDto);
 
@@ -65,17 +94,13 @@ namespace Service.Services.CourcesService
 
 				var fileContent = await FileHelper.streamedOrBufferedProcess( request, courseDto.FileUpload, _fileGenericRepo, courseId:Result.Id);
 
-				await _courseRepository.CommitTransactionAsync();
 				return Result;
 			}
 			catch
 			{
-				await _courseRepository.RollbackTransactionAsync();
 				throw;
 
 			}
-
-
 		}
 
 

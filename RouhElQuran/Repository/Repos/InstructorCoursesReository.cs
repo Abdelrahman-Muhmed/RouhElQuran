@@ -30,7 +30,7 @@ namespace Repository.Repos
         {
             return _dbcontext.Ins_Crs
               .Include(e => e.Instructor)
-              .ThenInclude(i => i.User_id)
+              .ThenInclude(i => i.AppUser)
               .Include(e => e.Course)
               .GroupBy(ic => ic.Ins_Id);
 
@@ -40,7 +40,7 @@ namespace Repository.Repos
         {
             var query = _dbcontext.Ins_Crs
             .Include(x => x.Instructor)
-            .ThenInclude(i => i.User_id)
+            .ThenInclude(i => i.AppUser)
             .ThenInclude(f => f.files)
             .Include(x => x.Course)
             .AsEnumerable()
@@ -57,7 +57,7 @@ namespace Repository.Repos
             var result = await _dbcontext.Ins_Crs
                 .Include(x => x.Instructor)
                 .Include(x => x.Course)
-                .Include(x => x.Instructor.User_id)
+                .Include(x => x.Instructor.AppUser)
                 .Where(x => x.Ins_Id == id)
                 .GroupBy(x => x.Ins_Id)
                 .ToListAsync();
@@ -70,11 +70,11 @@ namespace Repository.Repos
         {
             // Create the list of Ins_Course entities from the DTO
             var insCourses = instructorCoursesDto.crsIds
-                .Where(courseId => courseId.HasValue && instructorCoursesDto.insId.HasValue)
+                .Where(courseId =>  instructorCoursesDto.insId.HasValue)
                 .Select(courseId => new Ins_Course
                 {
                     Ins_Id = instructorCoursesDto.insId.Value,
-                    Course_Id = courseId.Value
+                    Course_Id = courseId
                 })
                 .ToList();
 
@@ -97,11 +97,10 @@ namespace Repository.Repos
 
             // 2. Add new courses
             var insCourses = instructorCoursesDto.crsIds
-                .Where(courseId => courseId.HasValue)
                 .Select(courseId => new Ins_Course
                 {
                     Ins_Id = instructorCoursesDto.insId.Value,
-                    Course_Id = courseId.Value
+                    Course_Id = courseId
                 })
                 .ToList();
 

@@ -26,14 +26,14 @@ namespace Service.Services.UserService
 
 		public async Task<IEnumerable<TDto>> GetAllUser()
 		{
-			var result = await _userRepository.GetAllAsync();
+			var result =  _userRepository.GetAllAsync();
 			return _mapper.Map<IEnumerable<TDto>>(result);
 
 		}
 
 		public async Task<TDto> GetUserById(int id)
 		{
-			var result = await _userRepository.GetByIdAsync(id);
+			var result =  _userRepository.GetByIdAsync(id);
 			if (result == null)
 			{
 				return null;

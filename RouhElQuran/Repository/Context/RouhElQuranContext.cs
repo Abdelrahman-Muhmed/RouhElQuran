@@ -91,7 +91,7 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
             entity.HasMany(e => e.Ins_Courses).WithOne();
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.CoursesTime).HasColumnName("Courses_Time");
-            entity.Property(e => e.CrsName)
+            entity.Property(e => e.CourseName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Crs_Name");
@@ -174,7 +174,7 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
             .HasMaxLength(100)
             .IsUnicode(false);
 
-            entity.HasOne(d => d.User_id).WithOne(p => p.Ins)
+            entity.HasOne(d => d.AppUser).WithOne(p => p.Ins)
             .HasForeignKey<Instructor>(d => d.InsUser_Id);
         });
 
