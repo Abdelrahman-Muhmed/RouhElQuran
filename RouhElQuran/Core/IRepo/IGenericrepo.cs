@@ -12,7 +12,7 @@ namespace Core.IRepo
         IQueryable<TEntity> GetAllAsync();
 
         IQueryable<TEntity> GetByIdAsync(int? id);
-
+        Task<TEntity?> GetById(int? id);
         Task<TEntity> AddAsync(TEntity entity);
 
         Task<TEntity> DeleteAsync(int? id);

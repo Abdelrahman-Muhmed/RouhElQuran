@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using RouhElQuran.Serivces;
+using Service.Helper.FileUploadHelper;
 
 namespace RouhElQuran
 {
@@ -41,15 +42,35 @@ namespace RouhElQuran
 
 			// Configure Middleware
 			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            //app.UseStaticFiles();
 
-			//For Display from Extenal file 
-            app.UseStaticFiles(new StaticFileOptions
+            //For Display from Extenal file 
+            var staticFilesPathSetting = builder.Configuration["StaticFilesPath"] ?? "wwwroot/Files";
+
+            // Make it absolute
+            var staticFilesPath = Path.IsPathRooted(staticFilesPathSetting)
+                ? staticFilesPathSetting
+                : Path.Combine(builder.Environment.ContentRootPath, staticFilesPathSetting);
+
+            // Create the directory if it does not exist
+            if (!Directory.Exists(staticFilesPath))
             {
-                FileProvider = new PhysicalFileProvider(@"D:\Files"),
-                RequestPath = "/files"
-            });
-            app.UseCors("Policy");
+                Directory.CreateDirectory(staticFilesPath);
+                Console.WriteLine($"Created static files directory: {staticFilesPath}");
+            }
+
+            // Pass it to FileHelper
+            FileHelper.Configure(staticFilesPath);
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(staticFilesPath),
+				RequestPath = "/files"
+			});
+
+
+
+			app.UseCors("Policy");
 			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();

@@ -36,12 +36,12 @@ namespace Service.Services.CourcesService
 		}
 		public async Task<CourseDto> GetCourseById(int? id)
 		{
-            //var getCourse = await _courseRepository.GetCourseWithPlansByIDAsync(id);
-            //var Result = _mapper.Map<CourseDto>(getCourse);
-            var result = _courseRepository.GetByIdAsync(id);
+         
+            var result = _courseRepository.GetAllAsync();
 
             var CourseDto = await result
                .Include(f => f.files)
+               .Where(c => c.Id == id)
                .Select(c => new CourseDto
                {
                    Id = c.Id,

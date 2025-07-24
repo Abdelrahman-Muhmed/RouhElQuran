@@ -1,10 +1,14 @@
 ﻿using Core.HelperModel;
+using Core.HelperModel.FileModel;
 using Core.IRepo;
 using Core.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Stripe.Terminal;
@@ -16,18 +20,25 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Core.HelperModel.FileModel;
 
 namespace Service.Helper.FileUploadHelper
 {
-
+   
     public static class FileHelper
     {
+        private static string _storedFilesPath = "wwwroot/Files"; 
+
+        public static void Configure(string path)
+        {
+            _storedFilesPath = path;
+        }
+
+        public static string StoredFilesPath => _storedFilesPath;
+        
+
         private static ModelStateDictionary modelState = new ModelStateDictionary();
 
-        private static string _StordFilesPath = "D:\\Files";
+      
 
         private static long _StreemedFileSizeLimite = 524288000;
 
@@ -401,7 +412,7 @@ namespace Service.Helper.FileUploadHelper
             // server-side, use Path.GetRandomFileName to generate a safe
             // random file name.
             var trustedFileNameForSaving = Path.GetRandomFileName();
-            var filePath = Path.Combine(_StordFilesPath, trustedFileNameForSaving);
+            var filePath = Path.Combine(_storedFilesPath, trustedFileNameForSaving);
 
             using (var fileStreem = File.Create(filePath))
             {
@@ -414,14 +425,14 @@ namespace Service.Helper.FileUploadHelper
          , string? note, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
         {
             // Ensure the directory exists
-            if (!Directory.Exists(_StordFilesPath))
-            {
-                Directory.CreateDirectory(_StordFilesPath);
-            }
+            //if (!Directory.Exists(_storedFilesPath))
+            //{
+            //    Directory.CreateDirectory(_storedFilesPath);
+            //}
 
             // Save to disk
             string uniqueFileName = $"{Guid.NewGuid()}-{userId}-{Path.GetExtension(formFile.FileName)}";
-            string filePath = Path.Combine(_StordFilesPath, uniqueFileName);
+            string filePath = Path.Combine(_storedFilesPath, uniqueFileName);
 
             await File.WriteAllBytesAsync(filePath, filecontent);
 

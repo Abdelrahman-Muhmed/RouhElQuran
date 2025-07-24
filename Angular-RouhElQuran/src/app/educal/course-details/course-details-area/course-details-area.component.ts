@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseDetailsService } from 'src/app/Services/Course-Details/course-details.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 // import Swiper core and required modules
 import SwiperCore, { Pagination, Autoplay } from "swiper";
 
@@ -91,7 +91,8 @@ export class CourseDetailsAreaComponent implements OnInit {
     CourseData: any;
     apiUrl = environment.apiBaseUrl;
     CourseId!: number;
-  
+    staticFilesPath = environment.staticFilesPath;
+    
     constructor(
       private route: ActivatedRoute,
       private _CourseDetailsService: CourseDetailsService
@@ -119,5 +120,7 @@ export class CourseDetailsAreaComponent implements OnInit {
         }
       });
     }
-
+  buildImageUrl(fileName: string): string {
+    return `${this.apiUrl}${this.staticFilesPath}/${fileName}`;
+  }
 }

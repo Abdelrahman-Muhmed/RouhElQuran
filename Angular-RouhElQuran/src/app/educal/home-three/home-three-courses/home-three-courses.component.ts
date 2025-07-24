@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from 'src/app/Services/Course-Service/course.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Component({
@@ -14,7 +14,8 @@ export class HomeThreeCoursesComponent implements OnInit {
 
   coursesData : any = [];
    apiUrl = environment.apiBaseUrl; 
-  
+  staticFilesPath = environment.staticFilesPath;
+
   constructor(private _CoursesService : CourseService) { }
 
   ngOnInit(): void {
@@ -32,5 +33,8 @@ export class HomeThreeCoursesComponent implements OnInit {
         console.error("Error fetching courses:", err);
       }
     });
+  }
+   buildImageUrl(fileName: string): string {
+    return `${this.apiUrl}${this.staticFilesPath}/${fileName}`;
   }
 }

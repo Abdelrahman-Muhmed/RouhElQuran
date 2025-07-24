@@ -45,10 +45,13 @@ namespace Repository.Repos
             return entity;
         }
 
-
+        public async Task<TEntity?> GetById(int? id)
+        {
+            return await _dbContext.Set<TEntity>().FindAsync(id);
+        }
         public async Task<TEntity> DeleteAsync(int? id)
         {
-            var entity = GetByIdAsync(id).FirstOrDefault();
+            var entity = await GetById(id);
             if (entity != null)
             {
                 _dbContext.Set<TEntity>().Remove(entity);

@@ -1,3 +1,5 @@
-﻿@using RouhElQuran_Dashboard
+﻿@using Microsoft.AspNetCore.Builder
+@using RouhElQuran_Dashboard
 @using RouhElQuran_Dashboard.Models
+@inject Microsoft.Extensions.Options.IOptions<StaticFileOptions> StaticFilesOptions
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

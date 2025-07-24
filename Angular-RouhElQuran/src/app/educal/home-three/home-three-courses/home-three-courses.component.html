@@ -33,17 +33,16 @@
 
                        <div *ngFor="let course of coursesData" class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
                           <div class="course__item white-bg mb-30 fix">
-                             <div class="course__thumb w-img p-relative fix">
-                                <a [routerLink]="['/course-details']">
-                                  <img 
-                                [src]="course.fileName?.length > 0 ? apiUrl + '/Files/' + course.fileName[0] : 'assets/img/teacher/teacher-default.png'" 
-                                [alt]="course.courseName"
-                                class="instructor-image"
-                                loading="lazy">
-                                </a>
-                                <!-- <div class="course__tag">
-                                  <a href="#" [class]="course.color">{{course.category}}</a>
-                                </div> -->
+                             <div  *ngFor="let file of course.fileName" class="course__thumb w-img p-relative fix">
+                               <div class="position-relative">
+                              <a [routerLink]="['/course-details']">
+                                 <img 
+                                    *ngFor="let file of course.fileName"
+                                    [src]="buildImageUrl(file)"
+                                    [alt]="course.courseName"
+                                    class="card-img-top fixed-image">
+                              </a>
+                              </div>
                              </div>
                              <div class="course__content">
                                 <div class="course__meta d-flex align-items-center justify-content-between">
@@ -82,6 +81,7 @@
                              </div>
                           </div>
                        </div>
+                       
                     </div>
 
 

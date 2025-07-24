@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InstructorService } from 'src/app/Services/Instructor-Service/instructor.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Component({

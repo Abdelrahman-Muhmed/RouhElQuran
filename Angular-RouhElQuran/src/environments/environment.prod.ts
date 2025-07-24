@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://abdelrahman18-001-site1.mtempurl.com',
+  apiBaseUrl: 'https://abdelrahmangom18-001-site1.qtempurl.com',
+    staticFilesPath: '/files' 
 };

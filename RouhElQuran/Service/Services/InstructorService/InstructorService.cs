@@ -72,9 +72,10 @@ namespace Service.Services.InstructorService
 
         public async Task<InstructorDto> GetInstructorById(int? id)
         {
-            var result =  _GenericrInstructorepo.GetByIdAsync(id);
+            var result =  _GenericrInstructorepo.GetAllAsync();
 
             var InstructorDto = await result
+               .Where(c => c.Id == id)
                .Include(u => u.AppUser)
                .ThenInclude(u => u.files)
                .Include(ic => ic.Ins_Courses)
