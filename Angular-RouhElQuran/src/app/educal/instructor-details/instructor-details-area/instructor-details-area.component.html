@@ -97,11 +97,13 @@
                      <div class="course__item white-bg mb-30 fix">
                      <div class="course__thumb w-img p-relative fix">
                         <a [routerLink]="['/course-details', course.id]">
-                        <img 
-                              [src]="course.fileName?.length > 0 ? apiUrl + '/Files/' + course.fileName[0] : 'assets/img/teacher/teacher-default.png'" 
-                              [alt]="course.instructorFirstName + ' ' + course.instructorLastName"
-                              class="instructor-image"
-                              loading="lazy">
+                         <img 
+                                    *ngFor="let file of course.fileName"
+                                    [src]="buildImageUrl(file)"
+                                    [alt]="course.courseName"
+                                    class="img-fluid rounded w-100 object-fit-cover"
+                                     style="height: 500px;"
+                               >
                         </a>
                         <div class="course__tag">
                            <a href="#">{{ course.specialty }}</a>

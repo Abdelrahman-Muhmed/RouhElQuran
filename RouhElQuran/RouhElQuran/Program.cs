@@ -42,7 +42,6 @@ namespace RouhElQuran
 
 			// Configure Middleware
 			app.UseHttpsRedirection();
-            //app.UseStaticFiles();
 
             //For Display from Extenal file 
             var staticFilesPathSetting = builder.Configuration["StaticFilesPath"] ?? "wwwroot/Files";
@@ -61,8 +60,9 @@ namespace RouhElQuran
 
             // Pass it to FileHelper
             FileHelper.Configure(staticFilesPath);
+            app.UseStaticFiles();
 
-			app.UseStaticFiles(new StaticFileOptions
+            app.UseStaticFiles(new StaticFileOptions
 			{
 				FileProvider = new PhysicalFileProvider(staticFilesPath),
 				RequestPath = "/files"

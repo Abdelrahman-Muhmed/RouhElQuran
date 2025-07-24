@@ -44,7 +44,10 @@
                     <td>
                     @foreach (var file in item.FileName)
                     {
-                        <img src="/Files/@file" alt="Avatar" class="rounded-circle me-3 avatar-img shadow-sm" width="60" height="60" />
+                            <img src="@($"/files/{file}")"
+                                 alt="Avatar"
+                                 class="rounded-circle me-3 avatar-img shadow-sm"
+                                 width="60" height="60" />
 
                     }
                     </td>

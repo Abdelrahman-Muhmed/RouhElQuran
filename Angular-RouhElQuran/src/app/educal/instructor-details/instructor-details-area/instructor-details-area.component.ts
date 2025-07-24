@@ -14,7 +14,8 @@ export class InstructorDetailsAreaComponent implements OnInit {
   instructorData: any;
   apiUrl = environment.apiBaseUrl;
   instructorId!: number;
-
+   staticFilesPath = environment.staticFilesPath;
+   
   constructor(
     private route: ActivatedRoute,
     private _InstructorDetailsService: InstructorDetailsService
@@ -41,5 +42,8 @@ export class InstructorDetailsAreaComponent implements OnInit {
         console.error('Error fetching instructor data:', err);
       }
     });
+  }
+   buildImageUrl(fileName: string): string {
+    return `${this.apiUrl}${this.staticFilesPath}/${fileName}`;
   }
 }
