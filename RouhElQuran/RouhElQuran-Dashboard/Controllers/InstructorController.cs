@@ -114,19 +114,9 @@ namespace RouhElQuran_Dashboard.Controllers
             //{
             try
             {
-                if (instructorDto.InstructorId != null)
+                if (instructorDto.InstructorId == null|| instructorDto.InstructorId == 0)
                 {
-                    var result = await _instructorService.updateInstructor(instructorDto);
-                    InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
-                    {
-                        insId = result.Id,
-                        crsIds = instructorDto.CourseIds
-                    };
-                    await _instructorCoursesService.UpdateInstructorCourseAsync(instructorCoursesDto);
-
-                }
-                else
-                {
+                  
 
                     var result = await _instructorService.CreateInstructor(instructorDto, Request);
 
@@ -136,6 +126,18 @@ namespace RouhElQuran_Dashboard.Controllers
                         crsIds = instructorDto.CourseIds
                     };
                     await _instructorCoursesService.CreateInstructorCourseAsync(instructorCoursesDto);
+
+                }
+                else
+                {
+
+                    var result = await _instructorService.updateInstructor(instructorDto);
+                    InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
+                    {
+                        insId = result.Id,
+                        crsIds = instructorDto.CourseIds
+                    };
+                    await _instructorCoursesService.UpdateInstructorCourseAsync(instructorCoursesDto);
                 }
 
 

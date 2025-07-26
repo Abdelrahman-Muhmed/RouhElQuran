@@ -21,6 +21,7 @@ import { SignUpMainComponent } from './educal/sign-up/sign-up-main/sign-up-main.
 import { ErrorPageComponent } from './educal/error-page/error-page.component';
 import { ContactMainComponent } from './educal/contact/contact-main/contact-main.component';
 import { EmailconfirmComponent } from './educal/emailconfirm/emailconfirm.component';
+import { PricingComponent } from './educal/home-three/pricing/pricing.component';
 
 
 
@@ -106,6 +107,10 @@ const routes: Routes = [
   {
     path: 'contact',
     component: ContactMainComponent
+  },
+   {
+    path: 'pricing',
+    component: PricingComponent
   },
   {
     path: '**', pathMatch: 'full',
