@@ -25,9 +25,6 @@ namespace RouhElQuran.AutoMapper
 
 
             CreateMap<Files, FileUpload>();
-         
-
-            CreateMap<CoursePlan, CoursePlanDto>().ReverseMap();
         
             CreateMap<Student, StudentDto>().ForMember(e => e.FirstName, a => a.MapFrom(e => e.User_id.FirstName))
                 .ForMember(e => e.LastName, a => a.MapFrom(e => e.User_id.LastName))

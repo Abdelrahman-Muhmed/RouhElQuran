@@ -22,13 +22,14 @@ namespace Service.Services.CourcesService
             _fileGenericRepo = fileGeneRicrepo;
 
         }
-        public async Task<CourseDto> GetCourseById(int? id)
+        public async Task<CourseDto?> GetCourseById(int? id)
         {
 
             var result = _courseRepository.GetAllAsync();
 
             var CourseDto = await result
                .Include(f => f.files)
+               .Include(e => e.CoursePlans)
                .Where(c => c.Id == id)
                .Select(c => new CourseDto
                {
@@ -39,7 +40,8 @@ namespace Service.Services.CourcesService
                    Description = c.Description,
                    CoursesTime = c.CoursesTime,
                    CoursePrice = c.CoursePrice,
-                   FileName = c.files.Select(f => f.UntrustedName).ToList()
+                   FileName = c.files.Select(f => f.UntrustedName).ToList(),
+                   Course_Plan = _mapper.Map<List<CoursePlanDto>>(c.CoursePlans),
                }).FirstOrDefaultAsync();
             return CourseDto;
         }
@@ -70,7 +72,6 @@ namespace Service.Services.CourcesService
 
         public async Task<Course> CreateCource(CourseDto courseDto, HttpRequest request)
         {
-
             try
             {
 

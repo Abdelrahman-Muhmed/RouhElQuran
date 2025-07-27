@@ -6,8 +6,6 @@ namespace Service.Dto_s
 {
     public class CourseDto
     {
-      
-
         public int Id { get; set; }
 
         public TimeOnly? SessionTime { get; set; }
@@ -23,7 +21,7 @@ namespace Service.Dto_s
 
         public List<string?> FileName { get; set; }
 
-
+        
         public FileUpload? FileUpload { get; set; }
         public List<CoursePlanDto>? Course_Plan { get; set; } = new List<CoursePlanDto>();
 

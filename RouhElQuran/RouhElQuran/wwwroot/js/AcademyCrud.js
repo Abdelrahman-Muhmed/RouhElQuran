@@ -279,3 +279,5 @@ $(document).on('click', '.pagination .page-link', function (e) {
         }
     });
 });
+
+

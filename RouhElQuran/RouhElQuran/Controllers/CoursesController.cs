@@ -34,13 +34,13 @@ namespace RouhElQuran.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Create(CourseDto coursedto, HttpRequest request)
+        public async Task<IActionResult> Create(CourseDto coursedto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _CoursesService.CreateCource(coursedto , request);
+                    await _CoursesService.CreateCource(coursedto , Request);
                     return Created();
                 }
                 catch

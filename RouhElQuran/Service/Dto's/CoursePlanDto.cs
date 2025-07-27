@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Core.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Service.Dto_s
 {
     public class CoursePlanDto
     {
-        public int id { get; set; }
-        public string planName { get; set; }
-        public decimal price { get; set; }
-        public int sessionCount { get; set; }
-        public int courseId { get; set; }
+        public int ID { get; set; }
+        public CoursePlansEnum Plan { get; set; }
+        public decimal Price { get; set; }
+        public int SessionCount { get; set; }
+        public int CourseId { get; set; }
     }
 }

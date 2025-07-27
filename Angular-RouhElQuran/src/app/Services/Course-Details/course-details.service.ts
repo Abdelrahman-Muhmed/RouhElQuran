@@ -13,6 +13,9 @@ export class CourseDetailsService {
   
        getCourseDataById(CourseId: number){
         return this._HttpClint.get(`${this.apiUrl}/api/Courses/${CourseId}`);
-   
+      }
+
+      getCoursePlansByCOurseID(CourseId: number){
+        return this._HttpClint.get(`${this.apiUrl}/api/Courses/${CourseId}`);
       }
 }

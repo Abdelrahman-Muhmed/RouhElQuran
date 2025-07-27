@@ -109,7 +109,7 @@ const routes: Routes = [
     component: ContactMainComponent
   },
    {
-    path: 'pricing',
+    path: 'pricing/:id',
     component: PricingComponent
   },
   {
