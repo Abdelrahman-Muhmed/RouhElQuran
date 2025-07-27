@@ -1,25 +1,13 @@
-﻿using Azure;
-using Core.Dto_s;
-using Core.HelperModel.PaginationModel;
+﻿
 using Core.IRepo;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Helper.SortHelper;
 using Repository.Models;
-using Repository.Helper.PaginationHelper;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Linq.Expressions;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Repository.Repos
 {
-	public class InstructorCoursesReository : Genericrepo<Ins_Course>, IInstructorCoursesReository
+	public class InstructorCoursesReository : Genericrepo<Ins_Course>, IInstructorCoursesRepository
 	{
 		private readonly RouhElQuranContext _dbcontext;
 		public InstructorCoursesReository(RouhElQuranContext dbcontext) : base(dbcontext)
@@ -65,56 +53,30 @@ namespace Repository.Repos
             return result;
         }
 
-   
-        public async Task<IEnumerable<Ins_Course>> CreateInstructorCourses(InstructorCoursesDto instructorCoursesDto)
+        // TODO: Uncomment and implement the methods below if needed
+        public async Task<IEnumerable<Ins_Course>> CreateInstructorCourses(List<Ins_Course> InsCourses)
         {
-            // Create the list of Ins_Course entities from the DTO
-            var insCourses = instructorCoursesDto.crsIds
-                .Where(courseId =>  instructorCoursesDto.insId.HasValue)
-                .Select(courseId => new Ins_Course
-                {
-                    Ins_Id = instructorCoursesDto.insId.Value,
-                    Course_Id = courseId
-                })
-                .ToList();
-
-            if (insCourses.Any())
+            if (InsCourses.Any())
             {
-                await _dbcontext.Ins_Crs.AddRangeAsync(insCourses);
+                await _dbcontext.Ins_Crs.AddRangeAsync(InsCourses);
                 await _dbcontext.SaveChangesAsync();
             }
 
-            return insCourses;
+            return InsCourses;
         }
-        public async Task<IEnumerable<Ins_Course>> UpdateInstructorCourse(InstructorCoursesDto instructorCoursesDto)
+
+        public async Task<IEnumerable<Ins_Course>> UpdateInstructorCourse(List<Ins_Course> insCourses, int instructorId)
         {
-            if (instructorCoursesDto.insId == null)
-                return Enumerable.Empty<Ins_Course>();
-
-            // 1. Remove existing courses for this instructor
-            var existing = _dbcontext.Ins_Crs.Where(x => x.Ins_Id == instructorCoursesDto.insId.Value);
-             _dbcontext.Ins_Crs.RemoveRange(existing);
-
-            // 2. Add new courses
-            var insCourses = instructorCoursesDto.crsIds
-                .Select(courseId => new Ins_Course
-                {
-                    Ins_Id = instructorCoursesDto.insId.Value,
-                    Course_Id = courseId
-                })
-                .ToList();
+            var existing = _dbcontext.Ins_Crs.Where(x => x.Ins_Id == instructorId);
+            _dbcontext.Ins_Crs.RemoveRange(existing);
 
             if (insCourses.Any())
-            {
                 _dbcontext.Ins_Crs.AddRange(insCourses);
-            }
 
-            _dbcontext.SaveChanges();
+            await _dbcontext.SaveChangesAsync();
             return insCourses;
-
         }
 
-     
     }
 
 }

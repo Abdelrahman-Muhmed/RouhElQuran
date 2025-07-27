@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Dto_s
+namespace Service.Dto_s
 {
 	public class InstructorCoursesDto
 	{

@@ -1,4 +1,4 @@
-﻿namespace Core.Dto_s
+﻿namespace Service.Dto_s
 {
     public class AttendenceDto
     {

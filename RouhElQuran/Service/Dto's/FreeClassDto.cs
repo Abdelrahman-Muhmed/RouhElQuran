@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Core.Dto_s
+﻿
+namespace Service.Dto_s
 {
     public class FreeClassDto
     {

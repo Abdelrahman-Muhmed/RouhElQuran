@@ -1,9 +1,6 @@
-﻿using Core.IServices.PaymentService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using Core.IServices.PaymentService;
 
 namespace Core.Models
 {
@@ -27,7 +24,7 @@ namespace Core.Models
 
         public string UserEmail { get; set; }
 
-        public string Status { get; set; } = PaymentStatus.Pending.ToString();
+        public PaymentStatus Status { get; set; } = PaymentStatus.Pending;
 
         public DateTime? PaymentDate { get; set; }
 

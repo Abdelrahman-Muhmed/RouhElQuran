@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Core.IRepo;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using Core.Dto_s;
+using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {
@@ -23,7 +22,7 @@ namespace RouhElQuran.Controllers
         [HttpGet("getAll")]
         public async Task<IActionResult> Getall()
         {
-            IEnumerable<Attendence> attendences = genericrepo.GetAllAsync();
+            IEnumerable<Attendence> attendences =  genericrepo.GetAllAsync();
             return Ok(map.Map<List<AttendenceDto>>(attendences));
         }
 

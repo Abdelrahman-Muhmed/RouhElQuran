@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using Core.IRepo;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
-using Core.Dto_s;
+﻿using Microsoft.AspNetCore.Mvc;
 using RouhElQuran.IServices.CoursesService;
+using Service.Dto_s;
 
 
 namespace RouhElQuran.Controllers
@@ -18,7 +14,6 @@ namespace RouhElQuran.Controllers
 		public CoursesController(ICoursesService CoursesService)
         {
 		   _CoursesService = CoursesService;
-
 		}
 
         [HttpGet("GetAll")]

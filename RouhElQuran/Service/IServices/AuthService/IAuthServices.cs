@@ -1,5 +1,5 @@
 ﻿using Repository.Models;
-using Core.Dto_s;
+using Service.Dto_s;
 
 namespace RouhElQuran.AccountService
 {

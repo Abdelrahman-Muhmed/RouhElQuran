@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Core.IRepo;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Writers;
-using NuGet.Protocol.Core.Types;
-using Org.BouncyCastle.Utilities;
 using Repository.Models;
-using Core.Dto_s;
+using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {

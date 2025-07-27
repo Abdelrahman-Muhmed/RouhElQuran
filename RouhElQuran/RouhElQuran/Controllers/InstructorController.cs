@@ -1,14 +1,11 @@
-﻿using AutoMapper;
-using Core.Dto_s;
-using Core.IRepo;
+﻿
 using Core.IServices.InstructorCoursesService;
 using Core.IServices.InstructorService;
-using Core.IServices.UserService;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 using RouhElQuran.IServices.CoursesService;
+using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {

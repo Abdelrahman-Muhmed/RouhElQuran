@@ -1,10 +1,10 @@
 ﻿
 using AutoMapper;
-using Core.Dto_s;
 using Core.HelperModel.FileModel;
 using Core.HelperModel.PaginationModel;
 using Core.Models;
 using Repository.Models;
+using Service.Dto_s;
 using System.Linq;
 
 namespace RouhElQuran.AutoMapper

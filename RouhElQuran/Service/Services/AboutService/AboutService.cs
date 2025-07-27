@@ -1,14 +1,9 @@
-﻿using Core.Dto_s;
+﻿
 using Core.HelperModel.FileModel;
 using Core.IServices.AboutService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Helper.FileUploadHelper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Services.AboutService
 {

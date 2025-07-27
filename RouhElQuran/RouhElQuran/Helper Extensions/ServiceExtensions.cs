@@ -38,10 +38,10 @@ namespace RouhElQuran.Serivces
 			services.AddScoped(typeof(IGenericrepo<>), typeof(Genericrepo<>));
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IFreeClassRepository, FreeClassRepository>();
-			services.AddScoped<IInstructorCoursesReository, InstructorCoursesReository>();
+			services.AddScoped<IInstructorCoursesRepository, InstructorCoursesReository>();
 			services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IPaymentService, PaymentService>();
-			services.AddScoped<ICoursesService, CoursesServic>();
+			services.AddScoped<ICoursesService, CoursesService>();
             services.AddScoped<IInstructorService, InstructorService>();
             services.AddScoped<IInstructorCoursesService, InstructorCoursesService>();
             services.AddScoped<IAboutService, AboutService>();

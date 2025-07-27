@@ -1,20 +1,13 @@
 ﻿using AutoMapper;
-using Core.Dto_s;
 using Core.IRepo;
 using Core.IServices.InstructorService;
 using Core.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using Repository.Repos;
+using Service.Dto_s;
 using Service.Helper.CalculatHelper;
 using Service.Helper.FileUploadHelper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Services.InstructorService
 {

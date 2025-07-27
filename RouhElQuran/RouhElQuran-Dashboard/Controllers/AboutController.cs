@@ -1,5 +1,4 @@
-﻿using Core.Dto_s;
-using Core.HelperModel.FileModel;
+﻿using Core.HelperModel.FileModel;
 using Core.IServices.AboutService;
 using Microsoft.AspNetCore.Mvc;
 

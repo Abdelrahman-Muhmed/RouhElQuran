@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 using RouhElQuran.AccountService;
-using Core.Dto_s;
+using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {

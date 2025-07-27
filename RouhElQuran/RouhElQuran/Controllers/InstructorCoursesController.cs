@@ -1,6 +1,4 @@
-﻿using Core.Dto_s;
-using Core.IServices.InstructorCoursesService;
-using Microsoft.AspNetCore.Http;
+﻿using Core.IServices.InstructorCoursesService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RouhElQuran.Controllers

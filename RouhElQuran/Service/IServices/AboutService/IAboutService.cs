@@ -1,5 +1,4 @@
-﻿using Core.Dto_s;
-using Core.HelperModel.FileModel;
+﻿using Core.HelperModel.FileModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;

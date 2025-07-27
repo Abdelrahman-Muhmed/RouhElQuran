@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Models;
-using Core.Dto_s;
+using Service.Dto_s;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

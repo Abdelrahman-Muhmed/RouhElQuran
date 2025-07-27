@@ -1,5 +1,4 @@
-﻿using Repository.Models;
-using Core.Dto_s;
+﻿
 
 namespace Core.IServices
 {

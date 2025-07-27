@@ -1,6 +1,6 @@
 ﻿using Repository.Models;
-using Core.Dto_s;
 using Microsoft.AspNetCore.Http;
+using Service.Dto_s;
 
 namespace RouhElQuran.IServices.CoursesService
 {

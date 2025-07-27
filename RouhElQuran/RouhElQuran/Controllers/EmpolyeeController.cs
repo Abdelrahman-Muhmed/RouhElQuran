@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Core.IRepo;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
-using Core.Dto_s;
+using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {

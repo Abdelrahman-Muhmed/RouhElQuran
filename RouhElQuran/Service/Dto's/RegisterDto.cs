@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.Dto_s
+namespace Service.Dto_s
 {
     public class RegisterDto
     {

@@ -1,5 +1,4 @@
-﻿using Core.Dto_s;
-using Core.IServices.InstructorCoursesService;
+﻿using Core.IServices.InstructorCoursesService;
 using Core.IServices.InstructorService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using RouhElQuran.IServices.CoursesService;
-using System.Threading.Tasks;
+using Service.Dto_s;
 
 
 namespace RouhElQuran_Dashboard.Controllers
@@ -114,7 +113,7 @@ namespace RouhElQuran_Dashboard.Controllers
             //{
             try
             {
-                if (instructorDto.InstructorId == null|| instructorDto.InstructorId == 0)
+                if (instructorDto.InstructorId == 0)
                 {
                   
 

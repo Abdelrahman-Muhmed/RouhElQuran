@@ -1,11 +1,6 @@
-﻿using Core.Dto_s;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Service.Dto_s;
 
 namespace Core.IServices.InstructorService
 {

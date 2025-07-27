@@ -1,11 +1,7 @@
 ﻿
-using Core.Dto_s;
-using Core.IRepo;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
 using RouhElQuran.IServices.CoursesService;
-using Stripe;
+using Service.Dto_s;
 
 namespace RouhElQuran_Dashboard.Controllers
 {
