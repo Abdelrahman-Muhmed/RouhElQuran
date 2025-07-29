@@ -5,9 +5,7 @@ using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CoursesController : ControllerBase
+    public class CoursesController : BaseController
     {
         private readonly ICoursesService _CoursesService;
 

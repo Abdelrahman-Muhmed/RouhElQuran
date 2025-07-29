@@ -6,9 +6,7 @@ using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AttendenceController : ControllerBase
+    public class AttendenceController : BaseController
     {
         private readonly IGenericrepo<Attendence> genericrepo;
         private readonly IMapper map;

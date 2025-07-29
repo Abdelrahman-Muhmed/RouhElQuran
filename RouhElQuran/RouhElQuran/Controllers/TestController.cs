@@ -6,17 +6,18 @@ using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TestController : ControllerBase
+    public class TestController : BaseController
     {
         [HttpGet]
         [Authorize]
         public IActionResult LoginUser()
         {
-            return Ok("good i am here");
+            return SuccessResponse("very good man");
         }
 
-
+        public IActionResult FaieldUser()
+        {
+            return ErrorResponse("unAuthrized", 401);
+        }
     }
 }

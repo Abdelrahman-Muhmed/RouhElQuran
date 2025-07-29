@@ -9,9 +9,7 @@ using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {
-    [Route("api/Instructor")]
-    [ApiController]
-    public class InstructorController : ControllerBase
+    public class InstructorController : BaseController
     {
 
         //private readonly IUserService<Instructor , InstructorDto> _userService;

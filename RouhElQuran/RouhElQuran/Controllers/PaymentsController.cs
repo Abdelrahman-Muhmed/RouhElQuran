@@ -2,13 +2,13 @@
 using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RouhElQuran.Controllers;
 using System.Security.Claims;
 
 namespace Talabat.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PaymentsController : ControllerBase
+  
+    public class PaymentsController : BaseController
     {
         private readonly IPaymentService _PaymentService;
 
@@ -21,7 +21,7 @@ namespace Talabat.API.Controllers
         [Authorize]
         public async Task<IActionResult> CreatePaymentPlan(int PlanId)
         {
-            var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
+            var BuyerEmail = UserEmail;
 
             if (string.IsNullOrEmpty(BuyerEmail))
                 return Unauthorized("Please Login First");

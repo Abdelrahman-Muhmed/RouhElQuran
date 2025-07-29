@@ -9,10 +9,9 @@ using Service.Dto_s;
 
 namespace RouhElQuran.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class AccountController : ControllerBase
-	{
+	
+	public class AccountController : BaseController
+    {
 		private readonly UserManager<AppUser> userManager;
 		private readonly IEmailService emailService;
 		private readonly IAuthServices authServices;

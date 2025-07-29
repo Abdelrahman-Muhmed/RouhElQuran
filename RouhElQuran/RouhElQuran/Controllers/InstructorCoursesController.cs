@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RouhElQuran.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class InstructorCoursesController : ControllerBase
-	{
+	public class InstructorCoursesController : BaseController
+    {
 		private readonly IInstructorCoursesService _InstructorCoursesService;
 		public InstructorCoursesController(IInstructorCoursesService InstructorCoursesService)
 		 => _InstructorCoursesService = InstructorCoursesService;

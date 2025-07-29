@@ -7,9 +7,8 @@ using System.Security.Claims;
 
 namespace RouhElQuran.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FreeSessionController : ControllerBase
+   
+    public class FreeSessionController : BaseController
     {
         private readonly IFreeClassRepository FreeClassRepo;
 
