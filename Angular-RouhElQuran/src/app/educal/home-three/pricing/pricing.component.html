@@ -63,7 +63,11 @@
                     </div>
 
 
-                    <a [routerLink]="['/contact']" class="e-btn" [ngClass]="plan.planNumber === 3 ? 'e-btn-border' : 'e-btn-4'">Book Now</a>
+                    <a class="e-btn" [ngClass]="plan.planNumber === 3 ? 'e-btn-border' : 'e-btn-4'"
+                      (click)="createCheckOut(plan.id)">
+                      Book Now
+                    </a>
+
                   </div>
                 </div>
               </div>

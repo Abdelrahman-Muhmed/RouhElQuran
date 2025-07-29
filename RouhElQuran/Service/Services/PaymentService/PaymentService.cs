@@ -24,7 +24,7 @@ namespace RouhElQuran.PaymentServices
             this._UserPaymentRepo = _UserPaymentRepo;
         }
 
-        public async Task<string?> PaymentResult(int CoursePlanId, string BuyerEmail)
+        public async Task<string?> PaymentProcessing(int CoursePlanId, string BuyerEmail)
         {
             StripeConfiguration.ApiKey = _Configuration["Stripe:Secretkey"];
             var CoursePlan = await _GenericRepo.GetByIdAsync(CoursePlanId);
@@ -79,7 +79,7 @@ namespace RouhElQuran.PaymentServices
 
         public async Task<UserPayments?> UpdatePaymentIntentToSuccededOrFailed(string userEmail, DateTime TimeCreated, bool IsSucceded)
         {
-            var PaymentPlan = await _UserPaymentRepo.Get(e => e.UserEmail == userEmail);
+            var PaymentPlan = await _UserPaymentRepo.GetAllAsync().Where(e => e.UserEmail == userEmail).OrderByDescending(s => s.Id).FirstOrDefaultAsync();
             if (PaymentPlan != null)
             {
                 PaymentPlan.PaymentDate = TimeCreated;

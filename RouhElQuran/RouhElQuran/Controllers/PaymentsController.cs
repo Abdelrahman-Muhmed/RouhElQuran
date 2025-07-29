@@ -24,9 +24,9 @@ namespace Talabat.API.Controllers
             var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
 
             if (string.IsNullOrEmpty(BuyerEmail))
-                return BadRequest("Please Login First");
+                return Unauthorized("Please Login First");
 
-            var paymentUrl = await _PaymentService.PaymentResult(PlanId, BuyerEmail);
+            var paymentUrl = await _PaymentService.PaymentProcessing(PlanId, BuyerEmail);
             if (paymentUrl != null)
                 return Ok(new { PaymentUrl = paymentUrl });
             else
@@ -44,7 +44,7 @@ namespace Talabat.API.Controllers
             if (result)
                 return Ok();
             else
-                return BadRequest("Webhook Error");
+                return BadRequest();
         }
     }
 }
