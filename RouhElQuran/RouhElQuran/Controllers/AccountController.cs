@@ -282,20 +282,5 @@ namespace RouhElQuran.Controllers
 			var GetUser = await authServices.LoginUser(user);
 			return Ok(GetUser);
 		}
-
-		//Get User Information
-		//For test
-		[HttpGet, Authorize(Roles = "Student")]
-		public ActionResult<object> getUserInfo()
-		{
-			//var UserName = User?.Identity?.Name;
-			//var Name = User.FindFirstValue(ClaimTypes.Name);
-			//var Role = User.FindFirstValue(ClaimTypes.Role);
-			//return Ok(new { UserName, Name, Role });
-
-			//Other Way using HttpContextAcc
-			var userName = emailService.GetName();
-			return (userName);
-		}
 	}
 }

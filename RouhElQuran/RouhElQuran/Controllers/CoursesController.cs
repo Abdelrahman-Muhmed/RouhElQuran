@@ -11,18 +11,18 @@ namespace RouhElQuran.Controllers
     {
         private readonly ICoursesService _CoursesService;
 
-		public CoursesController(ICoursesService CoursesService)
+        public CoursesController(ICoursesService CoursesService)
         {
-		   _CoursesService = CoursesService;
-		}
+            _CoursesService = CoursesService;
+        }
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-           var Result = await _CoursesService.GetAllCourse();
+            var Result = await _CoursesService.GetAllCourse();
             return Ok(Result);
         }
-     
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -30,8 +30,18 @@ namespace RouhElQuran.Controllers
             var Result = await _CoursesService.GetCourseById(id);
             if (Result is null)
                 return NotFound($" Course With ID '{id}' Not Fount ");
-			return Ok(Result);
+            return Ok(Result);
         }
+
+        [HttpGet("Plans/{CourseId}")]
+        public async Task<IActionResult> GetPlansByCourseId(int CourseId)
+        {
+            var Result = await _CoursesService.GetCoursePlansByCourseId(CourseId);
+            if (Result is null)
+                return NotFound($" Course With ID '{CourseId}' Not Found ");
+            return Ok(Result);
+        }
+
 
         [HttpPost("add")]
         public async Task<IActionResult> Create(CourseDto coursedto)
@@ -40,7 +50,7 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-                    await _CoursesService.CreateCource(coursedto , Request);
+                    await _CoursesService.CreateCource(coursedto, Request);
                     return Created();
                 }
                 catch
@@ -58,8 +68,8 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-					await _CoursesService.updateCourse(coursedto);
-					return Ok("Update SuccessFully");
+                    await _CoursesService.updateCourse(coursedto);
+                    return Ok("Update SuccessFully");
                 }
                 catch
                 {
@@ -76,9 +86,9 @@ namespace RouhElQuran.Controllers
             {
                 try
                 {
-                    var Result = _CoursesService.DeleteCourse(id);
+                    var Result = await _CoursesService.DeleteCourse(id);
 
-					if (Result is null)
+                    if (Result is null)
                         return NotFound("Not Found This Course");
 
                     return Ok("Deleted SuccessFully");

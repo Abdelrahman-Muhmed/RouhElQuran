@@ -12,36 +12,36 @@ namespace RouhElQuran
     {
         public static async Task Main(string[] args)
         {
-          
 
-			var builder = WebApplication.CreateBuilder(args);
 
-			// Register Services
-			builder.Services.AddAppServices(builder.Configuration);
+            var builder = WebApplication.CreateBuilder(args);
 
-			// Add MVC and API Controllers
-			builder.Services.AddControllersWithViews(); // MVC Controllers
-			builder.Services.AddControllers();          // API Controllers
+            // Register Services
+            builder.Services.AddAppServices(builder.Configuration);
 
-			// Configure Request Limits (e.g., for File Uploads)
-			builder.Services.Configure<FormOptions>(options =>
-			{
-				options.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024; // 2 GB
-			});
+            // Add MVC and API Controllers
+            builder.Services.AddControllersWithViews(); // MVC Controllers
+            builder.Services.AddControllers();          // API Controllers
 
-			// Build Application
-			var app = builder.Build();
+            // Configure Request Limits (e.g., for File Uploads)
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024; // 2 GB
+            });
 
-			// Middleware for File Uploads
-			app.Use(async (context, next) =>
-			{
-				context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 2L * 1024 * 1024 * 1024; // 2 GB
-				context.Request.EnableBuffering();
-				await next();
-			});
+            // Build Application
+            var app = builder.Build();
 
-			// Configure Middleware
-			app.UseHttpsRedirection();
+            // Middleware for File Uploads
+            app.Use(async (context, next) =>
+            {
+                context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 2L * 1024 * 1024 * 1024; // 2 GB
+                context.Request.EnableBuffering();
+                await next();
+            });
+
+            // Configure Middleware
+            app.UseHttpsRedirection();
 
             //For Display from Extenal file 
             var staticFilesPathSetting = builder.Configuration["StaticFilesPath"] ?? "wwwroot/Files";
@@ -63,30 +63,30 @@ namespace RouhElQuran
             app.UseStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions
-			{
-				FileProvider = new PhysicalFileProvider(staticFilesPath),
-				RequestPath = "/files"
-			});
+            {
+                FileProvider = new PhysicalFileProvider(staticFilesPath),
+                RequestPath = "/files"
+            });
 
 
 
-			app.UseCors("Policy");
-			app.UseRouting();
-			app.UseAuthentication();
-			app.UseAuthorization();
-		
+            app.UseCors("Policy");
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-			// Enable Swagger (For API documentation)
-		
-				app.UseSwagger();
-				app.UseSwaggerUI();
 
-			// MVC Routing
-			app.MapControllerRoute(
-				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
-			// Run Application
-			app.Run();
-		}
+            // Enable Swagger (For API documentation)
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            // MVC Routing
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            // Run Application
+            await app.RunAsync();
+        }
     }
 }

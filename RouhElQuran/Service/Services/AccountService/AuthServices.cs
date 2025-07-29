@@ -62,7 +62,7 @@ namespace RouhElQuran.AccountService
 
             var securityToken = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(3),
+                expires: DateTime.Now.AddDays(30),
                 issuer: _config.GetSection("JWT:Issuer").Value,
                 audience: _config.GetSection("JWT:Audience").Value,
                 signingCredentials: signingCred);

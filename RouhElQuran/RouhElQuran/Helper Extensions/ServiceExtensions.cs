@@ -29,19 +29,20 @@ using System.Text;
 namespace RouhElQuran.Serivces
 {
 
-	public static class ServiceExtensions
+    public static class ServiceExtensions
     {
         public static void AddAppServices(this IServiceCollection services, IConfiguration configuration)
         {
 
-			// Register Repositories & Services
-			services.AddScoped(typeof(IGenericrepo<>), typeof(Genericrepo<>));
+            // Register Repositories & Services
+            services.AddScoped(typeof(IGenericrepo<>), typeof(Genericrepo<>));
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ICoursePlanRepository, CoursePlanRepository>();
             services.AddScoped<IFreeClassRepository, FreeClassRepository>();
-			services.AddScoped<IInstructorCoursesRepository, InstructorCoursesReository>();
-			services.AddScoped<IAuthServices, AuthServices>();
+            services.AddScoped<IInstructorCoursesRepository, InstructorCoursesReository>();
+            services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IPaymentService, PaymentService>();
-			services.AddScoped<ICoursesService, CoursesService>();
+            services.AddScoped<ICoursesService, CoursesService>();
             services.AddScoped<IInstructorService, InstructorService>();
             services.AddScoped<IInstructorCoursesService, InstructorCoursesService>();
             services.AddScoped<IAboutService, AboutService>();
@@ -50,8 +51,8 @@ namespace RouhElQuran.Serivces
 
             services.AddScoped(typeof(IUserService<,>), typeof(UserService<,>));
 
-			// Database Context
-			services.AddDbContext<RouhElQuranContext>(options =>
+            // Database Context
+            services.AddDbContext<RouhElQuranContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Connection")));
 
             // Identity & Authentication
@@ -71,47 +72,63 @@ namespace RouhElQuran.Serivces
                 options.AddPolicy("Policy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             // JWT Authentication
-            var key = Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Key"));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = configuration["JWT:Issuer"],
-                            ValidAudience = configuration["JWT:Audience"],
-                            IssuerSigningKey = new SymmetricSecurityKey(key)
-                        };
-                    });
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        ValidAudience = configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                    };
+                });
 
             // Swagger with Authentication Support
             services.AddSwaggerGen(options =>
             {
-                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
-                    In = ParameterLocation.Header,
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter JWT token like this: Bearer {your token here}"
                 });
 
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
-
+            
 
             //-----------------------------------------------MVC 
             //For upload file 
-			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			//// AutoMapper
-			//services.AddAutoMapper(typeof(MappingClasses));
+            //// AutoMapper
+            //services.AddAutoMapper(typeof(MappingClasses));
 
-			
-
-
-		}
+        }
     }
 }

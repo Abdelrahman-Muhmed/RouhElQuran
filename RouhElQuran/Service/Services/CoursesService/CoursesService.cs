@@ -13,14 +13,15 @@ namespace Service.Services.CourcesService
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IGenericrepo<Files> _fileGenericRepo;
+        private readonly ICoursePlanRepository _CoursePlanRepository;
         private readonly IMapper _mapper;
         public CoursesService(ICourseRepository courseRepository, IMapper mapper,
-            IGenericrepo<Files> fileGeneRicrepo)
+            IGenericrepo<Files> fileGeneRicrepo, ICoursePlanRepository coursePlanRepository)
         {
             _courseRepository = courseRepository;
             _mapper = mapper;
             _fileGenericRepo = fileGeneRicrepo;
-
+            _CoursePlanRepository = coursePlanRepository;
         }
         public async Task<CourseDto?> GetCourseById(int? id)
         {
@@ -29,7 +30,6 @@ namespace Service.Services.CourcesService
 
             var CourseDto = await result
                .Include(f => f.files)
-               .Include(e => e.CoursePlans)
                .Where(c => c.Id == id)
                .Select(c => new CourseDto
                {
@@ -45,6 +45,25 @@ namespace Service.Services.CourcesService
                }).FirstOrDefaultAsync();
             return CourseDto;
         }
+
+        public async Task<List<CoursePlanDto>> GetCoursePlansByCourseId(int CourseId)
+        {
+
+            var result = _CoursePlanRepository.GetAllAsync();
+
+            var CourseDto = await result.Where(c => c.CourseId == CourseId)
+               .Select(c => new CoursePlanDto
+               {
+                   ID = c.ID,
+                   CourseId = c.CourseId,
+                   PlanName = c.Plan.ToString(),
+                   PlanNumber = c.Plan,
+                   Price = c.Price,
+                   SessionCount = c.SessionCount,
+               }).OrderBy(e => e.PlanNumber).ToListAsync();
+            return CourseDto;
+        }
+
 
         public async Task<IEnumerable<CourseDto>> GetAllCourse()
         {

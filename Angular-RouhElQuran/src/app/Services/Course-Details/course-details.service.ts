@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class CourseDetailsService {
         return this._HttpClint.get(`${this.apiUrl}/api/Courses/${CourseId}`);
       }
 
-      getCoursePlansByCOurseID(CourseId: number){
-        return this._HttpClint.get(`${this.apiUrl}/api/Courses/${CourseId}`);
+      getCoursePlansByCourseID(CourseId: number){
+        return this._HttpClint.get(`${this.apiUrl}/api/Courses/Plans/${CourseId}`);
       }
 }

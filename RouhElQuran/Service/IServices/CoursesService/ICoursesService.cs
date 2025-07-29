@@ -10,8 +10,9 @@ namespace RouhElQuran.IServices.CoursesService
 		public Task<CourseDto?> GetCourseById(int? id);
 		public Task<Course> CreateCource(CourseDto courseDto, HttpRequest request);
 		public Task<Course> updateCourse(CourseDto courseDto);
+		Task<List<CoursePlanDto>> GetCoursePlansByCourseId(int CourseId);
 
-		public Task<Course> DeleteCourse(int id);
+        public Task<Course> DeleteCourse(int id);
 
 	}
 }

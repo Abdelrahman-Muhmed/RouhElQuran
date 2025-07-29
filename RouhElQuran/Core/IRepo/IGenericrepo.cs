@@ -11,8 +11,7 @@ namespace Core.IRepo
     {
         IQueryable<TEntity> GetAllAsync();
 
-        IQueryable<TEntity> GetByIdAsync(int? id);
-        Task<TEntity?> GetById(int? id);
+        Task<TEntity?> GetByIdAsync(int? id);
         Task<TEntity> AddAsync(TEntity entity);
 
         Task<TEntity> DeleteAsync(int? id);
@@ -24,9 +23,9 @@ namespace Core.IRepo
 
         Task RollbackTransactionAsync();
 
+        Task<TEntity?> Get(Expression<Func<TEntity, bool>> where, bool asNoTracking = true, params Expression<Func<TEntity, object>>[] includes);
 
-
-        //Task<TEntity> GetLastElementByID(Expression<Func<TEntity, int>> expression);
+        Task<TEntity?> Get(Expression<Func<TEntity, bool>> where, bool asNoTracking = true);
 
         //bool IsExists(int id);
         //IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> criteria,

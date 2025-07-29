@@ -131,7 +131,7 @@
                 <div class="row plan-row mb-2">
                     <div class="col-md-4">
                         <label class="form-label">Plan Type</label>
-                        <select asp-for="Course_Plan[i].Plan" class="form-control plan-type">
+                        <select asp-for="Course_Plan[i].PlanNumber" class="form-control plan-type">
                             @foreach (var plan in Enum.GetNames(typeof(CoursePlansEnum)))
                             {
                                 <option value="@plan">@plan</option>
