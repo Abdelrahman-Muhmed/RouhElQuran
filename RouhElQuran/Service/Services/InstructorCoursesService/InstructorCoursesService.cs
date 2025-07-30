@@ -18,23 +18,21 @@ namespace Service.Services.InstructorCoursesService
 {
     public class InstructorCoursesService : ServiceBase, IInstructorCoursesService
     {
-        private readonly IInstructorCoursesRepository _InstructorCoursesReository;
         private readonly IMapper _mapper;
-        public InstructorCoursesService(IInstructorCoursesRepository instructorCoursesReository, IMapper mapper, IUnitOfWork unitOfWork) : base(unitOfWork)
+        public InstructorCoursesService(IMapper mapper, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _InstructorCoursesReository = instructorCoursesReository;
             _mapper = mapper;
         }
         public IEnumerable<InstructorCoursesDto> GetInstructorCoursesAsync()
         {
-            var data = _InstructorCoursesReository.GetCourseWithInstructorGrouped();
+            var data = _UnitOfWork.InstructorCoursesRepository.GetCourseWithInstructorGrouped();
 
             var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
             return result;
         }
         public PaginationRequest<InstructorCoursesDto> GetInstructorCoursesAsync(string sortBy, bool IsDesc, int page, int pageSize)
         {
-            var data = _InstructorCoursesReository.GetCourseWithInstructorGroupedSorted(sortBy, IsDesc);
+            var data = _UnitOfWork.InstructorCoursesRepository.GetCourseWithInstructorGroupedSorted(sortBy, IsDesc);
 
             var result = _mapper.Map<IEnumerable<InstructorCoursesDto>>(data);
             int totalCount = result.Count();
@@ -56,7 +54,7 @@ namespace Service.Services.InstructorCoursesService
 
         public async Task<IEnumerable<InstructorCoursesDto>> GetInstructorCourseByInstructorId(int? id)
         {
-            var result = await _InstructorCoursesReository.GetCourseInstructorByInstructorIdGrouped(id);
+            var result = await _UnitOfWork.InstructorCoursesRepository.GetCourseInstructorByInstructorIdGrouped(id);
             var resultMap = _mapper.Map<IEnumerable<InstructorCoursesDto>>(result);
             return resultMap;
         }
@@ -72,8 +70,8 @@ namespace Service.Services.InstructorCoursesService
                })
                .ToList();
 
-            var instructorCourses = await _InstructorCoursesReository.CreateInstructorCourses(insCourses);
-
+            var instructorCourses = await _UnitOfWork.InstructorCoursesRepository.CreateInstructorCourses(insCourses);
+            await _UnitOfWork.SaveChangesAsync();
             return instructorCourses;
         }
 
@@ -92,7 +90,8 @@ namespace Service.Services.InstructorCoursesService
                     Course_Id = courseId
                 }).ToList();
 
-            var updatedCourses = await _InstructorCoursesReository.UpdateInstructorCourse(insCourses, instructorCoursesDto.insId.Value);
+            var updatedCourses = await _UnitOfWork.InstructorCoursesRepository.UpdateInstructorCourse(insCourses, instructorCoursesDto.insId.Value);
+            await _UnitOfWork.SaveChangesAsync();
             return updatedCourses;
         }
 

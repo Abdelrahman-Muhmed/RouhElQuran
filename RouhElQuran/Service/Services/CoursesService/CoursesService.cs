@@ -12,22 +12,15 @@ namespace Service.Services.CourcesService
 {
     public class CoursesService : ServiceBase, ICoursesService
     {
-        private readonly ICourseRepository _courseRepository;
-        private readonly IGenericRepository<Files> _fileGenericRepo;
-        private readonly ICoursePlanRepository _CoursePlanRepository;
         private readonly IMapper _mapper;
-        public CoursesService(IUnitOfWork unitOfWork, ICourseRepository courseRepository, IMapper mapper,
-            IGenericRepository<Files> fileGeneRicrepo, ICoursePlanRepository coursePlanRepository) : base(unitOfWork)
+        public CoursesService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
         {
-            _courseRepository = courseRepository;
             _mapper = mapper;
-            _fileGenericRepo = fileGeneRicrepo;
-            _CoursePlanRepository = coursePlanRepository;
         }
         public async Task<CourseDto?> GetCourseById(int? id)
         {
 
-            var result = _courseRepository.GetAllAsync();
+            var result = _UnitOfWork.CourseRepository.GetAllAsync();
 
             var CourseDto = await result
                .Include(f => f.files)
@@ -50,7 +43,7 @@ namespace Service.Services.CourcesService
         public async Task<List<CoursePlanDto>> GetCoursePlansByCourseId(int CourseId)
         {
 
-            var result = _CoursePlanRepository.GetAllAsync();
+            var result = _UnitOfWork.CoursePlanRepository.GetAllAsync();
 
             var CourseDto = await result.Where(c => c.CourseId == CourseId)
                .Select(c => new CoursePlanDto
@@ -68,7 +61,7 @@ namespace Service.Services.CourcesService
 
         public async Task<IEnumerable<CourseDto>> GetAllCourse()
         {
-            var result = _courseRepository.GetAllAsync();
+            var result = _UnitOfWork.CourseRepository.GetAllAsync();
 
             var CourseDto = await result
                 .Include(f => f.files)
@@ -97,9 +90,10 @@ namespace Service.Services.CourcesService
 
                 Course course = _mapper.Map<Course>(courseDto);
 
-                var Result = await _courseRepository.AddAsync(course);
+                var Result = await _UnitOfWork.CourseRepository.AddAsync(course);
 
-                var fileContent = await FileHelper.streamedOrBufferedProcess(request, courseDto.FileUpload, _fileGenericRepo, courseId: Result.Id);
+                var fileContent = await FileHelper.streamedOrBufferedProcess(request, courseDto.FileUpload, _UnitOfWork.FilesRepository, courseId: Result.Id);
+                await _UnitOfWork.SaveChangesAsync();
 
                 return Result;
             }
@@ -116,13 +110,16 @@ namespace Service.Services.CourcesService
         {
 
             var course = _mapper.Map<Course>(courseDto);
-            var Result = await _courseRepository.UpdateAsync(course);
+            var Result = await _UnitOfWork.CourseRepository.UpdateAsync(course);
+            await _UnitOfWork.SaveChangesAsync();
             return Result;
         }
 
         public async Task<Course> DeleteCourse(int id)
         {
-            var Result = await _courseRepository.DeleteAsync(id);
+            var Result = await _UnitOfWork.CourseRepository.DeleteAsync(id);
+            await _UnitOfWork.SaveChangesAsync();
+
             return Result;
 
         }

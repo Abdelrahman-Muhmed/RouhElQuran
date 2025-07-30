@@ -14,24 +14,16 @@ namespace Service.Services.InstructorService
 {
     public class InstructorService : ServiceBase, IInstructorService
     {
-        private readonly IGenericRepository<Instructor> _GenericrInstructorepo;
-
-        private readonly IGenericRepository<Files> _fileGenericRepo;
 
         private readonly IMapper _mapper;
-        public InstructorService(IGenericRepository<Instructor> GenericrInstructorepo, IMapper mapper,
-            IGenericRepository<Files> fileGenericRepo, IUnitOfWork unitOfWork)
-            : base(unitOfWork)
+        public InstructorService(IMapper mapper, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _GenericrInstructorepo = GenericrInstructorepo;
             _mapper = mapper;
-            _fileGenericRepo = fileGenericRepo;
-
         }
 
         public async Task<IEnumerable<InstructorDto>> GetAllInstructor()
         {
-            var result = _GenericrInstructorepo.GetAllAsync();
+            var result = _UnitOfWork.InstructorRepository.GetAllAsync();
 
             var InstructorDto = await result
                 .Include(u => u.AppUser)
@@ -68,7 +60,7 @@ namespace Service.Services.InstructorService
 
         public async Task<InstructorDto> GetInstructorById(int? id)
         {
-            var result = _GenericrInstructorepo.GetAllAsync();
+            var result = _UnitOfWork.InstructorRepository.GetAllAsync();
 
             var InstructorDto = await result
                .Where(c => c.Id == id)
@@ -133,10 +125,11 @@ namespace Service.Services.InstructorService
 
                 };
                 instructor.YearsOfExperience = CalculatHelper.calculatYearsOfExperience(instructor.WorkExperienceTo, instructor.WorkExperienceFrom);
-                var result = await _GenericrInstructorepo.AddAsync(instructor);
+                var result = await _UnitOfWork.InstructorRepository.AddAsync(instructor);
 
-                var fileContent = await FileHelper.streamedOrBufferedProcess(request, instructorDto.FileUpload, _fileGenericRepo, userId: instructorDto.InsUser_Id);
+                var fileContent = await FileHelper.streamedOrBufferedProcess(request, instructorDto.FileUpload, _UnitOfWork.FilesRepository, userId: instructorDto.InsUser_Id);
 
+                await _UnitOfWork.SaveChangesAsync();
                 return result;
             }
             catch
@@ -164,12 +157,15 @@ namespace Service.Services.InstructorService
 
 
             };
-            var result = await _GenericrInstructorepo.UpdateAsync(instructor);
+            var result = await _UnitOfWork.InstructorRepository.UpdateAsync(instructor);
+            await _UnitOfWork.SaveChangesAsync();
             return result;
         }
         public async Task<Instructor> DeleteInstructor(int? id)
         {
-            var result = await _GenericrInstructorepo.DeleteAsync(id);
+            var result = await _UnitOfWork.InstructorRepository.DeleteAsync(id);
+            await _UnitOfWork.SaveChangesAsync();
+
             return result;
         }
 

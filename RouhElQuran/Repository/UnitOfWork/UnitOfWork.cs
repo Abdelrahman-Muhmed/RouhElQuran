@@ -1,5 +1,6 @@
 ﻿using Core.IRepo;
 using Core.IUnitOfWork;
+using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Repository.Models;
@@ -74,6 +75,17 @@ namespace Repository.UnitOfWork
         public IInstructorCoursesRepository InstructorCoursesRepository
             => _InstructorCoursesRepository ??= new InstructorCoursesRepository(_Context);
 
+        private IGenericRepository<Files>? _FilesRepository;
+        public IGenericRepository<Files> FilesRepository
+            => _FilesRepository ??= new GenericRepository<Files>(_Context);
+
+        private IGenericRepository<Instructor>? _InstructorRepository;
+        public IGenericRepository<Instructor> InstructorRepository
+            => _InstructorRepository ??= new GenericRepository<Instructor>(_Context);
+
+        private IGenericRepository<UserPayments>? _UserPaymentsRepository;
+        public IGenericRepository<UserPayments> UserPaymentsRepository
+            => _UserPaymentsRepository ??= new GenericRepository<UserPayments>(_Context);
         #endregion
 
     }

@@ -16,21 +16,16 @@ namespace RouhElQuran.PaymentServices
     public class PaymentService : ServiceBase, IPaymentService
     {
         private readonly IConfiguration _Configuration;
-        private readonly IGenericRepository<CoursePlan> _GenericRepo;
-        private readonly IGenericRepository<UserPayments> _UserPaymentRepo;
 
-        public PaymentService(IUnitOfWork unitOfWork, IConfiguration _configuration,
-            IGenericRepository<CoursePlan> _CoursePlanRepo, IGenericRepository<UserPayments> _UserPaymentRepo) : base(unitOfWork)
+        public PaymentService(IUnitOfWork unitOfWork, IConfiguration _configuration) : base(unitOfWork)
         {
             _Configuration = _configuration;
-            _GenericRepo = _CoursePlanRepo;
-            this._UserPaymentRepo = _UserPaymentRepo;
         }
 
         public async Task<string?> PaymentProcessing(int CoursePlanId, string BuyerEmail)
         {
             StripeConfiguration.ApiKey = _Configuration["Stripe:Secretkey"];
-            var CoursePlan = await _GenericRepo.GetByIdAsync(CoursePlanId);
+            var CoursePlan = await _UnitOfWork.CoursePlanRepository.GetByIdAsync(CoursePlanId);
             if (CoursePlan == null)
                 return null;
 
@@ -76,18 +71,20 @@ namespace RouhElQuran.PaymentServices
             };
 
 
-            await _UserPaymentRepo.AddAsync(CreatePaymentForUser);
+            await _UnitOfWork.UserPaymentsRepository.AddAsync(CreatePaymentForUser);
+            await _UnitOfWork.SaveChangesAsync();
             return session.Url;
         }
 
         public async Task<UserPayments?> UpdatePaymentIntentToSuccededOrFailed(string userEmail, DateTime TimeCreated, bool IsSucceded)
         {
-            var PaymentPlan = await _UserPaymentRepo.GetAllAsync().Where(e => e.UserEmail == userEmail).OrderByDescending(s => s.Id).FirstOrDefaultAsync();
+            var PaymentPlan = await _UnitOfWork.UserPaymentsRepository.GetAllAsync().Where(e => e.UserEmail == userEmail).OrderByDescending(s => s.Id).FirstOrDefaultAsync();
             if (PaymentPlan != null)
             {
                 PaymentPlan.PaymentDate = TimeCreated;
                 PaymentPlan.Status = IsSucceded ? PaymentStatus.PaymentReceived : PaymentStatus.PaymentFailed;
-                await _UserPaymentRepo.UpdateAsync(PaymentPlan);
+                await _UnitOfWork.UserPaymentsRepository.UpdateAsync(PaymentPlan);
+                await _UnitOfWork.SaveChangesAsync();
             }
 
             return PaymentPlan;
@@ -132,7 +129,7 @@ namespace RouhElQuran.PaymentServices
                 }
                 return true;
             }
-            catch (StripeException e)
+            catch (StripeException)
             {
                 //return BadRequest($"Webhook Error: {e.Message}");
                 return false;

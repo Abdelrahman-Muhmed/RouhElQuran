@@ -18,16 +18,11 @@ using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 public class EmailService : ServiceBase, IEmailService
 {
     private readonly EmailSettings _emailSettings;
-    private readonly UserManager<AppUser> _userManager;
-    private readonly IConfiguration _config;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public EmailService(IUnitOfWork unitOfWork, IOptions<EmailSettings> emailSettings,
-        UserManager<AppUser> userManager, IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(unitOfWork)
+    public EmailService(IUnitOfWork unitOfWork, IOptions<EmailSettings> emailSettings, IHttpContextAccessor httpContextAccessor) : base(unitOfWork)
     {
         _emailSettings = emailSettings.Value;
-        _userManager = userManager;
-        _config = config;
         _httpContextAccessor = httpContextAccessor;
     }
 

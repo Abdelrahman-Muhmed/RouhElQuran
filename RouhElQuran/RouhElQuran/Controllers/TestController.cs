@@ -15,6 +15,7 @@ namespace RouhElQuran.Controllers
             return SuccessResponse("very good man");
         }
 
+        [HttpGet("test")]
         public IActionResult FaieldUser()
         {
             return ErrorResponse("unAuthrized", 401);

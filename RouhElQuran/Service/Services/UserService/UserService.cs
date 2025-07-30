@@ -5,9 +5,7 @@ using Core.IUnitOfWork;
 
 namespace Service.Services.UserService
 {
-    public class UserService<TEntity, TDto> : ServiceBase, IUserService<TEntity, TDto>
-        where TEntity : class
-        where TDto : class
+    public class UserService<TEntity, TDto> : ServiceBase, IUserService<TEntity, TDto> where TEntity : class where TDto : class
     {
         private readonly IGenericRepository<TEntity> _userRepository;
         private readonly IMapper _mapper;

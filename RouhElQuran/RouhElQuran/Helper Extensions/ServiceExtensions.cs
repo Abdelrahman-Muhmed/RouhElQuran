@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repository.Models;
 using Repository.Repos;
+using Repository.UnitOfWork;
 using RouhElQuran.AccountService;
 using RouhElQuran.AutoMapper;
 using RouhElQuran.IServices.CoursesService;

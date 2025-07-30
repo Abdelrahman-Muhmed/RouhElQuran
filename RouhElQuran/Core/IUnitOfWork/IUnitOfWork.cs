@@ -1,4 +1,5 @@
 ﻿using Core.IRepo;
+using Core.Models;
 using Repository.Models;
 
 namespace Core.IUnitOfWork
@@ -16,6 +17,9 @@ namespace Core.IUnitOfWork
         ICoursePlanRepository CoursePlanRepository { get; }
         IInstructorCoursesRepository InstructorCoursesRepository { get; }
         IGenericRepository<Student> StudentRepository { get; }
+        IGenericRepository<Files> FilesRepository { get; }
+        IGenericRepository<Instructor> InstructorRepository { get; }
+        IGenericRepository<UserPayments> UserPaymentsRepository { get; }
     }
 
 }
