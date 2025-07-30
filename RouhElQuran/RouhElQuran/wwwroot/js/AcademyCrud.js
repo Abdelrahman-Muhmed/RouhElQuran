@@ -1,6 +1,5 @@
 ﻿
 $(document).ready(function () {
-
     //Create Genaric get Function For handle All forms in App
 
     Get = (url, formContent, formId) => {
@@ -16,13 +15,13 @@ $(document).ready(function () {
                     console.log(res);
 
                     $("#" + formId).modal('show');
-                        // Reinitialize MultiSelect for dynamically added content
-                document.querySelectorAll('[data-multi-select]').forEach((select) => {
-                    if (!select.dataset.initialized) {
-                        new MultiSelect(select);
-                        select.dataset.initialized = true;
-                    }
-                });
+                    // Reinitialize MultiSelect for dynamically added content
+                    document.querySelectorAll('[data-multi-select]').forEach((select) => {
+                        if (!select.dataset.initialized) {
+                            new MultiSelect(select);
+                            select.dataset.initialized = true;
+                        }
+                    });
                 },
                 erorr() {
                     console.log("somthing error happen");
@@ -39,7 +38,7 @@ $(document).ready(function () {
     submit = (url, formId) => {
         try {
 
-            var form = document.getElementById(formId); 
+            var form = document.getElementById(formId);
             if (!form) {
                 console.error("Form not found!");
                 return;
@@ -54,7 +53,7 @@ $(document).ready(function () {
                 success(res) {
                     console.log(res);
                     $("#" + formId).modal('hide');
-                    location.reload();  
+                    location.reload();
 
                 }
             })
@@ -64,10 +63,68 @@ $(document).ready(function () {
         }
     }
 
+    let planIndex = 0;
 
+    // Create Global Add Plan Function
+    window.addPlan = function () {
+        const container = document.getElementById("plans-container");
 
+        const planHtml = `
+        <div class="row border p-2 mb-2" data-index="${planIndex}">
+            <div class="col-md-3">
+                <label>Plan Type</label>
+                <select name="Course_Plan[${planIndex}].PlanNumber" class="form-control">
+                    <option value="1">Standard</option>
+                    <option value="2">Gold</option>
+                    <option value="3">Platinum</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Price</label>
+                <input type="number" step="0.01" name="Course_Plan[${planIndex}].Price" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label>Session Count</label>
+                <input type="number" name="Course_Plan[${planIndex}].SessionCount" class="form-control" />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="button" class="btn btn-danger w-100" onclick="removePlan(this)">Remove</button>
+            </div>
+        </div>
+    `;
+        container.insertAdjacentHTML('beforeend', planHtml);
+        reindexPlans();
+    }
 
+    // Remove Plan Function
+    window.removePlan = function (button) {
+        const row = button.closest('.row');
+        if (row) {
+            row.remove();
+            reindexPlans();
+        }
+    }
+    // Reindex all rows
+    function reindexPlans() {
+        const rows = document.querySelectorAll('#plans-container .row');
+        planIndex = 0;
 
+        rows.forEach(row => {
+            row.setAttribute('data-index', planIndex);
+
+            const selects = row.querySelectorAll('select');
+            const inputs = row.querySelectorAll('input');
+
+            if (selects.length > 0)
+                selects[0].setAttribute('name', `Course_Plan[${planIndex}].PlanNumber`);
+            if (inputs.length > 0)
+                inputs[0].setAttribute('name', `Course_Plan[${planIndex}].Price`);
+            if (inputs.length > 1)
+                inputs[1].setAttribute('name', `Course_Plan[${planIndex}].SessionCount`);
+
+            planIndex++;
+        });
+    }
 
 })
 
@@ -78,8 +135,8 @@ deleteRow = (url) => {
             type: 'POST',
             success: function () {
                 console.log("Course deleted successfully");
-                location.reload();  
-             
+                location.reload();
+
             },
             error: function (err) {
                 console.log("Error:", err.responseText);
@@ -203,7 +260,7 @@ function applySorting(column, direction, IsDesc) {
             page: $(this).data('page'),
             pageSize: $(this).data('page-size') || 10
 
-         },
+        },
         success: function (data) {
             console.log('Sort successful');
             hideLoadingIndicator();

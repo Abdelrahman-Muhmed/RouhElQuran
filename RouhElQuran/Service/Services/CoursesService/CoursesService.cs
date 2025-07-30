@@ -24,6 +24,7 @@ namespace Service.Services.CourcesService
 
             var CourseDto = await result
                .Include(f => f.files)
+               .Include(f => f.CoursePlans)
                .Where(c => c.Id == id)
                .Select(c => new CourseDto
                {
@@ -35,7 +36,15 @@ namespace Service.Services.CourcesService
                    CoursesTime = c.CoursesTime,
                    CoursePrice = c.CoursePrice,
                    FileName = c.files.Select(f => f.UntrustedName).ToList(),
-                   Course_Plan = _mapper.Map<List<CoursePlanDto>>(c.CoursePlans),
+                   Course_Plan = c.CoursePlans.Select(r => new CoursePlanDto
+                   {
+                       CourseId = r.CourseId,
+                       ID = r.ID,
+                       PlanName = r.Plan.ToString(),
+                       PlanNumber = r.Plan,
+                       Price = r.Price,
+                       SessionCount = r.SessionCount
+                   }).ToList(),
                }).FirstOrDefaultAsync();
             return CourseDto;
         }
@@ -90,6 +99,8 @@ namespace Service.Services.CourcesService
 
                 Course course = _mapper.Map<Course>(courseDto);
 
+                //TODO: Add The Correct number of plan from enum it come as string from action 
+                // Remember must be make it manuel because prop name is plan in model and dto is planNumber
                 var Result = await _UnitOfWork.CourseRepository.AddAsync(course);
 
                 var fileContent = await FileHelper.streamedOrBufferedProcess(request, courseDto.FileUpload, _UnitOfWork.FilesRepository, courseId: Result.Id);
