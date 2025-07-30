@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.IRepo
 {
-    public interface IFreeClassRepository : IGenericrepo<freeClass>
+    public interface IFreeClassRepository : IGenericRepository<freeClass>
     {
         public Task<Course?> GetCourseByID(int id);
 

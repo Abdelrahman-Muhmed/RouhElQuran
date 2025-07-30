@@ -104,7 +104,7 @@ namespace Service.Helper.FileUploadHelper
                 }
             }
         };
-        public static async Task<object> streamedOrBufferedProcess(HttpRequest Request, FileUpload? formFiles = null, IGenericrepo<Files>? fileGenericRepo = null, int? courseId = null, int? userId = null)
+        public static async Task<object> streamedOrBufferedProcess(HttpRequest Request, FileUpload? formFiles = null, IGenericRepository<Files>? fileGenericRepo = null, int? courseId = null, int? userId = null)
         {
             List<IFormFile> bufferedFiles = new List<IFormFile>();
             object result = new List<byte[]>();
@@ -132,7 +132,7 @@ namespace Service.Helper.FileUploadHelper
         }
 
 
-        public static async Task<List<byte[]>> BufferedProcessFormFile(List<IFormFile>? formFiles, string fileNote, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
+        public static async Task<List<byte[]>> BufferedProcessFormFile(List<IFormFile>? formFiles, string fileNote, IGenericRepository<Files> fileGenericRepo, int? courseId, int? userId)
         {
             List<byte[]> fileData = new List<byte[]>();
 
@@ -422,7 +422,7 @@ namespace Service.Helper.FileUploadHelper
         }
 
         private static async Task BufferedSaveFileInDb(byte[]? filecontent, IFormFile? formFile
-         , string? note, IGenericrepo<Files> fileGenericRepo, int? courseId, int? userId)
+         , string? note, IGenericRepository<Files> fileGenericRepo, int? courseId, int? userId)
         {
             // Ensure the directory exists
             //if (!Directory.Exists(_storedFilesPath))

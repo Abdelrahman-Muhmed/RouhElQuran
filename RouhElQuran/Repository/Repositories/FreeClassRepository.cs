@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repos
 {
-    public class FreeClassRepository : Genericrepo<freeClass>, IFreeClassRepository
+    public class FreeClassRepository : GenericRepository<freeClass>, IFreeClassRepository
     {
         private readonly RouhElQuranContext dbContext;
 

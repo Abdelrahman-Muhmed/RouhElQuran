@@ -8,10 +8,10 @@ namespace RouhElQuran.Controllers
 {
     public class AttendenceController : BaseController
     {
-        private readonly IGenericrepo<Attendence> genericrepo;
+        private readonly IGenericRepository<Attendence> genericrepo;
         private readonly IMapper map;
 
-        public AttendenceController(IGenericrepo<Attendence> _genericrepo, IMapper _map)
+        public AttendenceController(IGenericRepository<Attendence> _genericrepo, IMapper _map)
         {
             genericrepo = _genericrepo;
             map = _map;

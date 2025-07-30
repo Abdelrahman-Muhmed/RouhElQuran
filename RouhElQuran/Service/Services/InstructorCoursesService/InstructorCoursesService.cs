@@ -2,6 +2,7 @@
 using Core.HelperModel.PaginationModel;
 using Core.IRepo;
 using Core.IServices.InstructorCoursesService;
+using Core.IUnitOfWork;
 using Core.Models;
 using Repository.Helper.PaginationHelper;
 using Repository.Models;
@@ -15,11 +16,11 @@ using System.Threading.Tasks;
 
 namespace Service.Services.InstructorCoursesService
 {
-    public class InstructorCoursesService : IInstructorCoursesService
+    public class InstructorCoursesService : ServiceBase, IInstructorCoursesService
     {
         private readonly IInstructorCoursesRepository _InstructorCoursesReository;
         private readonly IMapper _mapper;
-        public InstructorCoursesService(IInstructorCoursesRepository instructorCoursesReository, IMapper mapper)
+        public InstructorCoursesService(IInstructorCoursesRepository instructorCoursesReository, IMapper mapper, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _InstructorCoursesReository = instructorCoursesReository;
             _mapper = mapper;

@@ -15,9 +15,9 @@ namespace RouhElQuran.Controllers
 		private readonly UserManager<AppUser> userManager;
 		private readonly IEmailService emailService;
 		private readonly IAuthServices authServices;
-		private readonly IGenericrepo<AppUser> GenericRepo;
+		private readonly IGenericRepository<AppUser> GenericRepo;
 
-		public AccountController(UserManager<AppUser> _userManager, IEmailService emaiLservice, IAuthServices _authServices, IGenericrepo<AppUser> genericrepo)
+		public AccountController(UserManager<AppUser> _userManager, IEmailService emaiLservice, IAuthServices _authServices, IGenericRepository<AppUser> genericrepo)
 		{
 			userManager = _userManager;
 			emailService = emaiLservice;

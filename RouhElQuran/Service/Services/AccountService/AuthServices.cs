@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Core.IUnitOfWork;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Models;
 using Service.Dto_s;
+using Service.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace RouhElQuran.AccountService
 {
-    public class AuthServices : IAuthServices
+    public class AuthServices : ServiceBase, IAuthServices
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _config;
         private readonly SignInManager<AppUser> signInManager;
 
-        public AuthServices(UserManager<AppUser> userManager, IConfiguration config, SignInManager<AppUser> _signInManager)
+        public AuthServices(UserManager<AppUser> userManager, IConfiguration config, SignInManager<AppUser> _signInManager, IUnitOfWork unitOfWork) 
+            : base(unitOfWork)
         {
             _userManager = userManager;
             _config = config;

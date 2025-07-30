@@ -8,10 +8,10 @@ namespace RouhElQuran.Controllers
 {
     public class EmpolyeeController : BaseController
     {
-        private readonly IGenericrepo<Employee> genericrepo;
+        private readonly IGenericRepository<Employee> genericrepo;
         private readonly IMapper map;
 
-        public EmpolyeeController(IGenericrepo<Employee> _genericrepo, IMapper _map)
+        public EmpolyeeController(IGenericRepository<Employee> _genericrepo, IMapper _map)
         {
             genericrepo = _genericrepo;
             map = _map;

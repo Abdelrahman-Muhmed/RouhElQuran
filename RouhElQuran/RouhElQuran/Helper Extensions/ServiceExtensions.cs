@@ -4,6 +4,7 @@ using Core.IServices.AboutService;
 using Core.IServices.InstructorCoursesService;
 using Core.IServices.InstructorService;
 using Core.IServices.UserService;
+using Core.IUnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
@@ -35,11 +36,10 @@ namespace RouhElQuran.Serivces
         {
 
             // Register Repositories & Services
-            services.AddScoped(typeof(IGenericrepo<>), typeof(Genericrepo<>));
-            services.AddScoped<ICourseRepository, CourseRepository>();
-            services.AddScoped<ICoursePlanRepository, CoursePlanRepository>();
-            services.AddScoped<IFreeClassRepository, FreeClassRepository>();
-            services.AddScoped<IInstructorCoursesRepository, InstructorCoursesReository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+
+
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<ICoursesService, CoursesService>();
@@ -120,7 +120,7 @@ namespace RouhElQuran.Serivces
                     }
                 });
             });
-            
+
 
             //-----------------------------------------------MVC 
             //For upload file 

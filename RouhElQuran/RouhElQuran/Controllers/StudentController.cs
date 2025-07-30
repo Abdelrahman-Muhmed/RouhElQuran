@@ -9,10 +9,10 @@ namespace RouhElQuran.Controllers
    
     public class StudentController : BaseController
     {
-        private readonly IGenericrepo<Student> genericrepo;
+        private readonly IGenericRepository<Student> genericrepo;
         private readonly IMapper map;
 
-        public StudentController(IGenericrepo<Student> _genericrepo, IMapper _map)
+        public StudentController(IGenericRepository<Student> _genericrepo, IMapper _map)
         {
             genericrepo = _genericrepo;
             map = _map;

@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace Core.IRepo
 {
-    public interface ICoursePlanRepository : IGenericrepo<CoursePlan>
+    public interface ICourseRepository : IGenericRepository<Course>
     {
+        public Task<Course?> GetCourseWithPlansByIDAsync(int id);
+
+
 	}
 }

@@ -1,9 +1,11 @@
 ﻿using Core.IRepo;
 using Core.IServices.PaymentService;
+using Core.IUnitOfWork;
 using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Service.Services;
 using Stripe;
 using Stripe.Checkout;
 using Stripe.Climate;
@@ -11,13 +13,14 @@ using System.Numerics;
 
 namespace RouhElQuran.PaymentServices
 {
-    public class PaymentService : IPaymentService
+    public class PaymentService : ServiceBase, IPaymentService
     {
         private readonly IConfiguration _Configuration;
-        private readonly IGenericrepo<CoursePlan> _GenericRepo;
-        private readonly IGenericrepo<UserPayments> _UserPaymentRepo;
+        private readonly IGenericRepository<CoursePlan> _GenericRepo;
+        private readonly IGenericRepository<UserPayments> _UserPaymentRepo;
 
-        public PaymentService(IConfiguration _configuration, IGenericrepo<CoursePlan> _CoursePlanRepo, IGenericrepo<UserPayments> _UserPaymentRepo)
+        public PaymentService(IUnitOfWork unitOfWork, IConfiguration _configuration,
+            IGenericRepository<CoursePlan> _CoursePlanRepo, IGenericRepository<UserPayments> _UserPaymentRepo) : base(unitOfWork)
         {
             _Configuration = _configuration;
             _GenericRepo = _CoursePlanRepo;

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.IRepo;
+using Core.IUnitOfWork;
 using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,14 @@ using Service.Dto_s;
 using Service.Helper.FileUploadHelper;
 namespace Service.Services.CourcesService
 {
-    public class CoursesService : ICoursesService
+    public class CoursesService : ServiceBase, ICoursesService
     {
         private readonly ICourseRepository _courseRepository;
-        private readonly IGenericrepo<Files> _fileGenericRepo;
+        private readonly IGenericRepository<Files> _fileGenericRepo;
         private readonly ICoursePlanRepository _CoursePlanRepository;
         private readonly IMapper _mapper;
-        public CoursesService(ICourseRepository courseRepository, IMapper mapper,
-            IGenericrepo<Files> fileGeneRicrepo, ICoursePlanRepository coursePlanRepository)
+        public CoursesService(IUnitOfWork unitOfWork, ICourseRepository courseRepository, IMapper mapper,
+            IGenericRepository<Files> fileGeneRicrepo, ICoursePlanRepository coursePlanRepository) : base(unitOfWork)
         {
             _courseRepository = courseRepository;
             _mapper = mapper;

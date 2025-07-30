@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repos
 {
-    public class CoursePlanRepository : Genericrepo<CoursePlan>, ICoursePlanRepository
+    public class CoursePlanRepository : GenericRepository<CoursePlan>, ICoursePlanRepository
     {
         private readonly RouhElQuranContext _DbContext;
 

@@ -3,7 +3,7 @@ using Core.Models;
 
 namespace Core.IRepo
 {
-	public interface IInstructorCoursesRepository : IGenericrepo<Ins_Course>
+	public interface IInstructorCoursesRepository : IGenericRepository<Ins_Course>
 	{
         public IQueryable<IGrouping<int, Ins_Course>> GetCourseWithInstructorGrouped();
 		public IEnumerable<IGrouping<int, Ins_Course>> GetCourseWithInstructorGroupedSorted(string sortBy, bool IsDesc);

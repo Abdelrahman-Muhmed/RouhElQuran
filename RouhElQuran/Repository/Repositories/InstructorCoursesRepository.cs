@@ -7,10 +7,10 @@ using Repository.Models;
 using System.Linq.Dynamic.Core;
 namespace Repository.Repos
 {
-	public class InstructorCoursesReository : Genericrepo<Ins_Course>, IInstructorCoursesRepository
+	public class InstructorCoursesRepository : GenericRepository<Ins_Course>, IInstructorCoursesRepository
 	{
 		private readonly RouhElQuranContext _dbcontext;
-		public InstructorCoursesReository(RouhElQuranContext dbcontext) : base(dbcontext)
+		public InstructorCoursesRepository(RouhElQuranContext dbcontext) : base(dbcontext)
 		 => _dbcontext = dbcontext;
 
 

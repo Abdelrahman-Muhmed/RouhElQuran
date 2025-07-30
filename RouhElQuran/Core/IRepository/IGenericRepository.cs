@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.IRepo
 {
-    public interface IGenericrepo<TEntity> where TEntity : class
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
         IQueryable<TEntity> GetAllAsync();
 

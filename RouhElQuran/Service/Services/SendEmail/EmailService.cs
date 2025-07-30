@@ -1,26 +1,29 @@
-﻿using Microsoft.Extensions.Options;
-using RouhElQuran.SendEmail;
-using MimeKit;
+﻿using Core.IServices;
+using Core.IUnitOfWork;
 using MailKit.Security;
-using Microsoft.AspNetCore.Identity;
-using Repository.Models;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Http;
-using System.Security.Cryptography;
-using Core.IServices;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using Microsoft.Extensions.Options;
+using MimeKit;
+using Repository.Models;
+using RouhElQuran.SendEmail;
+using Service.Services;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using RefreshToken = Core.IServices.RefreshToken;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
-public class EmailService : IEmailService
+public class EmailService : ServiceBase, IEmailService
 {
     private readonly EmailSettings _emailSettings;
     private readonly UserManager<AppUser> _userManager;
     private readonly IConfiguration _config;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public EmailService(IOptions<EmailSettings> emailSettings, UserManager<AppUser> userManager, IConfiguration config, IHttpContextAccessor httpContextAccessor)
+    public EmailService(IUnitOfWork unitOfWork, IOptions<EmailSettings> emailSettings,
+        UserManager<AppUser> userManager, IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(unitOfWork)
     {
         _emailSettings = emailSettings.Value;
         _userManager = userManager;

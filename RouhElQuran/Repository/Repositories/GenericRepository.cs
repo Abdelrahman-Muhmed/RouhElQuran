@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace Repository.Repos
 {
-    public class Genericrepo<TEntity> : IGenericrepo<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly RouhElQuranContext _dbContext;
         private readonly DbSet<TEntity> _dbSet;
 
-        public Genericrepo(RouhElQuranContext dbContext)
+        public GenericRepository(RouhElQuranContext dbContext)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<TEntity>();
