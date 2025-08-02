@@ -92,7 +92,7 @@ export class CourseDetailsAreaComponent implements OnInit {
     apiUrl = environment.apiBaseUrl;
     CourseId!: number;
     staticFilesPath = environment.staticFilesPath;
-    
+    responseResult: any;
     constructor(
       private route: ActivatedRoute,
       private _CourseDetailsService: CourseDetailsService
@@ -112,7 +112,8 @@ export class CourseDetailsAreaComponent implements OnInit {
     getData(CourseId: number) {
       this._CourseDetailsService.getCourseDataById(CourseId).subscribe({
         next: (response) => {
-          this.CourseData = response;
+           this.responseResult = response as any;
+          this.CourseData = this.responseResult.data;
           console.log('Course data:', this.CourseData);
         },
         error: (err) => {

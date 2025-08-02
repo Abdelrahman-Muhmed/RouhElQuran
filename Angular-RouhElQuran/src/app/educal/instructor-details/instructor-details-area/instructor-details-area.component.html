@@ -87,13 +87,12 @@
                  <div class="section__title-wrapper mb-30">
                     <h2 class="section__title">Teacher <span class="yellow-bg yellow-bg-big">Course<img src="assets/img/shape/yellow-bg.png" alt=""></span></h2>
                  </div>
-                 <div class="teacher__course-wrapper">
 
                          
-                 <div class="teacher__course-wrapper">
-                <div *ngFor="let course of instructorData.courseDtos">
+  <div class="teacher__course-wrapper">
+                <div>
                <div class="row">
-                  <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                  <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6"*ngFor="let course of instructorData.courseDtos">
                      <div class="course__item white-bg mb-30 fix">
                      <div class="course__thumb w-img p-relative fix">
                         <a [routerLink]="['/course-details', course.id]">
@@ -143,7 +142,7 @@
 
                  </div>
                
-                 </div>
+
               </div>
            </div>
         </div>
