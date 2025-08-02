@@ -13,6 +13,7 @@ export class PopularTeachersComponent implements OnInit {
 
    instructorData : any = [];
     apiUrl = environment.apiBaseUrl; 
+    private responseResult : any;
   constructor(private _instructorService: InstructorService ) { }
 
   ngOnInit(): void {
@@ -22,7 +23,9 @@ export class PopularTeachersComponent implements OnInit {
   getData() {
     this._instructorService.getInstructorData().subscribe({
       next: (response) => {
-        this.instructorData = response;
+        this.responseResult = response;
+        this.instructorData = this.responseResult.data;
+
             console.log("Instructor data:", this.instructorData );
       },
       error: (err) => {

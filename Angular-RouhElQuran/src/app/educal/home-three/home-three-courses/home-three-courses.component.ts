@@ -16,6 +16,7 @@ export class HomeThreeCoursesComponent implements OnInit {
   coursesData : any = [];
    apiUrl = environment.apiBaseUrl; 
   staticFilesPath = environment.staticFilesPath;
+  private responseResult : any;
 
   constructor(private _CoursesService : CourseService,private router: Router) { }
 
@@ -27,7 +28,9 @@ export class HomeThreeCoursesComponent implements OnInit {
   GetCourses() {
   this._CoursesService.getAllCourses().subscribe({
       next: (response) => {
-        this.coursesData = response;
+        this.responseResult = response;
+        this.coursesData = this.responseResult.data;
+            console.log( this.coursesData)
             console.log("Course data: asd", this.coursesData );
       },
       error: (err) => {

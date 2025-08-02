@@ -10,8 +10,8 @@ export class ReviewService {
   constructor(private _HttpClint:HttpClient) { }
   private apiUrl = environment.apiBaseUrl;
 
-  addReview(CourseId:number){
-    //  return this._HttpClint.get(`${this.apiUrl}/api/Reviews/${CourseId}`);
+  addReview(reviewData:any){
+     return this._HttpClint.post(`${this.apiUrl}/api/Reviews/AddReview`, reviewData);
 
   }
 }

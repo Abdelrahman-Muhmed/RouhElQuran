@@ -92,6 +92,16 @@ namespace Service.Services.InstructorService
                             SessionTime = ic.Course.SessionTime,
                             FileName = ic.Course.files.Select(f => f.UntrustedName).ToList()
                         }).ToList(),
+                        UserReview = i.Review.Select(ur => new UserReviewDto
+                        {
+                            CourseID = ur.CourseId,
+                            InstructorID = ur.InstructorId,
+                            Rating = ur.Rating,
+                            Comment = ur.Comment,
+                            InstructorviewCount = i.Review.Count(x => x.InstructorId != null && x.InstructorId == ur.InstructorId)
+
+
+                        }).ToList()
                     }, u => u.AppUser, ic => ic.Ins_Courses);
 
                 if (instructorDto is null)

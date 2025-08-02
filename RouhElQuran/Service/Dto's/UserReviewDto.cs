@@ -17,5 +17,9 @@ namespace Service.Dto_s
 
         [MaxLength(1000)]
         public string? Comment { get; set; }
+
+        public int? CoursereviewCount { get; set; }
+        public int? InstructorviewCount { get; set; }
+
     }
 }

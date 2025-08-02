@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Route } from '@angular/router';
 import { CourseDetailsService } from 'src/app/Services/Course-Details/course-details.service';
+import { ReviewService } from 'src/app/Services/Review/review.service';
 import { environment } from 'src/environments/environment.prod';
+
 // import Swiper core and required modules
 import SwiperCore, { Pagination, Autoplay } from "swiper";
 
@@ -93,11 +96,62 @@ export class CourseDetailsAreaComponent implements OnInit {
     CourseId!: number;
     staticFilesPath = environment.staticFilesPath;
     responseResult: any;
+    responseMessage : any;
+    stars = [1,2,3,4,5];
+    hoverRating: number | null = null;
+    isSuccess: boolean = false;
+  
     constructor(
       private route: ActivatedRoute,
-      private _CourseDetailsService: CourseDetailsService
+      private _CourseDetailsService: CourseDetailsService,
+      private _ReviewService : ReviewService,
+
+      
     ) {}
   
+   //Review Form Validiate 
+   ReviewForm : FormGroup = new FormGroup ({
+    rate : new FormControl(null,Validators.required),
+    reviewSummary : new FormControl(null,Validators.required),
+    CourseID : new FormControl(null),
+    InstructorID : new FormControl(null),
+
+    
+   });
+
+  //Custome Validation
+    validatePassword(): void {
+      const reviewSummaryControl = this.ReviewForm.get('reviewSummary');
+
+      const value = reviewSummaryControl?.value;
+
+      if (!value) return;
+
+      const errors: any = {};
+
+      if (/[^a-zA-Z0-9 ]/.test(value)) {
+        errors.specialChars = 'Summary must not contain special characters';
+      }
+
+
+      if (Object.keys(errors).length > 0) {
+        reviewSummaryControl?.setErrors(errors);
+      } else {
+        reviewSummaryControl?.setErrors(null);
+      }
+    }
+    setRating(value: number): void {
+      this.ReviewForm.get('rate')?.setValue(value);
+      this.ReviewForm.get('rate')?.markAsTouched();
+    }
+    
+    resetHover(): void {
+      this.hoverRating = null;
+    }
+
+
+
+
     ngOnInit(): void {
       this.route.paramMap.subscribe(params => {
         const idParam = params.get('id');
@@ -105,8 +159,15 @@ export class CourseDetailsAreaComponent implements OnInit {
           this.CourseId = +idParam;
           console.log('Instructor ID:', this.CourseId);
           this.getData(this.CourseId);
+          
+          //for review   
+           this.ReviewForm.get('CourseID')?.setValue(this.CourseId);
         }
       });
+
+    this.ReviewForm.get('reviewSummary')?.valueChanges.subscribe(() => {
+      this.validatePassword();
+    })
     }
   
     getData(CourseId: number) {
@@ -115,7 +176,7 @@ export class CourseDetailsAreaComponent implements OnInit {
            this.responseResult = response as any;
           this.CourseData = this.responseResult.data;
           console.log(this.apiUrl)
-          console.log('Course data:', this.CourseData);
+          console.log('Course data:', this.responseResult);
         },
         error: (err) => {
           console.error('Error fetching instructor data:', err);
@@ -125,4 +186,36 @@ export class CourseDetailsAreaComponent implements OnInit {
   buildImageUrl(fileName: string): string {
     return `${this.apiUrl}${this.staticFilesPath}/${fileName}`;
   }
+
+  //Add Review 
+   addCourseReview() {
+  const formValue = this.ReviewForm.value;
+
+  const reviewDto = {
+    courseID: formValue.CourseID,
+    rating: formValue.rate,
+    comment: formValue.reviewSummary
+  };
+
+  this._ReviewService.addReview(reviewDto).subscribe({
+    next: (response) => {
+    this.responseResult = response as any;
+     this.responseMessage =  this.responseResult.data
+      this.isSuccess = true;
+     console.log("Sucess:", response)
+      setTimeout(() => {
+        this.getData(this.CourseId); 
+        this.isSuccess = false;
+        this.responseMessage = null;
+      }, 3000);
+    },
+    error: (error) => {
+      this.responseMessage = error.error?.message || 'An error occurred';
+      this.isSuccess = false;
+
+      setTimeout(() => this.responseMessage = null, 5000);
+    }
+  });
+}
+
 }

@@ -43,6 +43,16 @@ namespace Service.Services.CourcesService
                             Price = r.Price,
                             SessionCount = r.SessionCount
                         }).ToList(),
+                        UserReview = c.Review.Select(ur => new UserReviewDto
+                        {
+                            CourseID = ur.CourseId,
+                            InstructorID = ur.InstructorId,
+                            Rating = ur.Rating,
+                            Comment = ur.Comment,
+                            CoursereviewCount = c.Review.Where(x => x.CourseId != null && x.CourseId == ur.CourseId).Count(),
+
+
+                        }).ToList()
                     },
                     e => e.files,
                     m => m.CoursePlans);

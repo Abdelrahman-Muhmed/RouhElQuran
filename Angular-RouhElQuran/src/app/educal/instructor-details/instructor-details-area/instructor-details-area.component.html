@@ -17,7 +17,7 @@
         <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
            <div class="teacher__details-thumb p-relative w-img pr-30">
               <img 
-               [src]="instructorData.fileName?.length > 0 ? apiUrl + '/Files/' + instructorData.fileName[0] : 'assets/img/teacher/teacher-default.png'" 
+               [src]="instructorData.fileName.length > 0 ? apiUrl + '/Files/' + instructorData?.fileName[0] : 'assets/img/teacher/teacher-default.png'" 
                [alt]="instructorData.instructorFirstName + ' ' + instructorData.instructorLastName"
                class="instructor-image"
                loading="lazy">
@@ -27,14 +27,98 @@
                  <img class="teacher-details-shape-2" src="assets/img/teacher/details/shape/shape-2.png" alt="">
               </div>
            </div>
+
+
+               <div class="course__comment mt-75 mb-75">
+                    <!-- <h3>{{ instructorData.userReview[0]?.instructorviewCount }}  Comments</h3> -->
+
+                    <ul >
+                      <li *ngFor="let InstructorReview of instructorData?.userReview">
+                        <div class="course__comment-box">
+                          <div class="course__comment-thumb float-start">
+                            <img
+                              src="assets/img/course/comment/course-comment-1.jpg"
+                              alt=""
+                            />
+                          </div>
+                          <div class="course__comment-content">
+                            <div class="course__comment-wrapper ml-70 fix">
+                              <div class="course__comment-info float-start">
+                                <span>July 14, 2022</span>
+                              </div>
+                             <div class="course__comment-rating float-start float-sm-end">
+                                <ul>
+                                  <li *ngFor="let star of [].constructor(InstructorReview.rating)">
+                                    <a href="#"><i class="icon_star"></i></a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="course__comment-text ml-70">
+                              <p>
+                               {{InstructorReview.comment}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                 
+                    </ul>
+                  </div>
+
+                    <div class="course__form">
+                   <form [formGroup]="ReviewForm" (ngSubmit)="addInstructorReview()">
+                    <div class="course__form-rating">
+                      <span>Rating:</span>
+                  <ul class="star-rating" (mouseleave)="resetHover()">
+                  <li *ngFor="let star of stars; let i = index"
+                      (click)="setRating(i + 1)"
+                      (mouseenter)="hoverRating = i + 1">
+                    <i class="icon_star" [class.selected]="(i < (hoverRating || ReviewForm.get('rate')?.value))"></i>
+                  </li>
+                </ul>
+                     <div *ngIf="ReviewForm.get('rate')?.invalid && ReviewForm.get('rate')?.touched" class="text-danger">
+                        Rating is required
+                      </div>
+                    </div>
+
+                    <div class="course__form-input">
+                  <textarea formControlName="reviewSummary" placeholder="Review Summary" class="form-control"></textarea>
+
+                  <div *ngIf="ReviewForm.get('reviewSummary')?.errors && ReviewForm.get('reviewSummary')?.touched">
+                    <div *ngIf="ReviewForm.get('reviewSummary')?.getError('required')" class="alert alert-danger mt-2 p-2">
+                      <strong>Error:</strong> Summary is required
+                    </div>
+                    <div *ngIf="ReviewForm.get('reviewSummary')?.getError('specialChars')" class="alert alert-warning mt-2 p-2">
+                      <strong>Warning:</strong> Summary must not contain special characters
+                    </div>
+                  
+                  </div>
+                </div>
+
+
+                    <div class="course__form-btn mt-10 mb-55">
+                      <button type="submit" class="e-btn">Submit Review</button>
+                    </div>
+                  </form>
+
+                   
+                  </div>
+                 <div *ngIf="responseMessage"
+                    [ngClass]="{ 'alert': true, 'alert-success': isSuccess, 'alert-danger': !isSuccess }"
+                    [style.backgroundColor]="isSuccess ? '#d4edda' : '#f8d7da'"
+                    [style.color]="isSuccess ? '#155724' : '#721c24'"
+                    class="mt-3">
+                  {{ responseMessage }}
+                </div>
         </div>
         <div class="col-xxl-8 col-xl-8 col-lg-8">
            <div class="teacher__wrapper">
               <div class="teacher__top d-md-flex align-items-end justify-content-between">
                  <div class="teacher__info">
-                    <h4>{{instructorData.instructorFirstName}}{{instructorData.instructorLastName}}</h4>
+                    <h4>{{instructorData?.instructorFirstName}}{{instructorData?.instructorLastName}}</h4>
                     <!-- <span>{{instructorData.}}</span> التخصص--> 
-                    <span>{{instructorData.certificate}}</span>  
+                    <span>{{instructorData?.certificate}}</span>  
 
                  </div>
                  <div class="teacher__rating">
@@ -81,7 +165,7 @@
               </div>
               <div class="teacher__bio">
                  <h3>Short Bio</h3>
-                 <p>{{instructorData.description}}</p>
+                 <p>{{instructorData?.description}}</p>
               </div>
               <div class="teacher__courses pt-55">
                  <div class="section__title-wrapper mb-30">
@@ -92,16 +176,16 @@
   <div class="teacher__course-wrapper">
                 <div>
                <div class="row">
-                  <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6"*ngFor="let course of instructorData.courseDtos">
+                  <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6"*ngFor="let course of instructorData?.courseDtos">
                      <div class="course__item white-bg mb-30 fix">
                      <div class="course__thumb w-img p-relative fix">
                         <a [routerLink]="['/course-details', course.id]">
                          <img 
-                                    *ngFor="let file of course.fileName"
+                                    *ngFor="let file of course?.fileName"
                                     [src]="buildImageUrl(file)"
                                     [alt]="course.courseName"
-                                    class="img-fluid rounded w-100 object-fit-cover"
-                                     style="height: 500px;"
+                                    _ngcontent-bkt-c82
+                                     style="height: 300px;"
                                >
                         </a>
                         <div class="course__tag">

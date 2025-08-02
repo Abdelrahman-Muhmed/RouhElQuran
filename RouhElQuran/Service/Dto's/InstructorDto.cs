@@ -28,6 +28,9 @@ namespace Service.Dto_s
 
         public FileUpload? FileUpload { get; set; }
         public List<CourseDto> courseDtos { get; set; }
+        public List<UserReviewDto>? UserReview { get; set; } = new List<UserReviewDto>();
+
+
 
 
     }
