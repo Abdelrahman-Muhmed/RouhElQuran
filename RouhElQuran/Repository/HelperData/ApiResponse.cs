@@ -1,4 +1,4 @@
-﻿namespace RouhElQuran.Helper_Extensions
+﻿namespace Repository.Helper
 {
     public class ApiResponse<T>
     {

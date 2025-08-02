@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Repository.Helper;
 using RouhElQuran.IServices.CoursesService;
 using Service.Dto_s;
 
@@ -37,24 +38,25 @@ namespace RouhElQuran_Dashboard.Controllers
             }
 
         }
+
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
                 var courseDto = await _coursesService.GetCourseById(id);
-                if (courseDto == null)
-                    return NotFound("Instructor not found");
 
-                return PartialView("Courses/_Details", courseDto);
+                if (courseDto.Data == null)
+                    return NotFound(new ApiResponse<CourseDto>("Course not found"));
+
+                return Ok(courseDto);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, new ApiResponse<CourseDto>($"Unexpected Error: {ex.Message}"));
             }
-
-
         }
+
 
         //For get dialog to create or edit
         [HttpGet]
@@ -62,66 +64,65 @@ namespace RouhElQuran_Dashboard.Controllers
         {
             try
             {
-                if (id != null)
-                {
-                    var result = await _coursesService.GetCourseById(id);
-                    return PartialView("Courses/_CreateEdite", result);
+                if (id is null)
+                    return PartialView("Courses/_CreateEdite", new CourseDto());
 
-                }
-                return PartialView("Courses/_CreateEdite", new CourseDto());
+                var result = await _coursesService.GetCourseById(id);
+
+                if (result == null)
+                    return NotFound(new ApiResponse<CourseDto>("Course not found"));
+
+                return PartialView("Courses/_CreateEdite", result);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, new ApiResponse<CourseDto>($"Unexpected error: {ex.Message}"));
             }
-
-
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEdit(CourseDto coursedto)
+        public async Task<IActionResult> CreateEdit(CourseDto courseDto)
         {
-            //if (ModelState.IsValid)
-            //{
+            if (!ModelState.IsValid)
+                return BadRequest(new ApiResponse<CourseDto>("Invalid course data"));
+
             try
             {
-                if (coursedto.Id == 0)
-                    await _coursesService.CreateCource(coursedto, Request);
-                else
-                    await _coursesService.updateCourse(coursedto);
+                ApiResponse<bool>? result;
 
+                if (courseDto.Id == 0)
+                    result = await _coursesService.CreateCourse(courseDto, Request);
+                else
+                    result = await _coursesService.UpdateCourse(courseDto);
+
+                if (result is null)
+                    return StatusCode(500, new ApiResponse<CourseDto>("No response from service"));
+
+                if (!result.Success)
+                    return StatusCode(500, result);
 
                 return RedirectToAction(nameof(CorsesHome));
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, new ApiResponse<CourseDto>($"Unexpected error: {ex.Message}"));
             }
-            //}
-            //return BadRequest("Invalid Data");
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id > 0)
-            {
-                try
-                {
-                    var Result = await _coursesService.DeleteCourse(id);
+            if (id <= 0)
+                return BadRequest(new ApiResponse<string>("Invalid Course ID"));
 
-                    if (Result is null)
-                        return NotFound("Not Found This Course");
+            var result = await _coursesService.DeleteCourse(id);
 
-                    return RedirectToAction(nameof(CorsesHome));
-                }
-                catch
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Deleting");
-                }
-            }
-            return BadRequest("Invalid Data");
+            if (!result.Success)
+                return NotFound(result);
+
+            return RedirectToAction(nameof(CorsesHome));
         }
+
     }
 }

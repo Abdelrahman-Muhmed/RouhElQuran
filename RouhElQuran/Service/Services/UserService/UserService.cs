@@ -7,25 +7,25 @@ namespace Service.Services.UserService
 {
     public class UserService<TEntity, TDto> : ServiceBase, IUserService<TEntity, TDto> where TEntity : class where TDto : class
     {
-        private readonly IGenericRepository<TEntity> _userRepository;
+        private readonly IGenericRepository<TEntity> _UserRepository;
         private readonly IMapper _mapper;
         public UserService(IUnitOfWork unitOfWork, IGenericRepository<TEntity> userRepository, IMapper mapper) : base(unitOfWork)
         {
-            _userRepository = userRepository;
+            _UserRepository = userRepository;
             _mapper = mapper;
 
         }
 
         public async Task<IEnumerable<TDto>> GetAllUser()
         {
-            var result = _userRepository.GetAllAsync();
+            var result = await _UserRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<TDto>>(result);
 
         }
 
         public async Task<TDto> GetUserById(int id)
         {
-            var result = await _userRepository.GetByIdAsync(id);
+            var result = await _UserRepository.GetByIdAsync(id);
             if (result == null)
             {
                 return null;
@@ -37,27 +37,33 @@ namespace Service.Services.UserService
         public async Task<TDto> CreateUser(TDto userDto)
         {
             var mapData = _mapper.Map<TEntity>(userDto);
-            var resultEntity = await _userRepository.AddAsync(mapData);
-            var resultDto = _mapper.Map<TDto>(resultEntity);
+            await _UserRepository.AddAsync(mapData);
+            var resultDto = _mapper.Map<TDto>(mapData);
             return resultDto;
 
         }
 
-        public async Task<TDto> updateUser(TDto userDto)
+        public TDto UpdateUser(TDto userDto)
         {
             var mapData = _mapper.Map<TEntity>(userDto);
-            await _userRepository.UpdateAsync(mapData);
+            _UserRepository.Update(mapData);
             return userDto;
 
 
 
         }
-        public async Task<TDto> DeleteUser(int id)
-        {
-            var result = await _userRepository.DeleteAsync(id);
-            var mapData = _mapper.Map<TDto>(result);
 
-            return mapData;
+        // TODO: there is no save changes here, should be handled
+        public async Task<bool> DeleteUser(int id)
+        {
+            var entity = await _UserRepository.GetByIdAsync(id);
+            if (entity == null)
+            {
+                return false;
+            }
+             _UserRepository.Remove(entity);
+
+            return true;
         }
 
 

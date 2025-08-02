@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.HelperModel.PaginationModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,34 +8,33 @@ using System.Threading.Tasks;
 
 namespace Core.IRepo
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<T> where T : class
     {
-        IQueryable<TEntity> GetAllAsync();
+        Task<T?> GetByIdAsync(object id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<List<T>> GetAsync(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            bool disableTracking = true,
+            params Expression<Func<T, object>>[] includes);
+        Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, string includeProperties = "", bool disableTracking = true);
+        Task AddAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
+        void Update(T entity);
+        void Remove(T entity);
+        void RemoveRange(IEnumerable<T> entities);
+        Task<int> CountAsync(Expression<Func<T, bool>>? filter = null);
+        Task<bool> ExistsAsync(Expression<Func<T, bool>> filter);
 
-        Task<TEntity?> GetByIdAsync(int? id);
-        Task<TEntity> AddAsync(TEntity entity);
+        Task<List<TResult>> SelectListAsync<TResult>(
+                    Expression<Func<T, bool>>? filter, Expression<Func<T, TResult>> selector, params Expression<Func<T, object>>[] includes);
 
-        Task<TEntity> DeleteAsync(int? id);
+        Task<TResult?> SelectFirstOrDefaultAsync<TResult>(
+          Expression<Func<T, bool>>? filter, Expression<Func<T, TResult>> selector,
+          params Expression<Func<T, object>>[] includes);
 
-        Task<TEntity> UpdateAsync(TEntity entity);
-        Task BeginTransactionAsync();
-
-        Task CommitTransactionAsync();
-
-        Task RollbackTransactionAsync();
-
-        Task<TEntity?> Get(Expression<Func<TEntity, bool>> where, bool asNoTracking = true, params Expression<Func<TEntity, object>>[] includes);
-
-        Task<TEntity?> Get(Expression<Func<TEntity, bool>> where, bool asNoTracking = true);
-
-        //bool IsExists(int id);
-        //IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> criteria,
-        //    Expression<Func<TEntity, object>> orderBy = null, string[] includes = null);
-        //Task<TEntity> Find(Expression<Func<TEntity, bool>> criteria,
-        //    string[] includes = null);
-        ///
-        //Task<TEntity> attach(TEntity obj);
-        //int count();
-        //int count(Expression<Func<TEntity, bool>> expression);
+        Task<PaginationRequest<T>> GetPagedAsync(Expression<Func<T, bool>>? filter = null, int page = 1, int pageSize = 10,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string includeProperties = "");
     }
 }

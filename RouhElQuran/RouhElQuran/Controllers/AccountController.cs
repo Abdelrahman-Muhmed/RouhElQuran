@@ -48,7 +48,7 @@ namespace RouhElQuran.Controllers
 						PhoneNumber = register.PhoneNumber,
 					};
 
-					await GenericRepo.BeginTransactionAsync();
+					//await GenericRepo.BeginTransactionAsync();
 					var result = await userManager.CreateAsync(user, user.PasswordHash);
 					await userManager.AddToRoleAsync(user, register.UserRole ?? "Student");
 
@@ -75,7 +75,7 @@ namespace RouhElQuran.Controllers
 						};
 
 						emailService.SendEmail(SendMail);
-						await GenericRepo.CommitTransactionAsync();
+						//await GenericRepo.CommitTransactionAsync();
 						return Ok(new { Message = "Register Successfully" });
 					}
 					else
@@ -86,7 +86,7 @@ namespace RouhElQuran.Controllers
 				}
 				catch (Exception ex)
 				{
-					await GenericRepo.RollbackTransactionAsync();
+					//await GenericRepo.RollbackTransactionAsync();
 					return StatusCode(500, "An error occurred during registration");
 				}
 			}

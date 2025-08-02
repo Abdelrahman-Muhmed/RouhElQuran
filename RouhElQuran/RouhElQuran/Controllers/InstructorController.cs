@@ -37,7 +37,7 @@ namespace RouhElQuran.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-                var result = await _instructorService.GetAllInstructor();
+                var result = await _instructorService.GetAllInstructors();
             return Ok(result);
         }
 
@@ -65,7 +65,7 @@ namespace RouhElQuran.Controllers
 
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
                     {
-                        insId = result.Id,
+                        insId = result.Data,
                         crsIds = instructorDto.CourseIds
                     };
                     await _instructorCoursesService.CreateInstructorCourseAsync(instructorCoursesDto);
@@ -81,16 +81,16 @@ namespace RouhElQuran.Controllers
 
         //Update Instructor
         [HttpPut("Update")]
-        public async Task<IActionResult> update(InstructorDto instructorDto)
+        public async Task<IActionResult> Update(InstructorDto instructorDto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = await _instructorService.updateInstructor(instructorDto);
+                    var result = await _instructorService.UpdateInstructor(instructorDto);
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
                     {
-                        insId = result.Id,
+                        insId = result.Data,
                         crsIds = instructorDto.CourseIds
                     };
                     await _instructorCoursesService.UpdateInstructorCourseAsync(instructorCoursesDto);
@@ -111,10 +111,10 @@ namespace RouhElQuran.Controllers
             try
             {
                 var Result = await _instructorService.DeleteInstructor(id);
-                if (Result != null)
-                    return Ok("Instructor Deleted successfully");
+                if (Result.Success)
+                    return Ok(Result);
                 else
-                    return NotFound("Instructor not found");
+                    return NotFound(Result);
             }
             catch
             {

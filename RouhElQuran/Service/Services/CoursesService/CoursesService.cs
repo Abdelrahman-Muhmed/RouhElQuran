@@ -4,6 +4,7 @@ using Core.IUnitOfWork;
 using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Repository.Helper;
 using Repository.Models;
 using RouhElQuran.IServices.CoursesService;
 using Service.Dto_s;
@@ -17,64 +18,69 @@ namespace Service.Services.CourcesService
         {
             _mapper = mapper;
         }
-        public async Task<CourseDto?> GetCourseById(int? id)
+        public async Task<ApiResponse<CourseDto>> GetCourseById(int? id)
         {
+            try
+            {
+                var courseDto = await _UnitOfWork.CourseRepository.SelectFirstOrDefaultAsync(
+                     c => c.Id == id,
+                    selector: c => new CourseDto
+                    {
+                        Id = c.Id,
+                        CourseName = c.CourseName,
+                        SessionTime = c.SessionTime,
+                        Specialty = c.Specialty,
+                        Description = c.Description,
+                        CoursesTime = c.CoursesTime,
+                        CoursePrice = c.CoursePrice,
+                        FileName = c.files.Select(f => f.UntrustedName).ToList(),
+                        Course_Plan = c.CoursePlans.Select(r => new CoursePlanDto
+                        {
+                            CourseId = r.CourseId,
+                            ID = r.ID,
+                            PlanName = r.PlanNumber.ToString(),
+                            PlanNumber = r.PlanNumber,
+                            Price = r.Price,
+                            SessionCount = r.SessionCount
+                        }).ToList(),
+                    },
+                    e => e.files,
+                    m => m.CoursePlans);
 
-            var result = _UnitOfWork.CourseRepository.GetAllAsync();
+                if (courseDto == null)
+                    return new ApiResponse<CourseDto>("Course not found.", false);
 
-            var CourseDto = await result
-               .Include(f => f.files)
-               .Include(f => f.CoursePlans)
-               .Where(c => c.Id == id)
-               .Select(c => new CourseDto
-               {
-                   Id = c.Id,
-                   CourseName = c.CourseName,
-                   SessionTime = c.SessionTime,
-                   Specialty = c.Specialty,
-                   Description = c.Description,
-                   CoursesTime = c.CoursesTime,
-                   CoursePrice = c.CoursePrice,
-                   FileName = c.files.Select(f => f.UntrustedName).ToList(),
-                   Course_Plan = c.CoursePlans.Select(r => new CoursePlanDto
-                   {
-                       CourseId = r.CourseId,
-                       ID = r.ID,
-                       PlanName = r.Plan.ToString(),
-                       PlanNumber = r.Plan,
-                       Price = r.Price,
-                       SessionCount = r.SessionCount
-                   }).ToList(),
-               }).FirstOrDefaultAsync();
-            return CourseDto;
+                return new ApiResponse<CourseDto>(courseDto, "Course retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<CourseDto>($"An error occurred: {ex.Message}", false);
+            }
         }
+
 
         public async Task<List<CoursePlanDto>> GetCoursePlansByCourseId(int CourseId)
         {
-
-            var result = _UnitOfWork.CoursePlanRepository.GetAllAsync();
-
-            var CourseDto = await result.Where(c => c.CourseId == CourseId)
-               .Select(c => new CoursePlanDto
-               {
-                   ID = c.ID,
-                   CourseId = c.CourseId,
-                   PlanName = c.Plan.ToString(),
-                   PlanNumber = c.Plan,
-                   Price = c.Price,
-                   SessionCount = c.SessionCount,
-               }).OrderBy(e => e.PlanNumber).ToListAsync();
-            return CourseDto;
+            var CourseDto = await _UnitOfWork.CoursePlanRepository.SelectListAsync(c => c.CourseId == CourseId,
+                c => new CoursePlanDto
+                {
+                    ID = c.ID,
+                    CourseId = c.CourseId,
+                    PlanName = c.PlanNumber.ToString(),
+                    PlanNumber = c.PlanNumber,
+                    Price = c.Price,
+                    SessionCount = c.SessionCount,
+                });
+            // طريقة جديدة عشان نعمل ترتيب للخطط حسب رقم الخطة
+            // بدل ما نستخدم CourseDtoList.OrderBy(e => e.PlanNumber).ToList();
+            // قولت اجربها " Mo Salah"
+            return [.. CourseDto.OrderBy(e => e.PlanNumber)];
         }
 
-
-        public async Task<IEnumerable<CourseDto>> GetAllCourse()
+        public async Task<ApiResponse<List<CourseDto>>> GetAllCourse()
         {
-            var result = _UnitOfWork.CourseRepository.GetAllAsync();
-
-            var CourseDto = await result
-                .Include(f => f.files)
-                .Select(c => new CourseDto
+            var courseDto = await _UnitOfWork.CourseRepository.SelectListAsync(null,
+                c => new CourseDto
                 {
                     Id = c.Id,
                     CourseName = c.CourseName,
@@ -86,53 +92,73 @@ namespace Service.Services.CourcesService
 
                     FileName = c.files.Select(f => f.UntrustedName).ToList()
 
-                }).ToListAsync();
+                }, f => f.files);
 
-            return CourseDto;
+            return new ApiResponse<List<CourseDto>>(courseDto);
         }
 
-
-        public async Task<Course> CreateCource(CourseDto courseDto, HttpRequest request)
+        public async Task<ApiResponse<bool>> CreateCourse(CourseDto courseDto, HttpRequest request)
         {
             try
             {
-
                 Course course = _mapper.Map<Course>(courseDto);
+                await _UnitOfWork.CourseRepository.AddAsync(course);
+                await _UnitOfWork.SaveChangesAsync(); // نحفظ للحصول على Id قبل رفع الملف
 
-                //TODO: Add The Correct number of plan from enum it come as string from action 
-                // Remember must be make it manuel because prop name is plan in model and dto is planNumber
-                var Result = await _UnitOfWork.CourseRepository.AddAsync(course);
+                var fileContent = await FileHelper.streamedOrBufferedProcess(request, courseDto.FileUpload, _UnitOfWork.FilesRepository, courseId: course.Id);
 
-                var fileContent = await FileHelper.streamedOrBufferedProcess(request, courseDto.FileUpload, _UnitOfWork.FilesRepository, courseId: Result.Id);
                 await _UnitOfWork.SaveChangesAsync();
 
-                return Result;
+                return new ApiResponse<bool>("Course created successfully", true);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                return new ApiResponse<bool>($"Error: {ex.Message}");
             }
         }
 
 
-
-        public async Task<Course> updateCourse(CourseDto courseDto)
+        public async Task<ApiResponse<bool>> UpdateCourse(CourseDto courseDto)
         {
+            try
+            {
+                var course = await _UnitOfWork.CourseRepository.GetByIdAsync(courseDto.Id);
+                if (course is null)
+                    return new ApiResponse<bool>("Course not found");
 
-            var course = _mapper.Map<Course>(courseDto);
-            var Result = await _UnitOfWork.CourseRepository.UpdateAsync(course);
-            await _UnitOfWork.SaveChangesAsync();
-            return Result;
+                _mapper.Map(courseDto, course); // لتحديث نفس الكيان بدل إنشاء واحد جديد
+
+                _UnitOfWork.CourseRepository.Update(course);
+                await _UnitOfWork.SaveChangesAsync();
+
+                return new ApiResponse<bool>(true, "Updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<bool>($"Error: {ex.Message}");
+            }
         }
 
-        public async Task<Course> DeleteCourse(int id)
+
+        public async Task<ApiResponse<bool>> DeleteCourse(int id)
         {
-            var Result = await _UnitOfWork.CourseRepository.DeleteAsync(id);
-            await _UnitOfWork.SaveChangesAsync();
+            try
+            {
+                var course = await _UnitOfWork.CourseRepository.GetByIdAsync(id);
 
-            return Result;
+                if (course is null)
+                    return new ApiResponse<bool>("Course not found");
 
+                _UnitOfWork.CourseRepository.Remove(course);
+                await _UnitOfWork.SaveChangesAsync();
+
+                return new ApiResponse<bool>(true, "Course deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<bool>($"An error occurred: {ex.Message}");
+            }
         }
+
     }
 }

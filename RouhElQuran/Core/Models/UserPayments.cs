@@ -1,6 +1,7 @@
 ﻿
 
 using Core.IServices.PaymentService;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models
 {
@@ -10,6 +11,7 @@ namespace Core.Models
         public int CrsId { get; set; }
         public int PlanId { get; set; }
 
+        [MaxLength(128)]
         public string UserEmail { get; set; }
 
         public PaymentStatus Status { get; set; } = PaymentStatus.Pending;
@@ -18,6 +20,7 @@ namespace Core.Models
 
         public long PriceOfPlan { get; set; }
 
-        public string? PaymentIntentID { get; set; }
+        [MaxLength(512)]
+        public string SessionId { get; set; }
     }
 }

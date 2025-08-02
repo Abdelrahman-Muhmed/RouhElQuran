@@ -26,7 +26,7 @@ namespace Talabat.API.Controllers
             if (string.IsNullOrEmpty(BuyerEmail))
                 return Unauthorized("Please Login First");
 
-            var paymentUrl = await _PaymentService.PaymentProcessing(PlanId, BuyerEmail);
+            var paymentUrl = await _PaymentService.CreateStripeCheckoutSessionAsync(PlanId, BuyerEmail);
             if (paymentUrl != null)
                 return Ok(new { PaymentUrl = paymentUrl });
             else

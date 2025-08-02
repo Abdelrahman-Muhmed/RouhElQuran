@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository.Models;
 
@@ -11,9 +12,11 @@ using Repository.Models;
 namespace Repository.Migrations
 {
     [DbContext(typeof(RouhElQuranContext))]
-    partial class RouhElQuranContextModelSnapshot : ModelSnapshot
+    [Migration("20250731075303_RemoveCoulmInPaymentTable")]
+    partial class RemoveCoulmInPaymentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,18 +177,12 @@ namespace Repository.Migrations
                     b.Property<long>("PriceOfPlan")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("SessionId")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -10,8 +10,8 @@ namespace Core.IRepo
 {
     public interface IPaymentService
     {
-        Task<string?> PaymentProcessing(int CoursePlanId, string BuyerEmail);
+        Task<string?> CreateStripeCheckoutSessionAsync(int CoursePlanId, string BuyerEmail);
         Task<bool> WebHookData(string json, string RequestHeader);
-        Task<UserPayments?> UpdatePaymentIntentToSuccededOrFailed(string userEmail, DateTime TimeCreated, bool IsSucceded);
+        Task UpdatePaymentIntentToSuccededOrFailed(string sessionID, bool IsSucceded);
     }
 }

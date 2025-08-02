@@ -5,6 +5,7 @@ using Core.IUnitOfWork;
 using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Repository.Helper;
 using Repository.Models;
 using Service.Dto_s;
 using Service.Helper.CalculatHelper;
@@ -21,89 +22,123 @@ namespace Service.Services.InstructorService
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<InstructorDto>> GetAllInstructor()
+        public async Task<ApiResponse<List<InstructorDto>>> GetAllInstructors()
         {
-            var result = _UnitOfWork.InstructorRepository.GetAllAsync();
+            try
+            {
+                var instructorDto = await _UnitOfWork.InstructorRepository.SelectListAsync(null,
+                    i => new InstructorDto
+                    {
+                        InstructorId = i.Id,
+                        InsUser_Id = i.InsUser_Id,
+                        InstructorFirstName = i.AppUser.FirstName,
+                        InstructorLastName = i.AppUser.LastName,
+                        Salary = i.Salary,
+                        Certificate = i.Certificate,
+                        TimeFrom = i.TimeFrom,
+                        TimeTo = i.TimeTo,
+                        DaysWork = i.DaysWork,
+                        Description = i.Description,
+                        WorkExperienceFrom = i.WorkExperienceFrom,
+                        WorkExperienceTo = i.WorkExperienceTo,
+                        YearsOfExperience = CalculatHelper.calculatYearsOfExperience(i.WorkExperienceTo, i.WorkExperienceFrom),
+                        InstructorEmail = i.AppUser.Email,
+                        CoursesName = i.Ins_Courses.Select(ic => ic.Course.CourseName).ToList(),
+                        CourseIds = i.Ins_Courses.Select(ic => ic.Course_Id).ToList(),
+                        FileName = i.AppUser.files.Select(f => f.UntrustedName).ToList(),
+                    }, u => u.AppUser, ic => ic.Ins_Courses);
 
-            var InstructorDto = await result
-                .Include(u => u.AppUser)
-                .Include(ic => ic.Ins_Courses)
-                .ThenInclude(c => c.Course)
-                .Select(i => new InstructorDto
+                return new ApiResponse<List<InstructorDto>>(instructorDto);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<List<InstructorDto>>($"Error occurred: {ex.Message}");
+            }
+        }
+
+
+        public async Task<ApiResponse<InstructorDto>> GetInstructorById(int id)
+        {
+            try
+            {
+                var instructorDto = await _UnitOfWork.InstructorRepository.SelectFirstOrDefaultAsync(
+                    c => c.Id == id,
+                    i => new InstructorDto
+                    {
+                        InstructorId = i.Id,
+                        InsUser_Id = i.InsUser_Id,
+                        InstructorFirstName = i.AppUser.FirstName,
+                        InstructorLastName = i.AppUser.LastName,
+                        Salary = i.Salary,
+                        Certificate = i.Certificate,
+                        TimeFrom = i.TimeFrom,
+                        TimeTo = i.TimeTo,
+                        DaysWork = i.DaysWork,
+                        Description = i.Description,
+                        WorkExperienceFrom = i.WorkExperienceFrom,
+                        WorkExperienceTo = i.WorkExperienceTo,
+                        YearsOfExperience = CalculatHelper.calculatYearsOfExperience(i.WorkExperienceTo, i.WorkExperienceFrom),
+                        InstructorEmail = i.AppUser.Email,
+                        CoursesName = i.Ins_Courses.Select(ic => ic.Course.CourseName).ToList(),
+                        CourseIds = i.Ins_Courses.Select(ic => ic.Course_Id).ToList(),
+                        FileName = i.AppUser.files.Select(f => f.UntrustedName).ToList(),
+                        courseDtos = i.Ins_Courses.Select(ic => new CourseDto
+                        {
+                            Id = ic.Course.Id,
+                            CourseName = ic.Course.CourseName,
+                            CoursePrice = ic.Course.CoursePrice,
+                            CoursesTime = ic.Course.CoursesTime,
+                            Specialty = ic.Course.Specialty,
+                            SessionTime = ic.Course.SessionTime,
+                            FileName = ic.Course.files.Select(f => f.UntrustedName).ToList()
+                        }).ToList(),
+                    }, u => u.AppUser, ic => ic.Ins_Courses);
+
+                if (instructorDto is null)
+                    return new ApiResponse<InstructorDto>("Instructor not found");
+
+                return new ApiResponse<InstructorDto>(instructorDto);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<InstructorDto>($"Error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<ApiResponse<int>> CreateInstructor(InstructorDto instructorDto, HttpRequest request)
+        {
+            try
+            {
+                var instructor = new Instructor
                 {
-                    InstructorId = i.Id,
-                    InsUser_Id = i.InsUser_Id,
-                    InstructorFirstName = i.AppUser.FirstName,
-                    InstructorLastName = i.AppUser.LastName,
-                    Salary = i.Salary,
-                    Certificate = i.Certificate,
-                    TimeFrom = i.TimeFrom,
-                    TimeTo = i.TimeTo,
-                    DaysWork = i.DaysWork,
-                    Description = i.Description,
-                    WorkExperienceFrom = i.WorkExperienceFrom,
-                    WorkExperienceTo = i.WorkExperienceTo,
-                    YearsOfExperience = CalculatHelper.calculatYearsOfExperience(i.WorkExperienceTo, i.WorkExperienceFrom),
-                    InstructorEmail = i.AppUser.Email,
-                    CoursesName = i.Ins_Courses.Select(ic => ic.Course.CourseName).ToList(),
+                    Salary = instructorDto.Salary,
+                    Certificate = instructorDto.Certificate,
+                    Description = instructorDto.Description,
+                    TimeFrom = instructorDto.TimeFrom,
+                    TimeTo = instructorDto.TimeTo,
+                    DaysWork = instructorDto.DaysWork,
+                    WorkExperienceFrom = instructorDto.WorkExperienceFrom,
+                    WorkExperienceTo = instructorDto.WorkExperienceTo,
+                    InsUser_Id = instructorDto.InsUser_Id,
+                    YearsOfExperience = CalculatHelper.calculatYearsOfExperience(
+                        instructorDto.WorkExperienceTo, instructorDto.WorkExperienceFrom),
+                };
 
-                    CourseIds = i.Ins_Courses.Select(ic => ic.Course_Id).ToList(),
-                    FileName = i.AppUser.files.Select(f => f.UntrustedName).ToList(),
+                await _UnitOfWork.InstructorRepository.AddAsync(instructor);
+                await _UnitOfWork.SaveChangesAsync();
 
+                await FileHelper.streamedOrBufferedProcess(request, instructorDto.FileUpload, _UnitOfWork.FilesRepository, userId: instructorDto.InsUser_Id);
+                await _UnitOfWork.SaveChangesAsync();
 
-                }).ToListAsync();
-
-
-            return InstructorDto;
-
+                return new ApiResponse<int>(instructor.Id, "Instructor created successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<int>($"Error occurred: {ex.Message}");
+            }
         }
 
-        public async Task<InstructorDto> GetInstructorById(int? id)
-        {
-            var result = _UnitOfWork.InstructorRepository.GetAllAsync();
-
-            var InstructorDto = await result
-               .Where(c => c.Id == id)
-               .Include(u => u.AppUser)
-               .ThenInclude(u => u.files)
-               .Include(ic => ic.Ins_Courses)
-               .ThenInclude(c => c.Course)
-               .Select(i => new InstructorDto
-               {
-                   InstructorId = i.Id,
-                   InsUser_Id = i.InsUser_Id,
-                   InstructorFirstName = i.AppUser.FirstName,
-                   InstructorLastName = i.AppUser.LastName,
-                   Salary = i.Salary,
-                   Certificate = i.Certificate,
-                   TimeFrom = i.TimeFrom,
-                   TimeTo = i.TimeTo,
-                   DaysWork = i.DaysWork,
-                   Description = i.Description,
-                   WorkExperienceFrom = i.WorkExperienceFrom,
-                   WorkExperienceTo = i.WorkExperienceTo,
-                   YearsOfExperience = CalculatHelper.calculatYearsOfExperience(i.WorkExperienceTo, i.WorkExperienceFrom),
-                   InstructorEmail = i.AppUser.Email,
-                   CoursesName = i.Ins_Courses.Select(ic => ic.Course.CourseName).ToList(),
-                   CourseIds = i.Ins_Courses.Select(ic => ic.Course_Id).ToList(),
-                   FileName = i.AppUser.files.Select(f => f.UntrustedName).ToList(),
-                   courseDtos = i.Ins_Courses.Select(ic => new CourseDto
-                   {
-                       Id = ic.Course.Id,
-                       CourseName = ic.Course.CourseName,
-                       CoursePrice = ic.Course.CoursePrice,
-                       CoursesTime = ic.Course.CoursesTime,
-                       Specialty = ic.Course.Specialty,
-                       SessionTime = ic.Course.SessionTime,
-                       FileName = ic.Course.files.Select(f => f.UntrustedName).ToList()
-
-                   }).ToList(),
-               }).FirstOrDefaultAsync();
-
-            return InstructorDto;
-
-        }
-        public async Task<Instructor> CreateInstructor(InstructorDto instructorDto, HttpRequest request)
+        public async Task<ApiResponse<int>> UpdateInstructor(InstructorDto instructorDto)
         {
             try
             {
@@ -121,56 +156,41 @@ namespace Service.Services.InstructorService
                     InsUser_Id = instructorDto.InsUser_Id,
                     YearsOfExperience = CalculatHelper.calculatYearsOfExperience(
                       instructorDto.WorkExperienceTo, instructorDto.WorkExperienceFrom),
-
-
                 };
-                instructor.YearsOfExperience = CalculatHelper.calculatYearsOfExperience(instructor.WorkExperienceTo, instructor.WorkExperienceFrom);
-                var result = await _UnitOfWork.InstructorRepository.AddAsync(instructor);
 
-                var fileContent = await FileHelper.streamedOrBufferedProcess(request, instructorDto.FileUpload, _UnitOfWork.FilesRepository, userId: instructorDto.InsUser_Id);
-
+                _UnitOfWork.InstructorRepository.Update(instructor);
                 await _UnitOfWork.SaveChangesAsync();
-                return result;
+
+                return new ApiResponse<int>(instructor.Id, "Instructor updated successfully.");
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                return new ApiResponse<int>($"Error occurred: {ex.Message}");
             }
         }
-        public async Task<Instructor> updateInstructor(InstructorDto instructorDto)
+
+
+        public async Task<ApiResponse<bool>> DeleteInstructor(int id)
         {
-            var instructor = new Instructor
+            try
             {
-                Id = instructorDto.InstructorId,
-                Salary = instructorDto.Salary,
-                Certificate = instructorDto.Certificate,
-                Description = instructorDto.Description,
-                TimeFrom = instructorDto.TimeFrom,
-                TimeTo = instructorDto.TimeTo,
-                DaysWork = instructorDto.DaysWork,
-                WorkExperienceFrom = instructorDto.WorkExperienceFrom,
-                WorkExperienceTo = instructorDto.WorkExperienceTo,
-                InsUser_Id = instructorDto.InsUser_Id,
-                YearsOfExperience = CalculatHelper.calculatYearsOfExperience(
-                  instructorDto.WorkExperienceTo, instructorDto.WorkExperienceFrom),
+                if (id <= 0)
+                    return new ApiResponse<bool>("Instructor not found");
 
+                var instructor = await _UnitOfWork.InstructorRepository.GetByIdAsync(id);
 
-            };
-            var result = await _UnitOfWork.InstructorRepository.UpdateAsync(instructor);
-            await _UnitOfWork.SaveChangesAsync();
-            return result;
+                if (instructor == null)
+                    return new ApiResponse<bool>("Instructor not found");
+
+                _UnitOfWork.InstructorRepository.Remove(instructor);
+                await _UnitOfWork.SaveChangesAsync();
+
+                return new ApiResponse<bool>(true, "Instructor deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<bool>($"Error occurred: {ex.Message}");
+            }
         }
-        public async Task<Instructor> DeleteInstructor(int? id)
-        {
-            var result = await _UnitOfWork.InstructorRepository.DeleteAsync(id);
-            await _UnitOfWork.SaveChangesAsync();
-
-            return result;
-        }
-
-
-
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Repository.Helper;
 using RouhElQuran.IServices.CoursesService;
 using Service.Dto_s;
 
@@ -42,61 +43,58 @@ namespace RouhElQuran.Controllers
 
 
         [HttpPost("add")]
-        public async Task<IActionResult> Create(CourseDto coursedto)
+        public async Task<IActionResult> Create(CourseDto courseDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest(new ApiResponse<string>("Invalid data", false));
+
+            try
             {
-                try
-                {
-                    await _CoursesService.CreateCource(coursedto, Request);
-                    return Created();
-                }
-                catch
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Adding");
-                }
+                var result = await _CoursesService.CreateCourse(courseDto, Request);
+                return Created(string.Empty, result); // Return 201 with body
             }
-            return BadRequest("Invalid Data");
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<string>($"An error occurred while adding: {ex.Message}", false));
+            }
         }
+
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateCourse(CourseDto coursedto)
+        public async Task<IActionResult> UpdateCourse(CourseDto courseDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest(new ApiResponse<string>("Invalid data", false));
+
+            try
             {
-                try
-                {
-                    await _CoursesService.updateCourse(coursedto);
-                    return Ok("Update SuccessFully");
-                }
-                catch
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Updating");
-                }
+                var result = await _CoursesService.UpdateCourse(courseDto);
+                return Ok(result);
             }
-            return BadRequest("Invalid Data");
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<string>($"An error occurred while updating: {ex.Message}", false));
+            }
         }
 
-        [HttpDelete("delete")]
+
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var Result = await _CoursesService.DeleteCourse(id);
+                var result = await _CoursesService.DeleteCourse(id);
 
-                    if (Result is null)
-                        return NotFound("Not Found This Course");
+                if (result == null)
+                    return NotFound(new ApiResponse<string>("Course not found", false));
 
-                    return Ok("Deleted SuccessFully");
-                }
-                catch
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Deleting");
-                }
+                return Ok(result);
             }
-            return BadRequest("Invalid Data");
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<string>($"An error occurred while deleting: {ex.Message}", false));
+            }
         }
+
     }
 }

@@ -11,45 +11,45 @@ using Service.Dto_s;
 
 namespace RouhElQuran_Dashboard.Controllers
 {
-	public class InstructorController : Controller
-	{
-		private readonly UserManager<AppUser> _userManager;
-		private readonly ICoursesService _coursesService;
-		private readonly IInstructorService _instructorService;
+    public class InstructorController : Controller
+    {
+        private readonly UserManager<AppUser> _userManager;
+        private readonly ICoursesService _coursesService;
+        private readonly IInstructorService _instructorService;
         private readonly IInstructorCoursesService _instructorCoursesService;
 
         public InstructorController(
             IInstructorService instructorService,
             UserManager<AppUser> userManager,
-			ICoursesService coursesService,
+            ICoursesService coursesService,
             IInstructorCoursesService instructorCoursesService)
-		{
-			_userManager = userManager;
-			_coursesService = coursesService;
-			_instructorService = instructorService;
+        {
+            _userManager = userManager;
+            _coursesService = coursesService;
+            _instructorService = instructorService;
             _instructorCoursesService = instructorCoursesService;
 
         }
 
-		public IActionResult Index() => View();
+        public IActionResult Index() => View();
 
-		public async Task<IActionResult> InstructorHome()
-		{
+        public async Task<IActionResult> InstructorHome()
+        {
             try
             {
                 //string sortBy = "Instructor.Salary";
                 //bool IsDesc = false;
                 //int page = 1;
                 //int pageSize = 10;
-                var result = await _instructorService.GetAllInstructor();
+                var result = await _instructorService.GetAllInstructors();
                 return View(result);
             }
             catch
             {
                 return BadRequest();
             }
-         
-		}
+
+        }
 
         //[HttpPost]
         //public IActionResult InstructorHomeSort(string sortBy, bool IsDesc, int page = 1, int pageSize = 10)
@@ -59,7 +59,7 @@ namespace RouhElQuran_Dashboard.Controllers
         //    return PartialView("Instructors/_InstructorTCorseTablePartial", result);
         //}
 
-  
+
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
@@ -92,11 +92,11 @@ namespace RouhElQuran_Dashboard.Controllers
             })
            .ToListAsync();
             ViewData["AllUser"] = new SelectList(instructors, "Id", "FullName");
-            ViewData["AllCourses"] = new SelectList(courses, "Id", "CourseName");
+            ViewData["AllCourses"] = new SelectList(courses.Data, "Id", "CourseName");
 
             if (id != null)
             {
-                var result = await _instructorService.GetInstructorById(id);
+                var result = await _instructorService.GetInstructorById(id.Value);
 
                 return PartialView("Instructors/_CreateEdite", result);
 
@@ -109,19 +109,17 @@ namespace RouhElQuran_Dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEdit(InstructorDto instructorDto)
         {
-            //if (ModelState.IsValid)
-            //{
             try
             {
                 if (instructorDto.InstructorId == 0)
                 {
-                  
+
 
                     var result = await _instructorService.CreateInstructor(instructorDto, Request);
 
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
                     {
-                        insId = result.Id,
+                        insId = result.Data,
                         crsIds = instructorDto.CourseIds
                     };
                     await _instructorCoursesService.CreateInstructorCourseAsync(instructorCoursesDto);
@@ -130,10 +128,10 @@ namespace RouhElQuran_Dashboard.Controllers
                 else
                 {
 
-                    var result = await _instructorService.updateInstructor(instructorDto);
+                    var result = await _instructorService.UpdateInstructor(instructorDto);
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto
                     {
-                        insId = result.Id,
+                        insId = result.Data,
                         crsIds = instructorDto.CourseIds
                     };
                     await _instructorCoursesService.UpdateInstructorCourseAsync(instructorCoursesDto);
@@ -146,30 +144,18 @@ namespace RouhElQuran_Dashboard.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Adding");
             }
-            //}
-            //return BadRequest("Invalid Data");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id != null)
-            {
-                try
-                {
-                    var Result = await _instructorService.DeleteInstructor(id);
+            var Result = await _instructorService.DeleteInstructor(id);
 
-                    if (Result is null)
-                        return NotFound("Not Found This Course");
+            if (Result.Success)
+                RedirectToAction("InstructorHome", "Instructor");
 
-                    RedirectToAction("InstructorHome", "Instructor");
-                }
-                catch
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred While Deleting");
-                }
-            }
-            return BadRequest("Invalid Data");
+
+            return StatusCode(StatusCodes.Status500InternalServerError, Result);
         }
 
     }

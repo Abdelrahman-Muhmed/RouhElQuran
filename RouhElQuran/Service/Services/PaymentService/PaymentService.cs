@@ -22,7 +22,7 @@ namespace RouhElQuran.PaymentServices
             _Configuration = _configuration;
         }
 
-        public async Task<string?> PaymentProcessing(int CoursePlanId, string BuyerEmail)
+        public async Task<string?> CreateStripeCheckoutSessionAsync(int CoursePlanId, string BuyerEmail)
         {
             StripeConfiguration.ApiKey = _Configuration["Stripe:Secretkey"];
             var CoursePlan = await _UnitOfWork.CoursePlanRepository.GetByIdAsync(CoursePlanId);
@@ -42,7 +42,7 @@ namespace RouhElQuran.PaymentServices
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = CoursePlan.Plan.ToString(),
+                            Name = CoursePlan.PlanNumber.ToString(),
                         },
                     },
                     Quantity = 1,
@@ -68,6 +68,7 @@ namespace RouhElQuran.PaymentServices
                 PlanId = CoursePlanId,
                 UserEmail = BuyerEmail,
                 PriceOfPlan = (long)CoursePlan.Price,
+                SessionId = session.Id
             };
 
 
@@ -76,21 +77,22 @@ namespace RouhElQuran.PaymentServices
             return session.Url;
         }
 
-        public async Task<UserPayments?> UpdatePaymentIntentToSuccededOrFailed(string userEmail, DateTime TimeCreated, bool IsSucceded)
+        public async Task UpdatePaymentIntentToSuccededOrFailed(string sessionID, bool IsSucceded)
         {
-            var PaymentPlan = await _UnitOfWork.UserPaymentsRepository.GetAllAsync().Where(e => e.UserEmail == userEmail).OrderByDescending(s => s.Id).FirstOrDefaultAsync();
-            if (PaymentPlan != null)
+            var CurrentPayment = await _UnitOfWork.UserPaymentsRepository.GetFirstOrDefaultAsync(r => r.SessionId == sessionID);
+
+            if (CurrentPayment != null)
             {
-                PaymentPlan.PaymentDate = TimeCreated;
-                PaymentPlan.Status = IsSucceded ? PaymentStatus.PaymentReceived : PaymentStatus.PaymentFailed;
-                await _UnitOfWork.UserPaymentsRepository.UpdateAsync(PaymentPlan);
+                CurrentPayment.PaymentDate = DateTime.Now;
+                CurrentPayment.Status = IsSucceded ? PaymentStatus.PaymentReceived : PaymentStatus.PaymentFailed;
+                _UnitOfWork.UserPaymentsRepository.Update(CurrentPayment);
                 await _UnitOfWork.SaveChangesAsync();
             }
 
-            return PaymentPlan;
+            return;
         }
 
-        //TODO: Add Table Logs For Errors
+        //TODO: Add Logs For Errors
         public async Task<bool> WebHookData(string json, string RequestHeader)
         {
 
@@ -120,11 +122,11 @@ namespace RouhElQuran.PaymentServices
                 switch (stripeEvent.Type)
                 {
                     case Events.CheckoutSessionCompleted:
-                        await UpdatePaymentIntentToSuccededOrFailed(userEmail, DateTime.Now, true);
+                        await UpdatePaymentIntentToSuccededOrFailed(session.Id, true);
                         break;
 
                     case Events.CheckoutSessionExpired:
-                        await UpdatePaymentIntentToSuccededOrFailed(userEmail, DateTime.Now, false);
+                        await UpdatePaymentIntentToSuccededOrFailed(session.Id, false);
                         break;
                 }
                 return true;
