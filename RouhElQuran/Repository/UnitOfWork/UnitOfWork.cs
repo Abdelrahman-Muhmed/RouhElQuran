@@ -86,6 +86,14 @@ namespace Repository.UnitOfWork
         private IGenericRepository<UserPayments>? _UserPaymentsRepository;
         public IGenericRepository<UserPayments> UserPaymentsRepository
             => _UserPaymentsRepository ??= new GenericRepository<UserPayments>(_Context);
+
+        private IGenericRepository<Reviews>? _ReviewRepository;
+        public IGenericRepository<Reviews> ReviewRepository
+            => _ReviewRepository ??= new GenericRepository<Reviews>(_Context);
+
+        private IGenericRepository<AppUser>? _UserRepository;
+        public IGenericRepository<AppUser> UserRepository
+            => _UserRepository ??= new GenericRepository<AppUser>(_Context);
         #endregion
 
     }

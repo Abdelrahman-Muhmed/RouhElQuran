@@ -11,15 +11,27 @@ namespace Core.IUnitOfWork
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
 
-
-        IFreeClassRepository FreeClassRepository { get; }
+        // Courses
         ICourseRepository CourseRepository { get; }
         ICoursePlanRepository CoursePlanRepository { get; }
-        IInstructorCoursesRepository InstructorCoursesRepository { get; }
+        IFreeClassRepository FreeClassRepository { get; }
+
+        // Users
         IGenericRepository<Student> StudentRepository { get; }
-        IGenericRepository<Files> FilesRepository { get; }
         IGenericRepository<Instructor> InstructorRepository { get; }
+        IGenericRepository<AppUser> UserRepository { get; }
+        // Payments
         IGenericRepository<UserPayments> UserPaymentsRepository { get; }
+
+        // Files
+        IGenericRepository<Files> FilesRepository { get; }
+
+        // Reviews
+        IGenericRepository<Reviews> ReviewRepository { get; }
+
+        // Instructor Mapping
+        IInstructorCoursesRepository InstructorCoursesRepository { get; }
     }
+
 
 }

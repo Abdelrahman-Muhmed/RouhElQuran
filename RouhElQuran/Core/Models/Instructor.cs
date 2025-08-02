@@ -22,4 +22,5 @@ public partial class Instructor : BaseEntity
     public ICollection<Attendence> Attendences { get; set; } = new List<Attendence>();
     public AppUser AppUser { get; set; }
     public ICollection<Ins_Course> Ins_Courses { get; set; } = new List<Ins_Course>();
+    public ICollection<Reviews> Review { get; set; } = new List<Reviews>();
 }

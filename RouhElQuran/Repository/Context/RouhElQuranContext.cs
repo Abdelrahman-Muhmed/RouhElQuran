@@ -28,6 +28,7 @@ public partial class RouhElQuranContext : IdentityDbContext<AppUser, IdentityRol
     public virtual DbSet<UserPayments> UserPayments { get; set; }
 	public virtual DbSet<Files> Files { get; set; }
 	public virtual DbSet<InstructorSpecialty> InstructorSpecialty { get; set; }
+	public virtual DbSet<Reviews> Reviews { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

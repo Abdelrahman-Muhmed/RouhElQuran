@@ -13,16 +13,14 @@ namespace RouhElQuran.Controllers
 	public class AccountController : BaseController
     {
 		private readonly UserManager<AppUser> userManager;
-		private readonly IEmailService emailService;
-		private readonly IAuthServices authServices;
-		private readonly IGenericRepository<AppUser> GenericRepo;
+		private readonly IEmailService _EmailService;
+		private readonly IAuthServices _AuthServices;
 
-		public AccountController(UserManager<AppUser> _userManager, IEmailService emaiLservice, IAuthServices _authServices, IGenericRepository<AppUser> genericrepo)
+		public AccountController(UserManager<AppUser> _userManager, IEmailService emaiLservice, IAuthServices _authServices)
 		{
 			userManager = _userManager;
-			emailService = emaiLservice;
-			authServices = _authServices;
-			GenericRepo = genericrepo;
+			_EmailService = emaiLservice;
+			_AuthServices = _authServices;
 		}
 
 		[HttpPost("Register")]
@@ -74,7 +72,7 @@ namespace RouhElQuran.Controllers
 							Body = emailBody,
 						};
 
-						emailService.SendEmail(SendMail);
+						_EmailService.SendEmail(SendMail);
 						//await GenericRepo.CommitTransactionAsync();
 						return Ok(new { Message = "Register Successfully" });
 					}
@@ -278,7 +276,7 @@ namespace RouhElQuran.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest("Please Enter Valid Data");
 
-			var GetUser = await authServices.LoginUser(user);
+			var GetUser = await _AuthServices.LoginUser(user);
 			return Ok(GetUser);
 		}
 	}

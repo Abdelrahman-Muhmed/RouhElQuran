@@ -34,20 +34,21 @@ namespace RouhElQuran.Controllers
                 return claim != null ? claim.Value : null;
             }
         }
-        protected IActionResult SuccessResponse<T>(T data, string message = "Success")
+        protected IActionResult SuccessResponse<T>(T data, string? message = null)
+           => Ok(new ApiResponse<T>(data, message ?? "Success"));
+
+
+        protected IActionResult ErrorResponse(string? message = null, int statusCode = 400)
         {
-            return Ok(new ApiResponse<T>(data, message));
+            var finalMessage = message ?? "An unexpected error occurred.";
+            return StatusCode(statusCode, new ApiResponse<string>(finalMessage, false));
         }
 
-        protected IActionResult ErrorResponse(string message, int statusCode = 400)
-        {
-            //_logger.LogWarning("API Error: {Message}", message);
-            return StatusCode(statusCode, new ApiResponse<string>(message, false));
-        }
 
-        protected IActionResult NotFoundResponse(string message = "Not Found")
-        {
-            return NotFound(new ApiResponse<string>(message, false));
-        }
+        protected IActionResult NotFoundResponse(string? message = null)
+           => NotFound(new ApiResponse<string>(message ?? "Not Found", false));
+
+        protected IActionResult UnauthorizedResponse(string? message = null)
+           => Unauthorized(new ApiResponse<string>(message ?? "Unauthorized Please Login", false));
     }
 }

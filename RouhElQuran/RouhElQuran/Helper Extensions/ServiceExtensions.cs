@@ -6,7 +6,6 @@ using Core.IServices.InstructorService;
 using Core.IServices.UserService;
 using Core.IUnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -15,16 +14,15 @@ using Repository.Models;
 using Repository.Repos;
 using Repository.UnitOfWork;
 using RouhElQuran.AccountService;
-using RouhElQuran.AutoMapper;
 using RouhElQuran.IServices.CoursesService;
 using RouhElQuran.PaymentServices;
-using RouhElQuran.SendEmail;
+using Service.IServices.ReviewService;
 using Service.Services.AboutService;
 using Service.Services.CourcesService;
 using Service.Services.InstructorCoursesService;
 using Service.Services.InstructorService;
+using Service.Services.ReviewsService;
 using Service.Services.UserService;
-using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 
@@ -47,6 +45,7 @@ namespace RouhElQuran.Serivces
             services.AddScoped<IInstructorService, InstructorService>();
             services.AddScoped<IInstructorCoursesService, InstructorCoursesService>();
             services.AddScoped<IAboutService, AboutService>();
+            services.AddScoped<IReviewService, ReviewService>();
 
 
 

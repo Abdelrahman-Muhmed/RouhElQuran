@@ -113,8 +113,6 @@ namespace RouhElQuran_Dashboard.Controllers
             {
                 if (instructorDto.InstructorId == 0)
                 {
-
-
                     var result = await _instructorService.CreateInstructor(instructorDto, Request);
 
                     InstructorCoursesDto instructorCoursesDto = new InstructorCoursesDto

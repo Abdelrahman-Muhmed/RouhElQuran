@@ -18,7 +18,7 @@ namespace RouhElQuran.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> BookSession(int CourseID)
         {
             if (ModelState.IsValid)
@@ -49,7 +49,7 @@ namespace RouhElQuran.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> CheckIsTakeSession(int CourseID)
         {
             if (int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int AppUserId))

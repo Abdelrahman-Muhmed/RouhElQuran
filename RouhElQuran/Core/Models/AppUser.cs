@@ -16,4 +16,5 @@ public class AppUser : IdentityUser<int>
     public virtual Student? Std { get; set; }
 
     public ICollection<Files> files { get; set; } = new List<Files>();
+    public ICollection<Reviews> Review { get; set; } = new List<Reviews>();
 }
