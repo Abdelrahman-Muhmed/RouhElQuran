@@ -42,7 +42,7 @@ namespace RouhElQuran_Dashboard.Controllers
                 //int page = 1;
                 //int pageSize = 10;
                 var result = await _instructorService.GetAllInstructors();
-                return View(result);
+                return View(result.Data);
             }
             catch
             {
@@ -66,10 +66,10 @@ namespace RouhElQuran_Dashboard.Controllers
             try
             {
                 var result = await _instructorService.GetInstructorById(id);
-                if (result == null)
-                    return NotFound("Instructor not found");
+                if (!result.Success)
+                    return NotFound(result);
 
-                return PartialView("Instructors/_Details", result);
+                return PartialView("Instructors/_Details", result.Data);
             }
 
             catch
@@ -83,14 +83,12 @@ namespace RouhElQuran_Dashboard.Controllers
         public async Task<IActionResult> CreateEdit(int? id)
         {
             var courses = await _coursesService.GetAllCourse();
-            var instructors = await _userManager.Users
-            .Where(x => x.EmailConfirmed == true)
-            .Select(user => new
-            {
-                user.Id,
-                FullName = user.FirstName + " " + user.LastName
-            })
-           .ToListAsync();
+            var instructors = await _userManager.Users.Where(x => x.EmailConfirmed == true)
+                .Select(user => new
+                {
+                    user.Id,
+                    FullName = user.FirstName + " " + user.LastName
+                }).ToListAsync();
             ViewData["AllUser"] = new SelectList(instructors, "Id", "FullName");
             ViewData["AllCourses"] = new SelectList(courses.Data, "Id", "CourseName");
 
@@ -98,7 +96,10 @@ namespace RouhElQuran_Dashboard.Controllers
             {
                 var result = await _instructorService.GetInstructorById(id.Value);
 
-                return PartialView("Instructors/_CreateEdite", result);
+                if (result.Success)
+                    return PartialView("Instructors/_CreateEdite", result.Data);
+                else
+                    return PartialView("Instructors/_CreateEdite");
 
             }
             else

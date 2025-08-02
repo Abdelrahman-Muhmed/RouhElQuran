@@ -26,7 +26,7 @@ namespace RouhElQuran_Dashboard.Controllers
             {
                 var Result = await _coursesService.GetAllCourse();
                 if (Result != null)
-                    return View(Result);
+                    return View(Result.Data);
                 else
                     return BadRequest();
 
@@ -49,7 +49,7 @@ namespace RouhElQuran_Dashboard.Controllers
                 if (courseDto.Data == null)
                     return NotFound(new ApiResponse<CourseDto>("Course not found"));
 
-                return Ok(courseDto);
+                return Ok(courseDto.Data);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace RouhElQuran_Dashboard.Controllers
                 if (result == null)
                     return NotFound(new ApiResponse<CourseDto>("Course not found"));
 
-                return PartialView("Courses/_CreateEdite", result);
+                return PartialView("Courses/_CreateEdite", result.Data);
             }
             catch (Exception ex)
             {
@@ -83,6 +83,14 @@ namespace RouhElQuran_Dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEdit(CourseDto courseDto)
         {
+            ModelState.Remove(nameof(courseDto.FileName));
+            ModelState.Remove("FileUpload.FormFile");
+            for (int i = 0; i < courseDto.Course_Plan.Count; i++)
+            {
+                ModelState.Remove($"Course_Plan[{i}].PlanName");
+            }
+
+
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResponse<CourseDto>("Invalid course data"));
 

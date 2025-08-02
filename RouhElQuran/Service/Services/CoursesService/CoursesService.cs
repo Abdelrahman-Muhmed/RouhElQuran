@@ -122,9 +122,26 @@ namespace Service.Services.CourcesService
         {
             try
             {
-                var course = await _UnitOfWork.CourseRepository.GetByIdAsync(courseDto.Id);
+                var course = await _UnitOfWork.CourseRepository.GetFirstOrDefaultAsync(e => e.Id == courseDto.Id, "CoursePlans");
                 if (course is null)
                     return new ApiResponse<bool>("Course not found");
+
+
+                if (courseDto.Course_Plan != null && courseDto.Course_Plan.Count > 0)
+                {
+                    _UnitOfWork.CoursePlanRepository.RemoveRange(course.CoursePlans);
+
+                    var x = courseDto.Course_Plan.Select(e => new CoursePlan
+                    {
+                        CourseId = course.Id,
+                        Price = e.Price,
+                        SessionCount = e.SessionCount,
+                        PlanNumber = e.PlanNumber
+                    }).ToList();
+
+                    await _UnitOfWork.CoursePlanRepository.AddRangeAsync(x);
+                }
+
 
                 _mapper.Map(courseDto, course); // لتحديث نفس الكيان بدل إنشاء واحد جديد
 
