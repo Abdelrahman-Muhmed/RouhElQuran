@@ -114,6 +114,7 @@ export class CourseDetailsAreaComponent implements OnInit {
         next: (response) => {
            this.responseResult = response as any;
           this.CourseData = this.responseResult.data;
+          console.log(this.apiUrl)
           console.log('Course data:', this.CourseData);
         },
         error: (err) => {
