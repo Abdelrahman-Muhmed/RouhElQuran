@@ -117,8 +117,6 @@ namespace RouhElQuran.PaymentServices
 
                 }
 
-                var userEmail = session.Metadata["UserEmail"];
-
                 switch (stripeEvent.Type)
                 {
                     case Events.CheckoutSessionCompleted:
