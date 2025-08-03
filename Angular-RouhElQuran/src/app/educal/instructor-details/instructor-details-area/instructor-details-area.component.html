@@ -29,32 +29,35 @@
            </div>
 
 
-               <div class="course__comment mt-75 mb-75">
-                    <!-- <h3>{{ instructorData.userReview[0]?.instructorviewCount }}  Comments</h3> -->
+                <div class="course__comment mb-75 mt-75">
+                    <h3>{{ instructorData.userReview[0]?.coursereviewCount }}  Comments</h3>
 
                     <ul >
-                      <li *ngFor="let InstructorReview of instructorData?.userReview">
+                      <li *ngFor="let InstructorReview of instructorData.userReview">
                         <div class="course__comment-box">
                           <div class="course__comment-thumb float-start">
-                            <img
-                              src="assets/img/course/comment/course-comment-1.jpg"
-                              alt=""
-                            />
+                          <div
+                            [ngClass]="getAvatarColor(InstructorReview.userName.charAt(0)) + ' rounded-circle text-white d-flex align-items-center justify-content-center'"
+                            style="width: 50px; height: 50px; font-size: 20px;"
+                          >
+                            {{ InstructorReview.userName.charAt(0) }}
+                          </div>
                           </div>
                           <div class="course__comment-content">
                             <div class="course__comment-wrapper ml-70 fix">
                               <div class="course__comment-info float-start">
-                                <span>July 14, 2022</span>
+                                <h4 _ngcontent-lfx-c71>{{InstructorReview.userName}}</h4>
+                                <span _ngcontent-lfx-c71>{{InstructorReview.reviewDate}}</span>
                               </div>
-                             <div class="course__comment-rating float-start float-sm-end">
+                             <div  _ngcontent-lfx-c71 class="course__comment-rating float-start float-sm-end">
                                 <ul>
                                   <li *ngFor="let star of [].constructor(InstructorReview.rating)">
-                                    <a href="#"><i class="icon_star"></i></a>
+                                    <a href="#" ><i class="icon_star"></i></a>
                                   </li>
                                 </ul>
                               </div>
                             </div>
-                            <div class="course__comment-text ml-70">
+                            <div _ngcontent-lfx-c71 class="course__comment-text ml-70">
                               <p>
                                {{InstructorReview.comment}}
                               </p>
@@ -65,7 +68,6 @@
                  
                     </ul>
                   </div>
-
                     <div class="course__form">
                    <form [formGroup]="ReviewForm" (ngSubmit)="addInstructorReview()">
                     <div class="course__form-rating">
@@ -123,16 +125,14 @@
                  </div>
                  <div class="teacher__rating">
                     <h5>Review:</h5>
-                    <div class="teacher__rating-inner d-flex align-items-center">
-                       <ul>
-                          <li><a href="#"> <i class="icon_star"></i> </a></li>
-                          <li><a href="#"> <i class="icon_star"></i> </a></li>
-                          <li><a href="#"> <i class="icon_star"></i> </a></li>
-                          <li><a href="#"> <i class="icon_star"></i> </a></li>
-                          <li><a href="#"> <i class="icon_star"></i> </a></li>
-                       </ul>
-                       <p>4.5</p>
-                    </div>
+                      <div class="course__rating-inner d-flex align-items-center">
+                  <ul>
+                          <li *ngFor="let star of [].constructor(instructorData.avergRate)">
+                            <a href="#"><i class="icon_star"></i></a>
+                          </li>
+                        </ul>
+                     <p>{{instructorData.avergRate}}</p>
+                  </div>
                  </div>
                  <div class="teacher__social-2">
                     <h4>Follow Us:</h4>

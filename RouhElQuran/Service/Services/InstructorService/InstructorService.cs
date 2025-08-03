@@ -46,6 +46,7 @@ namespace Service.Services.InstructorService
                         CoursesName = i.Ins_Courses.Select(ic => ic.Course.CourseName).ToList(),
                         CourseIds = i.Ins_Courses.Select(ic => ic.Course_Id).ToList(),
                         FileName = i.AppUser.files.Select(f => f.UntrustedName).ToList(),
+                        avergRate = Math.Round( i.Review.Where(x => x.InstructorId != null && x.InstructorId == i.Id).Select(x => (double?)x.Rating) .Average() ?? 4.4 ),
                     }, u => u.AppUser, ic => ic.Ins_Courses);
 
                 return new ApiResponse<List<InstructorDto>>(instructorDto);
@@ -92,14 +93,17 @@ namespace Service.Services.InstructorService
                             SessionTime = ic.Course.SessionTime,
                             FileName = ic.Course.files.Select(f => f.UntrustedName).ToList()
                         }).ToList(),
+                        avergRate = Math.Round(i.Review.Where(x => x.InstructorId != null && x.InstructorId == i.Id).Select(x => (double?)x.Rating).Average() ?? 4.4),
                         UserReview = i.Review.Select(ur => new UserReviewDto
                         {
                             CourseID = ur.CourseId,
                             InstructorID = ur.InstructorId,
                             Rating = ur.Rating,
                             Comment = ur.Comment,
-                            InstructorviewCount = i.Review.Count(x => x.InstructorId != null && x.InstructorId == ur.InstructorId)
-
+                            InstructorviewCount = i.Review.Count(x => x.InstructorId != null && x.InstructorId == ur.InstructorId),
+                            reviewDate = ur.CreatedAt.ToString("dd/mm/yyyy"),
+                            //avergRate = i.Review.Where(x => x.InstructorId != null && x.InstructorId == ur.InstructorId).Average(x => x.Rating),
+                            UserName = ur.User.FirstName + " " + ur.User.LastName,
 
                         }).ToList()
                     }, u => u.AppUser, ic => ic.Ins_Courses);

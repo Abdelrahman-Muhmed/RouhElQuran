@@ -43,6 +43,7 @@ namespace Service.Services.CourcesService
                             Price = r.Price,
                             SessionCount = r.SessionCount
                         }).ToList(),
+                        avergRate = Math.Round(c.Review.Where(x => x.CourseId != null && x.CourseId == c.Id).Select(x => (double?)x.Rating).Average() ?? 4.4),
                         UserReview = c.Review.Select(ur => new UserReviewDto
                         {
                             CourseID = ur.CourseId,
@@ -50,9 +51,13 @@ namespace Service.Services.CourcesService
                             Rating = ur.Rating,
                             Comment = ur.Comment,
                             CoursereviewCount = c.Review.Where(x => x.CourseId != null && x.CourseId == ur.CourseId).Count(),
+                            reviewDate = ur.CreatedAt.ToString("dd/mm/yyyy"),
+                            //avergRate = c.Review.Where(x => x.CourseId != null && x.CourseId == ur.CourseId).Average(x => x.Rating),
+                            UserName = ur.User.FirstName + " " + ur.User.LastName,
+                        }).ToList(),
 
+                     
 
-                        }).ToList()
                     },
                     e => e.files,
                     m => m.CoursePlans);
@@ -99,7 +104,7 @@ namespace Service.Services.CourcesService
                     Description = c.Description,
                     CoursesTime = c.CoursesTime,
                     CoursePrice = c.CoursePrice,
-
+                    avergRate = Math.Round(c.Review.Where(x => x.CourseId != null && x.CourseId == c.Id).Select(x => (double?)x.Rating).Average() ?? 4.4),
                     FileName = c.files.Select(f => f.UntrustedName).ToList()
 
                 }, f => f.files);

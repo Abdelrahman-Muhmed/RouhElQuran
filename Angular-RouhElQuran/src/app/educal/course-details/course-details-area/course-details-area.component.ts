@@ -97,10 +97,19 @@ export class CourseDetailsAreaComponent implements OnInit {
     staticFilesPath = environment.staticFilesPath;
     responseResult: any;
     responseMessage : any;
+    isSuccess: boolean = false;
+
+     //For Rate Details .....
     stars = [1,2,3,4,5];
     hoverRating: number | null = null;
-    isSuccess: boolean = false;
-  
+    ratingStats = [
+    { stars: 5, count: 0, percentage: '0%' },
+    { stars: 4, count: 0, percentage: '0%' },
+    { stars: 3, count: 0, percentage: '0%' },
+    { stars: 2, count: 0, percentage: '0%' },
+    { stars: 1, count: 0, percentage: '0%' },
+  ];
+
     constructor(
       private route: ActivatedRoute,
       private _CourseDetailsService: CourseDetailsService,
@@ -108,7 +117,8 @@ export class CourseDetailsAreaComponent implements OnInit {
 
       
     ) {}
-  
+
+
    //Review Form Validiate 
    ReviewForm : FormGroup = new FormGroup ({
     rate : new FormControl(null,Validators.required),
@@ -116,8 +126,47 @@ export class CourseDetailsAreaComponent implements OnInit {
     CourseID : new FormControl(null),
     InstructorID : new FormControl(null),
 
+
+     
     
    });
+    //For Avatar Color Based On Character 
+  getAvatarColor(char: string): string {
+  const colors = [
+    'bg-primary',
+    'bg-secondary',
+    'bg-success',
+    'bg-danger',
+    'bg-warning',
+    'bg-info',
+    'bg-dark'
+  ];
+
+  const index = (char.toUpperCase().charCodeAt(0) - 65) % colors.length;
+  return colors[index];
+}
+
+//For Rate Details 
+calculateRatingStats(reviews: any[]) {
+  const total = reviews.length;
+  const stats = [0, 0, 0, 0, 0]; // index 0 = 5 stars, ..., index 4 = 1 star
+
+  for (const review of reviews) {
+    const rating = review.rating;
+    if (rating >= 1 && rating <= 5) {
+      stats[5 - rating]++;
+    }
+  }
+
+  this.ratingStats = stats.map((count, index) => {
+    const percent = total > 0 ? `${Math.round((count / total) * 100)}%` : '0%';
+    return {
+      stars: 5 - index,
+      count,
+      percentage: percent,
+    };
+  });
+}
 
   //Custome Validation
     validatePassword(): void {
@@ -162,6 +211,10 @@ export class CourseDetailsAreaComponent implements OnInit {
           
           //for review   
            this.ReviewForm.get('CourseID')?.setValue(this.CourseId);
+
+            ///For rate Details
+             const reviews = this.CourseData.userReview;
+            this.calculateRatingStats(reviews);
         }
       });
 

@@ -20,6 +20,9 @@ namespace Service.Dto_s
 
         public int? CoursereviewCount { get; set; }
         public int? InstructorviewCount { get; set; }
+        public string? reviewDate { get; set; }
+        //public double? avergRate { get; set; }
+        public string? UserName { get; set; }
 
     }
 }

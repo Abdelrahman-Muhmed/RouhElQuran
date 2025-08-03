@@ -39,7 +39,23 @@ export class InstructorDetailsAreaComponent implements OnInit {
   
       
      });
-  
+     
+    //For Avatar Color Based On Character 
+  getAvatarColor(char: string): string {
+  const colors = [
+    'bg-primary',
+    'bg-secondary',
+    'bg-success',
+    'bg-danger',
+    'bg-warning',
+    'bg-info',
+    'bg-dark'
+  ];
+
+  const index = (char.toUpperCase().charCodeAt(0) - 65) % colors.length;
+  return colors[index];
+}
+
  //Custome Validation
     validatePassword(): void {
       const reviewSummaryControl = this.ReviewForm.get('reviewSummary');
